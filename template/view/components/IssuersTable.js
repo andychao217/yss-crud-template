@@ -298,6 +298,9 @@ const IssuersTable = (props) => {
 			setPageSize(pageSize);
 			//设定当前页码
 			setCurPageNum(page);
+			setIds([]);
+			setSelectedRows([]);
+			setDisableButton(true);
 			//加载数据
 			asyncHttpGetIssuersList({});
 		};
