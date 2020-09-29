@@ -1,49 +1,49 @@
 {
-    "name": "yss-crud-template",
-    "displayName": "YSS CRUD Template",
-    "description": "generate CRUD code template for YSS react project",
-    "version": "0.0.1",
-    "publisher": "andychao217",
-    "repository": {
-        "type" : "git",
-        "url" : "https://github.com/andychao217/yss-crud-template.git"
-    },
-    "icon": "images/icon.png",
-    "engines": {
-        "vscode": "^1.0.0"
-    },
-    "categories": [
-        "Other"
+  "name": "yss-crud-template",
+  "displayName": "YSS CRUD Template",
+  "description": "generate CRUD code template for YSS react project",
+  "version": "0.0.2",
+  "publisher": "andychao217",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andychao217/yss-crud-template.git"
+  },
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.createYSSCRUDPage"
+  ],
+  "main": "./extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.createYSSCRUDPage",
+        "title": "Create YSS CRUD Page"
+      }
     ],
-    "activationEvents": [
-        "onCommand:extension.createYSSCRUDPage"
-    ],
-    "main": "./extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "extension.createYSSCRUDPage",
-                "title": "Create YSS CRUD Page"
-            }
-        ],
-        "menus": {
-            "explorer/context": [
-                {
-                    "command": "extension.createYSSCRUDPage",
-                    "group": "1_modification"
-                }
-            ]
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "extension.createYSSCRUDPage",
+          "group": "1_modification"
         }
-    },
-    "scripts": {
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.21",
-        "eslint": "^4.11.0",
-        "@types/node": "^8.10.25",
-        "@types/mocha": "^2.2.42"
+      ]
     }
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.21",
+    "eslint": "^4.11.0",
+    "@types/node": "^8.10.25",
+    "@types/mocha": "^2.2.42"
+  }
 }
