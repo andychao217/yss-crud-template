@@ -48,6 +48,27 @@ var prompt = function () {
     }
 }
 
+function getWebviewContent() {
+    return `<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Get to know Andy Chao</title>
+        </head>
+        <body>
+            <iframe 
+                width="100%"
+                frameborder="0" 
+                allowtransparency="yes" 
+                src="https://www.andychao217.cn"
+                style="height: 100vh"
+            >
+            </iframe>
+        </body>
+    </html>`;
+}
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
@@ -77,12 +98,27 @@ function activate(context) {
             return prompt();
         });
     });
-
     context.subscriptions.push(fc);
+
+    const showAndychao217 = vscode.commands.registerCommand('extension.showAndychao217', function (uri) {
+        // 工程目录一定要提前获取，因为创建了webview之后activeTextEditor会不准确
+        const panel = vscode.window.createWebviewPanel(
+            'webView', // viewType
+            "Who is Andychao217 ?", // 视图标题
+            vscode.ViewColumn.One, // 显示在编辑器的哪个部位
+            {
+                enableScripts: true, // 启用JS，默认禁用
+                retainContextWhenHidden: true, // webview被隐藏时保持状态，避免被重置
+            }
+        );
+        panel.webview.html = getWebviewContent();
+    });
+    context.subscriptions.push(showAndychao217);
 }
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
 function deactivate() {
+    //
 }
 exports.deactivate = deactivate;
