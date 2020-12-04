@@ -16,7 +16,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.createYSSCRUDPage"
+    "*"
   ],
   "main": "./extension",
   "contributes": {
