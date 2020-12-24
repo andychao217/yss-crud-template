@@ -4,7 +4,7 @@ import async from '../controller/async';
 import sync from '../controller/sync';
 
 const lugiaxModel = lugiax.register({
-	model: 'issuers-manage',
+	model: 'Table-manage',
 	state: { ...paramsOv },
 	mutations: {
 		async,

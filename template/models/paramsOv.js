@@ -1,21 +1,20 @@
 import { page } from 'yss-trade-base';
 //TODO
 export default {
-	issuersList: [], //列表
-	issuersListTotal: 0,
+	TableList: [], //列表
+	TableListTotal: 0,
 	//获取列表
-	queryIssuersList: {
+	queryTableList: {
 		...page,
-		publisherCodeOrName: '',
 	},
 	/***弹框status*/
 	isOpenFormModal: {
-		page: 'issuers',
+		page: 'Table',
 		type: 'add', //add, update, delete, import, check
 		status: false,
 	},
 
 	/**保存选择行信息*/
 	projectRowed: {},
-	issuersDropdownList: [], //下拉框
+	TableDropdownList: [], //下拉框
 };

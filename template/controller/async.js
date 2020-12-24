@@ -1,22 +1,29 @@
-import { getIssuersList, updateIssuers, addIssuers, deleteIssuers, auditIssuers, reAuditIssuers } from '../services/index';
+import { 
+	getTableList, 
+	updateTable, 
+	addTable, 
+	deleteTable, 
+	auditTable, 
+	reAuditTable 
+} from '../services/index';
 import { message } from 'antd';
 /**
  * 页面说明
  */
 export default {
 	/***获取列表 *******/
-	async httpGetIssuersList(state, { params }, { mutations, getState }) {
+	async httpGetTableList(state, { params }, { mutations, getState }) {
 		try {
 			let query = {
-				...state.get('queryIssuersList').toJS(),
+				...state.get('queryTableList').toJS(),
 			};
-			let result = await getIssuersList(query);
+			let result = await getTableList(query);
 			const { data, winRspType, msg } = result;
 			if (winRspType === 'SUCC') {
 				state = getState();
 				return state.merge({
-					issuersList: data.list,
-					issuersListTotal: data.total,
+					TableList: data.list,
+					TableListTotal: data.total,
 				});
 			} else {
 				message.error(msg);
@@ -26,56 +33,56 @@ export default {
 		}
 	},
 	/***新增*******/
-	async httpAddIssuers(state, { params }, { mutations }) {
-		let result = await addIssuers(params);
+	async httpAddTable(state, { params }, { mutations }) {
+		let result = await addTable(params);
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
 			message.success('新增成功');
-			await mutations.asyncHttpGetIssuersList({});
+			await mutations.asyncHttpGetTableList({});
 		} else {
 			message.error(msg);
 		}
 	},
 	/***修改*******/
-	async httpUpdateIssuers(state, { params }, { mutations }) {
-		let result = await updateIssuers(params);
+	async httpUpdateTable(state, { params }, { mutations }) {
+		let result = await updateTable(params);
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
 			message.success('修改成功');
-			await mutations.asyncHttpGetIssuersList({});
+			await mutations.asyncHttpGetTableList({});
 		} else {
 			message.error(msg);
 		}
 	},
 	/***删除*******/
-	async httpDeleteIssuers(state, { params }, { mutations }) {
-		let result = await deleteIssuers(params);
+	async httpDeleteTable(state, { params }, { mutations }) {
+		let result = await deleteTable(params);
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
 			message.success('删除成功');
-			await mutations.asyncHttpGetIssuersList({});
+			await mutations.asyncHttpGetTableList({});
 		} else {
 			message.error(msg);
 		}
 	},
 	/***审核******/
-	async httpAuditIssuers(state, { params }, { mutations }) {
-		let result = await auditIssuers(params);
+	async httpAuditTable(state, { params }, { mutations }) {
+		let result = await auditTable(params);
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
 			message.success('审核成功');
-			await mutations.asyncHttpGetIssuersList({});
+			await mutations.asyncHttpGetTableList({});
 		} else {
 			message.error(msg);
 		}
 	},
 	/***反审核*******/
-	async httpReauditIssuers(state, { params, type }, { mutations }) {
-		let result = await reAuditIssuers(params);
+	async httpReauditTable(state, { params, type }, { mutations }) {
+		let result = await reAuditTable(params);
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
 			message.success('反审核成功');
-			await mutations.asyncHttpGetIssuersList({});
+			await mutations.asyncHttpGetTableList({});
 		} else {
 			message.error(msg);
 		}

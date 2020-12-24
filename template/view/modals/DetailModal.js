@@ -1,10 +1,14 @@
 import React, { PureComponent } from 'react';
 import { message } from 'antd';
-import { setFieldsObject, filterNullElement, NormalForm } from 'yss-trade-base';
+import { 
+	setFieldsObject, 
+	filterNullElement, 
+	NormalForm 
+} from 'yss-trade-base';
 import '../../../public-tools/style.css';
 import { formServiceConfig } from '../../services';
 
-class IssuerDetailModal extends PureComponent {
+class DetailModal extends PureComponent {
 	state = {
 		publisherName: '',
 	};
@@ -98,7 +102,7 @@ class IssuerDetailModal extends PureComponent {
 		return (
 			<NormalForm
 				refs={(ref) => (this.createProduct = ref)}
-				labelSize="5em"
+				labelSize="90px"
 				itemSize="165px"
 				lineOf={3}
 				marginRight="0px"
@@ -106,8 +110,6 @@ class IssuerDetailModal extends PureComponent {
 			/>
 		);
 	}
-
-	UNSAFE_componentWillMount() {}
 
 	componentDidMount() {
 		const { isOpenFormModal, projectRowed } = this.props;
@@ -120,18 +122,25 @@ class IssuerDetailModal extends PureComponent {
 
 	//点击确定进行增加修改操作
 	handleSubmit(e) {
-		const { asyncHttpAddIssuers, asyncHttpUpdateIssuers, asyncHttpDeleteIssuers, projectRowed, changeSync, isOpenFormModal } = this.props;
+		const { 
+			asyncHttpAddTable, 
+			asyncHttpUpdateTable, 
+			asyncHttpDeleteTable, 
+			projectRowed,
+			changeSync, 
+			isOpenFormModal 
+		} = this.props;
 		e.preventDefault();
 		this.createProduct.onValidate(
 			(values) => {
 				const action = {
-					add: asyncHttpAddIssuers, //新增
-					update: asyncHttpUpdateIssuers, //修改
-					delete: asyncHttpDeleteIssuers, //删除
+					add: asyncHttpAddTable, //新增
+					update: asyncHttpUpdateTable, //修改
+					delete: asyncHttpDeleteTable, //删除
 				};
 				//获取参数
 				let params = {
-					add: { ...values, publisherName: this.state.publisherName },
+					add: { ...values },
 					delete: [projectRowed.id],
 					update: {
 						...values,
@@ -163,4 +172,4 @@ class IssuerDetailModal extends PureComponent {
 		);
 	}
 }
-export default IssuerDetailModal;
+export default DetailModal;

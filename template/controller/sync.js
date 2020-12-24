@@ -5,7 +5,6 @@ import { publicSync } from 'yss-trade-base';
   setPages //设置分页
   setModelData //设置其它模型数据
 */
-
 export default {
 	...publicSync,
 	changeSync(state, params, { getState }) {

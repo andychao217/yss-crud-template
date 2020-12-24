@@ -1,7 +1,7 @@
 import { formatRowColor } from '../../public-tools';
 
 //列表 自定义
-const issuersColumns = [
+const TableColumns = [
 	{
 		title: '序号',
 		dataIndex: 'serialNumber',
@@ -40,4 +40,4 @@ const issuersColumns = [
 	},
 ];
 
-export { issuersColumns };
+export { TableColumns };
