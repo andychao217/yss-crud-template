@@ -90,6 +90,7 @@ class MainTable extends PureComponent {
 				name: "新增",
 				icon: "plus",
 				roule: true,
+				'func-type': 'ADD',
 				func: addItem,
 				// children: [
 				// 	{
@@ -101,6 +102,7 @@ class MainTable extends PureComponent {
 			{
 				name: "删除",
 				icon: "delete",
+				'func-type': 'DELETE',
 				roule: true,
 				disabled: _this.state.disableButton,
 				func: () => {
@@ -128,11 +130,14 @@ class MainTable extends PureComponent {
 			{
 				name: "导入",
 				icon: "upload",
+				roule: true,
+				'func-type': 'IMPORT',
 				func: importItem,
 			},
 			{
 				name: "审核",
 				roule: true,
+				'func-type': 'CHECK',
 				icon: "solution",
 				disabled: _this.state.disableButton,
 				func: () => {
@@ -161,6 +166,7 @@ class MainTable extends PureComponent {
 			{
 				name: "反审核",
 				roule: true,
+				'func-type': 'UNCHECK',
 				icon: "file-sync",
 				disabled: _this.state.disableButton,
 				func: () => {
