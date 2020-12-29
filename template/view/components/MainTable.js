@@ -114,8 +114,8 @@ class MainTable extends PureComponent {
 							}
 						});
 						async function fetchData() {
-							await asyncHttpDeleteTable({ params });
-							await asyncHttpGetTableList({});
+							asyncHttpDeleteTable({ params });
+							asyncHttpGetTableList({});
 							_this.setState({
 								ids: [],
 								disableButton: true,
@@ -150,8 +150,8 @@ class MainTable extends PureComponent {
 								}
 							});
 							async function fetchData() {
-								await asyncHttpAuditTable({ params });
-								await asyncHttpGetTableList({});
+								asyncHttpAuditTable({ params });
+								asyncHttpGetTableList({});
 								_this.setState({
 								ids: [],
 								disableButton: true,
@@ -179,8 +179,8 @@ class MainTable extends PureComponent {
 								}
 							});
 							async function fetchData() {
-								await asyncHttpReauditTable({ params });
-								await asyncHttpGetTableList({});
+								asyncHttpReauditTable({ params });
+								asyncHttpGetTableList({});
 								_this.setState({
 								ids: [],
 								disableButton: true,
@@ -228,8 +228,8 @@ class MainTable extends PureComponent {
 				title: "请确定是否要删除当前数据",
 				onOk: () => {
 					async function fetchData() {
-						await asyncHttpDeleteTable({ params: item.id });
-						await asyncHttpGetTableList({});
+						asyncHttpDeleteTable({ params: item.id });
+						asyncHttpGetTableList({});
 					}
 					fetchData();
 				},
@@ -455,7 +455,7 @@ class MainTable extends PureComponent {
 							},
 						});
 						let search = async () => {
-							await asyncHttpGetTableList({});
+							asyncHttpGetTableList({});
 							_this.setState({
 								curPageNum: 1,
 							});
@@ -472,7 +472,7 @@ class MainTable extends PureComponent {
 						});
 						let search = async () => {
 						// 按初始化条件查询表格数据
-							await asyncHttpGetTableList({});
+							asyncHttpGetTableList({});
 							// 设定当前页码为1
 							_this.setState({
 								curPageNum: 1,
@@ -520,7 +520,7 @@ class MainTable extends PureComponent {
 
 		//首次进入页面加载数据
 		async function fetchData() {
-			await asyncHttpGetTableList({});
+			asyncHttpGetTableList({});
 		}
 		fetchData();
 	}
