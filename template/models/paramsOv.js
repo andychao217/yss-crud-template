@@ -1,5 +1,9 @@
+/**
+ * @file 页面state初始化配置
+ * @author Andy Chao <zhaoqing@ysstech.com>
+ * @copyright Ysstech
+ */
 import { page } from 'yss-trade-base';
-//TODO
 export default {
 	TableList: [], //列表
 	TableListTotal: 0,
@@ -13,7 +17,6 @@ export default {
 		type: 'add', //add, update, delete, import, check
 		status: false,
 	},
-
 	/**保存选择行信息*/
 	projectRowed: {},
 	TableDropdownList: [], //下拉框

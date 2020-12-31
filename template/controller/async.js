@@ -1,3 +1,8 @@
+/**
+ * @file 异步请求函数文件
+ * @author Andy Chao <zhaoqing@ysstech.com>
+ * @copyright Ysstech
+ */
 import { 
 	getTableList, 
 	updateTable, 
@@ -7,11 +12,14 @@ import {
 	reAuditTable 
 } from '../services/index';
 import { message } from 'antd';
-/**
- * 页面说明
- */
+
 export default {
-	/***获取列表 *******/
+	/**
+	 * @async
+	 * @function - 获取列表数据
+	 * @param {object} queryTableList - 查询列表条件
+	 * @return {Promise<object>} TableList - 列表数据, TableListTotal - 列表数据总条数
+	 */
 	async httpGetTableList(state, { params }, { mutations, getState }) {
 		try {
 			let query = {
@@ -32,7 +40,12 @@ export default {
 			console.error(error);
 		}
 	},
-	/***新增*******/
+	/**
+	 * @async
+	 * @function - 新增列表数据
+	 * @param {object} 新增列表参数
+	 * @return {Promise<void>} 调用获取列表数据函数
+	 */
 	async httpAddTable(state, { params }, { mutations }) {
 		let result = await addTable(params);
 		const { winRspType, msg } = result;
@@ -43,7 +56,12 @@ export default {
 			message.error(msg);
 		}
 	},
-	/***修改*******/
+	/**
+	 * @async
+	 * @function - 修改列表数据
+	 * @param {object} 修改行数据参数，包括id，其余参数同新增
+	 * @return {Promise<void>} 调用获取列表数据函数
+	 */
 	async httpUpdateTable(state, { params }, { mutations }) {
 		let result = await updateTable(params);
 		const { winRspType, msg } = result;
@@ -54,7 +72,12 @@ export default {
 			message.error(msg);
 		}
 	},
-	/***删除*******/
+	/**
+	 * @async
+	 * @function - 删除列表数据
+	 * @param {string} 删除行数据id，批量已','分隔 
+	 * @return {Promise<void>} 调用获取列表数据函数
+	 */
 	async httpDeleteTable(state, { params }, { mutations }) {
 		let result = await deleteTable(params);
 		const { winRspType, msg } = result;
@@ -65,7 +88,12 @@ export default {
 			message.error(msg);
 		}
 	},
-	/***审核******/
+	/**
+	 * @async
+	 * @function - 审核列表数据
+	 * @param {string} 审核行数据id，批量已','分隔 
+	 * @return {Promise<void>} 调用获取列表数据函数
+	 */
 	async httpAuditTable(state, { params }, { mutations }) {
 		let result = await auditTable(params);
 		const { winRspType, msg } = result;
@@ -76,7 +104,12 @@ export default {
 			message.error(msg);
 		}
 	},
-	/***反审核*******/
+	/**
+	 * @async
+	 * @function - 反审核列表数据
+	 * @param {string} 反审核行数据id，批量已','分隔 
+	 * @return {Promise<void>} 调用获取列表数据函数
+	 */
 	async httpReauditTable(state, { params, type }, { mutations }) {
 		let result = await reAuditTable(params);
 		const { winRspType, msg } = result;

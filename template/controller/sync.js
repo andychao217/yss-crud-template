@@ -1,4 +1,10 @@
+/**
+ * @file 同步修改state方法
+ * @author Andy Chao <zhaoqing@ysstech.com>
+ * @copyright Ysstech
+ */
 import { publicSync } from 'yss-trade-base';
+
 /*
   setModalStatus  //设置弹窗状态
   setTrDatas //设置点击或选中行数据

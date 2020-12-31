@@ -1,3 +1,9 @@
+/**
+ * @file 列表表头配置
+ * @author Andy Chao <zhaoqing@ysstech.com>
+ * @copyright Ysstech
+ */
+
 import { formatRowColor } from '../../public-tools';
 
 //列表 自定义

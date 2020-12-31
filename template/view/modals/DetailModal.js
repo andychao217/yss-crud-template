@@ -1,3 +1,8 @@
+/**
+ * @file 弹框内容组件
+ * @author Andy Chao <zhaoqing@ysstech.com>
+ * @copyright Ysstech
+ */
 import React, { PureComponent } from 'react';
 import { message } from 'antd';
 import { 
@@ -8,6 +13,10 @@ import {
 import '../../../public-tools/style.css';
 import { formServiceConfig } from '../../services';
 
+/**
+ * @class
+ * @classdesc 弹框内容
+ */
 class DetailModal extends PureComponent {
 	state = {
 		publisherName: '',

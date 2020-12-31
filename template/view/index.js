@@ -1,3 +1,8 @@
+/**
+ * @file Table-manage页面主入口文件
+ * @author Andy Chao <zhaoqing@ysstech.com>
+ * @copyright Ysstech
+ */
 import React from 'react';
 import { $connect, PublicProps, PageBody } from 'yss-trade-base';
 import MainTable from './components/MainTable';
@@ -6,6 +11,10 @@ const { PageMain, Container } = PageBody;
 
 const moduleName = 'Table-manage';
 
+/**
+ * @class
+ * @classdesc Table-manage页面
+ */
 const TableManage = (props) => {
 	return (
 		// 对象组件透传props

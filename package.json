@@ -2,7 +2,7 @@
   "name": "yss-crud-template",
   "displayName": "YSS CRUD Template",
   "description": "generate CRUD code template for YSS react project",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "publisher": "andychao217",
   "repository": {
     "type": "git",

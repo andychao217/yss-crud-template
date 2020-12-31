@@ -1,3 +1,9 @@
+/**
+ * @file 注册state与异步、同步方法
+ * @author Andy Chao <zhaoqing@ysstech.com>
+ * @copyright Ysstech
+ */
+
 import lugiax from '@lugia/lugiax';
 import paramsOv from './paramsOv';
 import async from '../controller/async';
