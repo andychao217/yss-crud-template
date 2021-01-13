@@ -7,7 +7,7 @@ import React from 'react';
 import { $connect, PublicProps, PageBody } from 'yss-trade-base';
 import MainTable from './components/MainTable';
 import ErrorBoundary from '../../public-tools/ErrorBoundary';
-const { PageMain, Container } = PageBody;
+const { PageMain, Container, Plate } = PageBody;
 
 const moduleName = 'Table-manage';
 
@@ -22,9 +22,11 @@ const TableManage = (props) => {
 			<ErrorBoundary>
 				<PageBody>
 					<PageMain style={{ padding: '0px 10px' }}>
-						<Container>
-							<MainTable {...preps} />
-						</Container>
+						<Plate>
+							<Container>
+								<MainTable {...preps} />
+							</Container>
+						</Plate>
 					</PageMain>
 				</PageBody>
 		</PublicProps.Provider>

@@ -490,8 +490,10 @@ class MainTable extends PureComponent {
 						search();
 					}}
 				/>
-				{/***Toolbar组件** */}
-				{withRoleBotton(ButtonType)}
+				<div style={{marginBottom:'4px'}}>
+					{/***Toolbar组件** */}
+					{withRoleBotton(ButtonType)}
+				</div>
 				{/***表格组件** */}
 				<ConfigableTable
 					{...getTableConfig()}
