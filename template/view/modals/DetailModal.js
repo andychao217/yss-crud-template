@@ -113,7 +113,7 @@ class DetailModal extends PureComponent {
 				refs={(ref) => (this.createProduct = ref)}
 				labelSize="90px"
 				itemSize="165px"
-				lineOf={3}
+				lineOf={2}
 				marginRight="0px"
 				formItem={formItems}
 			/>

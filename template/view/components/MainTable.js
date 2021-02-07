@@ -61,6 +61,7 @@ class MainTable extends PureComponent {
 				name: "publisherCodeOrName",
 				label: "发行人名称",
 				type: "Input",
+				labelSize: '70px',
 				itemSize: "200px",
 				props: {
 					placeholder: "请输入发行人名称",
@@ -265,7 +266,7 @@ class MainTable extends PureComponent {
 				return [
 					{
 						name: "查看",
-						icon: "edit",
+						icon: "search",
 						roule: true,
 						func: checkItem,
 					},
@@ -275,7 +276,7 @@ class MainTable extends PureComponent {
 				return [
 					{
 						name: "查看",
-						icon: "edit",
+						icon: "search",
 						roule: true,
 						func: checkItem,
 					},
@@ -293,8 +294,8 @@ class MainTable extends PureComponent {
 					key: "operation",
 					fixed: "right",
 					align: "left",
-					width: 180,
-					render: (row) => {
+					width: 220,
+					render: (text, row) => {
 						return withRoleTableBotton(ButtonTableType(row))(row);
 					},
 				},
@@ -498,6 +499,7 @@ class MainTable extends PureComponent {
 				<ConfigableTable
 					{...getTableConfig()}
 					rowClassName={setRowClass}
+					//tableCode={'configableTable'}
 				>
 				</ConfigableTable>
 				{/***弹框组件** */}
