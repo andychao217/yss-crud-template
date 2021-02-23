@@ -24,11 +24,12 @@ const TableManage = (props) => {
 					<PageMain style={{ padding: '0px 10px' }}>
 						<Plate>
 							<Container>
-								<MainTable {...preps} />
+								<MainTable {...props} />
 							</Container>
 						</Plate>
 					</PageMain>
 				</PageBody>
+			</ErrorBoundary>
 		</PublicProps.Provider>
 	);
 };
