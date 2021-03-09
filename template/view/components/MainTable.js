@@ -14,7 +14,6 @@ import {
 	Modal,
 	ConfirmModal,
 	withRoleTableBotton,
-	setClickTrStyle,
 	SearchForm,
 } from "yss-trade-base";
 import DetailModal from "../modals/DetailModal";
@@ -380,7 +379,6 @@ class MainTable extends PureComponent {
 					onRow: (record) => {
 						return {
 							onClick: (event) => {
-								setClickTrStyle(event);
 								_this.setState({
 									activeId: record.id,
 								});
@@ -392,9 +390,9 @@ class MainTable extends PureComponent {
 		};
 
 		const setRowClass = (record, index) => {
-			const rowClassList =
-				_this.state.activeId === record.id ? "row-selected" : ""; //高亮点击行
-			return rowClassList;
+			// const rowClassList =
+			// 	_this.state.activeId === record.id ? "row-selected" : ""; //高亮点击行
+			// return rowClassList;
 		};
 
 		//导入成功后调用的操作
@@ -498,7 +496,7 @@ class MainTable extends PureComponent {
 				{/***表格组件** */}
 				<ConfigableTable
 					{...getTableConfig()}
-					rowClassName={setRowClass}
+					//rowClassName={setRowClass}
 					//tableCode={'configableTable'}
 				>
 				</ConfigableTable>
