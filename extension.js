@@ -6,18 +6,29 @@ const SOURCES_DIRECTORY = path.join(__dirname, './template');  //源目录
 
 let TARGET_SRC, pageUrl
 
+/***替换模板内容 */
+let replaceFileStrin = function (string) {
+    let text = string.toString();
+    text = text.replace(/\$PageName/g, pageUrl);
+    return text;
+}
+
 // 拷贝核心函数
-var copy = function (src, dst) {
+let copy = function (src, dst) {
     let paths = fs.readdirSync(src); //同步读取当前目录
     paths.forEach(function (path) {
-        var _src = src + '/' + path;
-        var _dst = dst + '/' + path;
+        let _src = src + '/' + path;
+        let _dst = dst + '/' + path;
         fs.stat(_src, function (err, stats) {  //stats  该对象 包含文件属性
             if (err) throw err;
             if (stats.isFile()) { //如果是个文件则拷贝 
                 let readable = fs.createReadStream(_src);//创建读取流
                 let writable = fs.createWriteStream(_dst);//创建写入流
-                readable.pipe(writable);
+                readable.on('data',(data)=>{
+                    writable.write(replaceFileStrin(data)); //替换模板内容
+                })
+                // readable.close();
+                // writable.end();
             } else if (stats.isDirectory()) { //是目录则 递归 
                 checkDirectory(_src, _dst, copy);
             }
@@ -26,7 +37,7 @@ var copy = function (src, dst) {
 }
 
 // 遍历拷贝
-var checkDirectory = function (src, dst, callback) {
+let checkDirectory = function (src, dst, callback) {
     fs.access(dst, fs.constants.F_OK, (err) => {
         if (err) {
             fs.mkdirSync(dst);
@@ -36,12 +47,13 @@ var checkDirectory = function (src, dst, callback) {
         }
     });
     vscode.window.showInformationMessage('page created successfully!');
-    return true
+    return true;
 };
 
 // 提示
-var prompt = function () {
+let prompt = function () {
     if (fs.existsSync(TARGET_SRC)) {
+        // 检测是否存在当前文件夹
         vscode.window.showInformationMessage('Error: 目标已存在,请更换名称');
     } else {
         return checkDirectory(SOURCES_DIRECTORY, TARGET_SRC, copy);
@@ -89,9 +101,8 @@ function activate(context) {
         
         vscode.window.showInputBox(options).then(value => {
             if (!value) return;
-
-            const pageName = value;
-            pageUrl = pageName;
+            
+            pageUrl = value;
           //  vscode.window.showInformationMessage(param.fsPath + '\\' + pageUrl); 
             TARGET_SRC = path.join('', param.fsPath + '\\' + pageUrl);
             //vscode.window.showInformationMessage(TARGET_SRC); 
