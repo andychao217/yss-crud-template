@@ -2,19 +2,22 @@
 const vscode = require('vscode');
 const path = require('path');
 const fs = require('fs');
-const SOURCES_DIRECTORY = path.join(__dirname, './template');  //源目录
 
-let TARGET_SRC, pageUrl
+const getSourceDirectory = (storeType)=> {
+    return path.join(__dirname, `./template/${storeType}`);
+}; //源目录
+
+let TARGET_SRC, pageUrl;
 
 /***替换模板内容 */
-let replaceFileStrin = function (string) {
+const replaceFileStrin = function (string) {
     let text = string.toString();
     text = text.replace(/\$PageName/g, pageUrl);
     return text;
 }
 
 // 拷贝核心函数
-let copy = function (src, dst) {
+const copy = function (src, dst) {
     let paths = fs.readdirSync(src); //同步读取当前目录
     paths.forEach(function (path) {
         let _src = src + '/' + path;
@@ -37,7 +40,7 @@ let copy = function (src, dst) {
 }
 
 // 遍历拷贝
-let checkDirectory = function (src, dst, callback) {
+const checkDirectory = function (src, dst, callback) {
     fs.access(dst, fs.constants.F_OK, (err) => {
         if (err) {
             fs.mkdirSync(dst);
@@ -51,12 +54,31 @@ let checkDirectory = function (src, dst, callback) {
 };
 
 // 提示
-let prompt = function () {
+const prompt = function () {
     if (fs.existsSync(TARGET_SRC)) {
         // 检测是否存在当前文件夹
         vscode.window.showInformationMessage('Error: 目标已存在,请更换名称');
     } else {
-        return checkDirectory(SOURCES_DIRECTORY, TARGET_SRC, copy);
+        const storeOptions = [
+            {label: 'LugiaX', value: 'lugia'},
+            {label: 'ReduX', value: 'redux'},
+        ];
+        vscode.window.showQuickPick(
+            storeOptions, 
+            { 
+                canPickMany:false,
+                ignoreFocusOut:true,
+                matchOnDescription:true,
+                matchOnDetail:true,
+                placeHolder:'Please choose the state container type for the page ? '
+            }
+        ).then(selectedItem => {
+            if (selectedItem) {
+                return checkDirectory(getSourceDirectory(selectedItem.value), TARGET_SRC, copy);
+            } else {
+                return;
+            }
+        });
     }
 }
 
@@ -96,16 +118,14 @@ function activate(context) {
         // The code you place here will be executed every time your command is executed
         const options = {
             prompt: "Please input the page name: ",
-            placeHolder: "page-name"
-        }
+            placeHolder: "page-name",
+            ignoreFocusOut:true,
+        };
         
         vscode.window.showInputBox(options).then(value => {
             if (!value) return;
-            
             pageUrl = value;
-          //  vscode.window.showInformationMessage(param.fsPath + '\\' + pageUrl); 
             TARGET_SRC = path.join('', param.fsPath + '\\' + pageUrl);
-            //vscode.window.showInformationMessage(TARGET_SRC); 
             return prompt();
         });
     });
