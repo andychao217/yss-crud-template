@@ -17,9 +17,8 @@ const { PageMain } = PageBody;
  * @class
  * @classdesc $PageName页面
  */
-export default class MainTable extends PureComponent {
+export default class $PageName extends PureComponent {
 	render() {
-		console.log('model', model);
 		return (
 			// 对象组件透传props
 			<Provider store={model}>

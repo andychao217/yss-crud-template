@@ -116,17 +116,35 @@ function activate(context) {
     // The commandId parameter must match the command field in package.json
     const fc = vscode.commands.registerCommand('extension.createYSSCRUDPage', function (param) {
         // The code you place here will be executed every time your command is executed
-        const options = {
+        const inputOptions = {
             prompt: "Please input the page name: ",
-            placeHolder: "page-name",
+            placeHolder: "pageName",
             ignoreFocusOut:true,
+            validateInput: (text) => {
+                const reg = /^[a-zA-Z]+$/; //只支持字母
+                if (text && typeof text === 'string') {
+                    const res = !text.match(reg);
+                    return res;
+                } else {
+                    return false;
+                }
+            }
         };
         
-        vscode.window.showInputBox(options).then(value => {
-            if (!value) return;
-            pageUrl = value;
-            TARGET_SRC = path.join('', param.fsPath + '\\' + pageUrl);
-            return prompt();
+        vscode.window.showInputBox(inputOptions).then(value => {
+            if (value && typeof value === 'string') {
+                const reg = /^[a-zA-Z]+$/; //只支持字母
+                if (value.match(reg)) {
+                    pageUrl = value;
+                    TARGET_SRC = path.join('', param.fsPath + '\\' + pageUrl);
+                    return prompt();
+                } else {
+                    vscode.window.showInformationMessage('Error: 目标名称只支持大小写字母,请更换名称');
+                    return;
+                }
+            } else {
+                return;
+            }
         });
     });
     context.subscriptions.push(fc);
