@@ -426,6 +426,7 @@ const MainTable = (props) => {
 							startDate: null,
 							endDate: null,
 							rateCompCodeList: null,
+							reqPageNum: 1,
 						};
 						changeSync({
 							queryTableList: {

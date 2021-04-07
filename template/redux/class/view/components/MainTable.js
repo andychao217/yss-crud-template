@@ -410,6 +410,7 @@ class MainTable extends PureComponent {
 								startDate: null,
 								endDate: null,
 								rateCompCodeList: null,
+								reqPageNum: 1,
 							};
 							dispatchUpdateStore({
 								queryTableList: {
