@@ -3,8 +3,8 @@ const vscode = require('vscode');
 const path = require('path');
 const fs = require('fs');
 
-const getSourceDirectory = (storeType)=> {
-    return path.join(__dirname, `./template/${storeType}`);
+const getSourceDirectory = (storeType, compnentType)=> {
+    return path.join(__dirname, `./template/${storeType}/${compnentType}`);
 }; //源目录
 
 let TARGET_SRC, pageUrl;
@@ -72,9 +72,28 @@ const prompt = function () {
                 matchOnDetail:true,
                 placeHolder:'Please choose the state container type for the page ? '
             }
-        ).then(selectedItem => {
-            if (selectedItem) {
-                return checkDirectory(getSourceDirectory(selectedItem.value), TARGET_SRC, copy);
+        ).then(selectedStateType => {
+            if (selectedStateType) {
+                const componentOptions = [
+                    {label: 'Class', value: 'class'},
+                    {label: 'Hooks (Officially Recommended)', value: 'hooks'},
+                ];
+                vscode.window.showQuickPick(
+                    componentOptions, 
+                    { 
+                        canPickMany:false,
+                        ignoreFocusOut:true,
+                        matchOnDescription:true,
+                        matchOnDetail:true,
+                        placeHolder:'Please choose the component type for the page ? '
+                    }
+                ).then(selectedComponentType => {
+                    if (selectedComponentType) {
+                        return checkDirectory(getSourceDirectory(selectedStateType.value, selectedComponentType.value ), TARGET_SRC, copy);
+                    } else {
+                        return;
+                    }
+                });
             } else {
                 return;
             }
