@@ -2,6 +2,7 @@
 const vscode = require('vscode');
 const path = require('path');
 const fs = require('fs');
+const exec = require('child_process').exec;
 
 const getSourceDirectory = (storeType, compnentType)=> {
     return path.join(__dirname, `./template/${storeType}/${compnentType}`);
@@ -49,7 +50,6 @@ const checkDirectory = function (src, dst, callback) {
             callback(src, dst);
         }
     });
-    vscode.window.showInformationMessage('page created successfully!');
     return true;
 };
 
@@ -89,7 +89,16 @@ const prompt = function () {
                     }
                 ).then(selectedComponentType => {
                     if (selectedComponentType) {
-                        return checkDirectory(getSourceDirectory(selectedStateType.value, selectedComponentType.value ), TARGET_SRC, copy);
+                        checkDirectory(getSourceDirectory(selectedStateType.value, selectedComponentType.value ), TARGET_SRC, copy);
+                        vscode.window.showInformationMessage('page created successfully!');
+                        exec(`cd ${TARGET_SRC} && git add .`, (err) => {
+                            if (err) {
+                                vscode.window.showInformationMessage('command fail:', 'git add .');
+                            } else {
+                                vscode.window.showInformationMessage('command success:', 'git add .');
+                            }
+                        });
+                        return;
                     } else {
                         return;
                     }

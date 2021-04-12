@@ -2,7 +2,7 @@
   "name": "yss-crud-template",
   "displayName": "YSS CRUD Template",
   "description": "generate CRUD code template for YSS react project",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "publisher": "andychao217",
   "repository": {
     "type": "git",
@@ -32,10 +32,10 @@
     ],
     "keybindings": [
       {
-          "command": "extension.showAndychao217",
-          "key": "ctrl+f10",
-          "mac": "cmd+f10",
-          "when": "editorTextFocus"
+        "command": "extension.showAndychao217",
+        "key": "ctrl+f10",
+        "mac": "cmd+f10",
+        "when": "editorTextFocus"
       },
       {
         "command": "extension.createYSSCRUDPage",
@@ -46,11 +46,11 @@
     ],
     "viewsContainers": {
       "activitybar": [
-          {
-              "id": "andychao217",
-              "title": "Andychao217",
-              "icon": "images/icon.png"
-          }
+        {
+          "id": "andychao217",
+          "title": "Andychao217",
+          "icon": "images/icon.png"
+        }
       ]
     },
     "menus": {
@@ -76,5 +76,6 @@
     "eslint": "^4.11.0",
     "@types/node": "^8.10.25",
     "@types/mocha": "^2.2.42"
-  }
+  },
+  "dependencies": {}
 }
