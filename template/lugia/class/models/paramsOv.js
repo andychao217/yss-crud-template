@@ -1,6 +1,6 @@
 /**
  * @file 页面state初始化配置
- * @author Andy Chao <zhaoqing@ysstech.com>
+ * @author $AuthorName
  * @copyright Ysstech
  */
 import { page } from 'yss-trade-base';

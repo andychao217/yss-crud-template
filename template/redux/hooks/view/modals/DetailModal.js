@@ -1,6 +1,6 @@
 /**
  * @file 弹框内容组件
- * @author Andy Chao <zhaoqing@ysstech.com>
+ * @author $AuthorName
  * @copyright Ysstech
  */
 import React, { useEffect, useState } from 'react';

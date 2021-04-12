@@ -1,6 +1,6 @@
 /**
  * @file 异步请求地址配置文件
- * @author Andy Chao <zhaoqing@ysstech.com>
+ * @author $AuthorName
  * @copyright Ysstech
  */
 import { $ajax } from 'yss-trade-base';

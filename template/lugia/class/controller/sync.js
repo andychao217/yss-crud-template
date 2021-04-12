@@ -1,6 +1,6 @@
 /**
  * @file 同步修改state方法
- * @author Andy Chao <zhaoqing@ysstech.com>
+ * @author $AuthorName
  * @copyright Ysstech
  */
 import { publicSync } from 'yss-trade-base';

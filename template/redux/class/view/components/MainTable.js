@@ -1,6 +1,6 @@
 /**
  * @file 数据表格组件
- * @author Andy Chao <zhaoqing@ysstech.com>
+ * @author $AuthorName
  * @copyright Ysstech
  */
 import React, { PureComponent, Fragment } from 'react';

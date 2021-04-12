@@ -1,6 +1,6 @@
 /**
  * @file $PageName 页面主入口文件
- * @author Andy Chao <zhaoqing@ysstech.com>
+ * @author $AuthorName
  * @copyright Ysstech
  */
 import React from 'react';

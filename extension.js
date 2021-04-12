@@ -7,12 +7,12 @@ const getSourceDirectory = (storeType, compnentType)=> {
     return path.join(__dirname, `./template/${storeType}/${compnentType}`);
 }; //源目录
 
-let TARGET_SRC, pageUrl;
+let TARGET_SRC, pageName, authorName;
 
 /***替换模板内容 */
 const replaceFileStrin = function (string) {
     let text = string.toString();
-    text = text.replace(/\$PageName/g, pageUrl);
+    text = text.replace(/\$PageName/g, pageName).replace(/\$AuthorName/g, authorName);
     return text;
 }
 
@@ -135,10 +135,10 @@ function activate(context) {
     // The commandId parameter must match the command field in package.json
     const fc = vscode.commands.registerCommand('extension.createYSSCRUDPage', function (param) {
         // The code you place here will be executed every time your command is executed
-        const inputOptions = {
+        const pageNameInputOptions = {
             prompt: "Please input the page name: ",
-            placeHolder: "pageName",
-            ignoreFocusOut:true,
+            placeHolder: "Page Name",
+            ignoreFocusOut: true,
             validateInput: (text) => {
                 const reg = /^[a-zA-Z]+$/; //只支持字母
                 if (text && typeof text === 'string') {
@@ -150,13 +150,27 @@ function activate(context) {
             }
         };
         
-        vscode.window.showInputBox(inputOptions).then(value => {
+        //pageName Prompt
+        vscode.window.showInputBox(pageNameInputOptions).then(value => {
             if (value && typeof value === 'string') {
                 const reg = /^[a-zA-Z]+$/; //只支持字母
                 if (value.match(reg)) {
-                    pageUrl = value;
-                    TARGET_SRC = path.join('', param.fsPath + '\\' + pageUrl);
-                    return prompt();
+                    pageName = value;
+                    TARGET_SRC = path.join('', param.fsPath + '\\' + pageName); //get pageUrl
+
+                    //Author Name Prompt
+                    vscode.window.showInputBox({
+                        prompt: 'Please input author name: ',
+                        placeHolder: 'Author Name',
+                        ignoreFocusOut: true,
+                    }).then(value => {
+                        if (value) {
+                            authorName = value;
+                            return prompt();
+                        } else {
+                            return;
+                        }
+                    });
                 } else {
                     vscode.window.showInformationMessage('Error: 目标名称只支持大小写字母,请更换名称');
                     return;

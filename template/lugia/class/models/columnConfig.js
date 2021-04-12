@@ -1,6 +1,6 @@
 /**
  * @file 列表表头配置
- * @author Andy Chao <zhaoqing@ysstech.com>
+ * @author $AuthorName
  * @copyright Ysstech
  */
 import { formatRowColor } from '../../public-tools';

@@ -1,6 +1,6 @@
 /**
  * @file 注册state与异步、同步方法
- * @author Andy Chao <zhaoqing@ysstech.com>
+ * @author $AuthorName
  * @copyright Ysstech
  */
 import lugiax from '@lugia/lugiax';

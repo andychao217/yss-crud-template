@@ -1,6 +1,6 @@
 /**
  * @file 异步请求函数文件
- * @author Andy Chao <zhaoqing@ysstech.com>
+ * @author $AuthorName
  * @copyright Ysstech
  */
 import {
