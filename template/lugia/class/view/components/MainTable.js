@@ -106,6 +106,15 @@ class MainTable extends PureComponent {
 			},
 		];
 
+		//清空页面选中行
+		const clearSelectedRows = () => {
+			_this.setState({
+				ids: [],
+				disableButton: true,
+				selectedRows: [],
+			});
+		};
+		
 		// 新增
 		const addItem = (e, item) => {
 			e.stopPropagation();
@@ -144,11 +153,7 @@ class MainTable extends PureComponent {
 							async function fetchData() {
 								await asyncHttpDeleteRowData({ params });
 								await asyncHttpGetListData({});
-								_this.setState({
-									ids: [],
-									disableButton: true,
-									selectedRows: [],
-								});
+								clearSelectedRows();
 							}
 							fetchData();
 						},
@@ -174,11 +179,7 @@ class MainTable extends PureComponent {
 							async function fetchData() {
 								await asyncHttpAuditRowData({ params });
 								await asyncHttpGetListData({});
-								_this.setState({
-									ids: [],
-									disableButton: true,
-									selectedRows: [],
-								});
+								clearSelectedRows();
 							}
 							fetchData();
 						},
@@ -204,11 +205,7 @@ class MainTable extends PureComponent {
 							async function fetchData() {
 								await asyncHttpReAuditRowData({ params });
 								await asyncHttpGetListData({});
-								_this.setState({
-									ids: [],
-									disableButton: true,
-									selectedRows: [],
-								});
+								clearSelectedRows();
 							}
 							fetchData();
 						},
@@ -324,13 +321,11 @@ class MainTable extends PureComponent {
 					},
 				});
 				_this.setState({
-					ids: [],
-					disableButton: true,
-					selectedRows: [],
 					pageSize,
 					curPageNum: page,
 				});
 				asyncHttpGetListData({});
+				clearSelectedRows();
 			};
 
 			/***点击索引获取当前行的对象** */
@@ -424,6 +419,7 @@ class MainTable extends PureComponent {
 								_this.setState({
 									curPageNum: 1,
 								});
+								clearSelectedRows();
 							};
 							search();
 						}}
@@ -448,6 +444,7 @@ class MainTable extends PureComponent {
 								_this.setState({
 									curPageNum: 1,
 								});
+								clearSelectedRows();
 							};
 							search();
 						}}

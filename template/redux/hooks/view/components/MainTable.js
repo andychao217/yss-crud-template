@@ -114,6 +114,13 @@ const MainTable = (props) => {
 			},
 		},
 	];
+	
+	//清空页面选中行
+	const clearSelectedRows = () => {
+		setSelectedRows([]);
+		setIds([]);
+		setDisableButton(true);
+	};
 
 	// 新增
 	const addItem = (e, item) => {
@@ -152,6 +159,7 @@ const MainTable = (props) => {
 							}
 						});
 						httpDeleteRowData(params);
+						clearSelectedRows();
 					},
 				});
 			},
@@ -173,6 +181,7 @@ const MainTable = (props) => {
 							}
 						});
 						httpAuditRowData(params);
+						clearSelectedRows();
 					},
 				});
 			},
@@ -194,6 +203,7 @@ const MainTable = (props) => {
 							}
 						});
 						httpReAuditRowData(params);
+						clearSelectedRows();
 					},
 				});
 			},
@@ -306,6 +316,7 @@ const MainTable = (props) => {
 			})
 			setIds([]);
 			setDisableButton(true);
+			setSelectedRows([]);
 			setPageSize(pageSize);
 			setCurPageNum(page);
 			httpGetListData();
@@ -398,6 +409,7 @@ const MainTable = (props) => {
 						const search = () => {
 							httpGetListData();
 							setCurPageNum(1);
+							clearSelectedRows();
 						};
 						search();
 					}}
@@ -420,6 +432,7 @@ const MainTable = (props) => {
 							httpGetListData();
 							// 设定当前页码为1
 							setCurPageNum(1);
+							clearSelectedRows();
 						};
 						search();
 					}}

@@ -108,6 +108,13 @@ const MainTable = (props) => {
 		},
 	];
 
+	//清空页面选中行
+	const clearSelectedRows = () => {
+		setSelectedRows([]);
+		setIds([]);
+		setDisableButton(true);
+	};
+
 	// 新增
 	const addItem = (e, item) => {
 		e.stopPropagation();
@@ -147,9 +154,7 @@ const MainTable = (props) => {
 						async function fetchData() {
 							await asyncHttpDeleteRowData({ params });
 							await asyncHttpGetListData({});
-							setIds([]);
-							setDisableButton(true);
-							setSelectedRows([]);
+							clearSelectedRows();
 						}
 						fetchData();
 					},
@@ -175,9 +180,7 @@ const MainTable = (props) => {
 						async function fetchData() {
 							await asyncHttpAuditRowData({ params });
 							await asyncHttpGetListData({});
-							setIds([]);
-							setDisableButton(true);
-							setSelectedRows([]);
+							clearSelectedRows();
 						}
 						fetchData();
 					},
@@ -203,9 +206,7 @@ const MainTable = (props) => {
 						async function fetchData() {
 							await asyncHttpReAuditRowData({ params });
 							await asyncHttpGetListData({});
-							setIds([]);
-							setDisableButton(true);
-							setSelectedRows([]);
+							clearSelectedRows();
 						}
 						fetchData();
 					},
@@ -322,12 +323,10 @@ const MainTable = (props) => {
 					reqPageSize: pageSize,
 				},
 			});
-			setIds([]);
-			setDisableButton(true);
-			setSelectedRows([]);
 			setPageSize(pageSize);
 			setCurPageNum(page);
 			asyncHttpGetListData({});
+			clearSelectedRows();
 		};
 
 		/***点击索引获取当前行的对象** */
@@ -417,6 +416,7 @@ const MainTable = (props) => {
 						let search = async () => {
 							await asyncHttpGetListData({});
 							setCurPageNum(1);
+							clearSelectedRows();
 						};
 						search();
 					}}
@@ -439,6 +439,7 @@ const MainTable = (props) => {
 							await asyncHttpGetListData({});
 							// 设定当前页码为1
 							setCurPageNum(1);
+							clearSelectedRows();
 						};
 						search();
 					}}

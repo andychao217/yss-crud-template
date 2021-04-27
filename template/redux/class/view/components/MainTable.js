@@ -114,6 +114,15 @@ class MainTable extends PureComponent {
 			},
 		];
 
+		//清空页面选中行
+		const clearSelectedRows = () => {
+			_this.setState({
+				ids: [],
+				disableButton: true,
+				selectedRows: [],
+			});
+		};
+
 		// 新增
 		const addItem = (e, item) => {
 			e.stopPropagation();
@@ -150,6 +159,7 @@ class MainTable extends PureComponent {
 								}
 							});
 							httpDeleteRowData(params);
+							clearSelectedRows();
 						},
 					});
 				},
@@ -171,6 +181,7 @@ class MainTable extends PureComponent {
 								}
 							});
 							httpAuditRowData(params);
+							clearSelectedRows();
 						},
 					});
 				},
@@ -192,6 +203,7 @@ class MainTable extends PureComponent {
 								}
 							});
 							httpReAuditRowData(params);
+							clearSelectedRows();
 						},
 					});
 				},
@@ -301,13 +313,11 @@ class MainTable extends PureComponent {
 					},
 				})
 				_this.setState({
-					ids: [],
-					disableButton: true,
-					selectedRows: [],
 					pageSize,
 					curPageNum: page,
 				});
 				httpGetListData();
+				clearSelectedRows();
 			};
 
 			/***点击索引获取当前行的对象** */
@@ -401,6 +411,7 @@ class MainTable extends PureComponent {
 								_this.setState({
 									curPageNum: 1,
 								});
+								clearSelectedRows();
 							};
 							search();
 						}}
@@ -425,6 +436,7 @@ class MainTable extends PureComponent {
 								_this.setState({
 									curPageNum: 1,
 								});
+								clearSelectedRows();
 							};
 							search();
 						}}
