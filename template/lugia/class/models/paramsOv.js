@@ -6,10 +6,10 @@
 import { page } from 'yss-trade-base';
 
 export default {
-	TableLits: [], //债券列表
-	TableLitsTotal: 0,
-	//获取债券列表
-	queryTableLits: {
+	TableList: [], //列表
+	TableListTotal: 0,
+	//获取列表
+	queryTableList: {
 		...page,
 		startDate: null,
 		endDate: null,

@@ -131,7 +131,7 @@ const MainTable = (props) => {
 	const ButtonType = [
 		{
 			name: '新增',
-			icon: 'plus',
+			iconCode: '569',
 			'func-type': 'ADD',
 			roule: true,
 			func: addItem,
@@ -139,7 +139,7 @@ const MainTable = (props) => {
 		{
 			name: '删除',
 			'func-type': 'DELETE',
-			icon: 'delete',
+			iconCode: '470',
 			roule: true,
 			disabled: disableButton,
 			func: () => {
@@ -163,7 +163,7 @@ const MainTable = (props) => {
 		},
 		{
 			name: '审核',
-			icon: 'solution',
+			iconCode: '584',
 			roule: true,
 			'func-type': 'CHECK',
 			disabled: disableButton,
@@ -189,7 +189,7 @@ const MainTable = (props) => {
 		},
 		{
 			name: '反审核',
-			icon: 'file-sync',
+			iconCode: '477',
 			roule: true,
 			'func-type': 'UNCHECK',
 			disabled: disableButton,
@@ -264,14 +264,14 @@ const MainTable = (props) => {
 			{
 				name: '修改',
 				'func-type': 'UPDATE',
-				icon: 'edit',
+				iconCode: '474',
 				roule: true,
 				func: updateItem,
 			},
 			{
 				name: '删除',
 				'func-type': 'DELETE',
-				icon: 'delete',
+				iconCode: '470',
 				roule: true,
 				func: deleteItem,
 			},
@@ -280,7 +280,7 @@ const MainTable = (props) => {
 			return [
 				{
 					name: '查看',
-					icon: 'search',
+					iconCode: '483',
 					'func-type': 'QUERY',
 					roule: true,
 					func: checkItem,
@@ -291,7 +291,7 @@ const MainTable = (props) => {
 			return [
 				{
 					name: '查看',
-					icon: 'search',
+					iconCode: '483',
 					'func-type': 'QUERY',
 					roule: true,
 					func: checkItem,
@@ -309,7 +309,7 @@ const MainTable = (props) => {
 				key: 'operation',
 				fixed: 'right',
 				align: 'left',
-				width: 230,
+				width: 150,
 				render: (text, row) => withRoleTableBotton(ButtonTableType(row))(row),
 			},
 		];
@@ -374,7 +374,7 @@ const MainTable = (props) => {
 				rowSelection,
 				pagination,
 				bordered: false,
-				height: process.env.NODE_ENV === 'production'? 'calc(100vh - 180px)' : 'calc(100vh - 280px)', //本地开发用280
+				height: 'calc(100vh - 191px)',
 				dataSource: TableList,
 			}),
 		};

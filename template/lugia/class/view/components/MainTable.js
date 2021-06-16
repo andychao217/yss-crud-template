@@ -41,9 +41,9 @@ class MainTable extends PureComponent {
 			asyncHttpAuditRowData,
 			asyncHttpReAuditRowData,
 			changeSync,
-			queryTableLits,
-			TableLits,
-			TableLitsTotal,
+			queryTableList,
+			TableList,
+			TableListTotal,
 			isOpenFormModal,
 		} = this.props;
 		const _this = this;
@@ -57,7 +57,7 @@ class MainTable extends PureComponent {
 				labelSize: '38px',
 				itemSize: '200px',
 				props: {
-					type: 'TableLitsByName',
+					type: 'TableListByName',
 					config: formServiceConfig,
 					mode: 'multiple',
 					maxTagCount: 1,
@@ -79,8 +79,8 @@ class MainTable extends PureComponent {
 					onChange(dates, dateStrings) {
 						if (dateStrings && dateStrings.length) {
 							changeSync({
-								queryTableLits: {
-									...queryTableLits,
+								queryTableList: {
+									...queryTableList,
 									startDate: moment(dateStrings[0]).format('YYYYMMDD'),
 									endDate: moment(dateStrings[1]).format('YYYYMMDD'),
 								},
@@ -130,7 +130,7 @@ class MainTable extends PureComponent {
 		const ButtonType = [
 			{
 				name: '新增',
-				icon: 'plus',
+				iconCode: '569',
 				'func-type': 'ADD',
 				roule: true,
 				func: addItem,
@@ -138,7 +138,7 @@ class MainTable extends PureComponent {
 			{
 				name: '删除',
 				'func-type': 'DELETE',
-				icon: 'delete',
+				iconCode: '470',
 				roule: true,
 				disabled: _this.state.disableButton,
 				func: () => {
@@ -162,7 +162,7 @@ class MainTable extends PureComponent {
 			},
 			{
 				name: '审核',
-				icon: 'solution',
+				iconCode: '584',
 				roule: true,
 				'func-type': 'CHECK',
 				disabled: _this.state.disableButton,
@@ -188,7 +188,7 @@ class MainTable extends PureComponent {
 			},
 			{
 				name: '反审核',
-				icon: 'file-sync',
+				iconCode: '477',
 				roule: true,
 				'func-type': 'UNCHECK',
 				disabled: _this.state.disableButton,
@@ -261,14 +261,14 @@ class MainTable extends PureComponent {
 				{
 					name: '修改',
 					'func-type': 'UPDATE',
-					icon: 'edit',
+					iconCode: '474',
 					roule: true,
 					func: updateItem,
 				},
 				{
 					name: '删除',
 					'func-type': 'DELETE',
-					icon: 'delete',
+					iconCode: '470',
 					roule: true,
 					func: deleteItem,
 				},
@@ -277,7 +277,7 @@ class MainTable extends PureComponent {
 				return [
 					{
 						name: '查看',
-						icon: 'search',
+						iconCode: '483',
 						'func-type': 'QUERY',
 						roule: true,
 						func: checkItem,
@@ -288,7 +288,7 @@ class MainTable extends PureComponent {
 				return [
 					{
 						name: '查看',
-						icon: 'search',
+						iconCode: '483',
 						'func-type': 'QUERY',
 						roule: true,
 						func: checkItem,
@@ -306,7 +306,7 @@ class MainTable extends PureComponent {
 					key: 'operation',
 					fixed: 'right',
 					align: 'left',
-					width: 230,
+					width: 150,
 					render: (text, row) => withRoleTableBotton(ButtonTableType(row))(row),
 				},
 			];
@@ -314,8 +314,8 @@ class MainTable extends PureComponent {
 			// 页面跳转调用函数
 			const searchPage = (page, pageSize) => {
 				changeSync({
-					queryTableLits: {
-						...queryTableLits,
+					queryTableList: {
+						...queryTableList,
 						reqPageNum: page,
 						reqPageSize: pageSize,
 					},
@@ -360,7 +360,7 @@ class MainTable extends PureComponent {
 				showTotal: (total, range) => {
 					return <span>{`共${total}条`}</span>;
 				},
-				total: TableLitsTotal,
+				total: TableListTotal,
 				current: _this.state.curPageNum,
 				pageSize: _this.state.pageSize,
 				showSizeChanger: true,
@@ -375,8 +375,8 @@ class MainTable extends PureComponent {
 					rowSelection,
 					pagination,
 					bordered: false,
-					height: process.env.NODE_ENV === 'production'? 'calc(100vh - 180px)' : 'calc(100vh - 280px)', //本地开发用280
-					dataSource: TableLits,
+					height: 'calc(100vh - 191px)',
+					dataSource: TableList,
 				}),
 			};
 		};
@@ -409,8 +409,8 @@ class MainTable extends PureComponent {
 						handleSearch={(values) => {
 							delete values.period;
 							changeSync({
-								queryTableLits: {
-									...queryTableLits,
+								queryTableList: {
+									...queryTableList,
 									...values,
 								},
 							});
@@ -432,8 +432,8 @@ class MainTable extends PureComponent {
 								reqPageNum: 1,
 							};
 							changeSync({
-								queryTableLits: {
-									...queryTableLits,
+								queryTableList: {
+									...queryTableList,
 									...tempObj,
 								},
 							});

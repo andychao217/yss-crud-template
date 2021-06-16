@@ -138,7 +138,7 @@ class MainTable extends PureComponent {
 		const ButtonType = [
 			{
 				name: '新增',
-				icon: 'plus',
+				iconCode: '569',
 				'func-type': 'ADD',
 				roule: true,
 				func: addItem,
@@ -146,7 +146,7 @@ class MainTable extends PureComponent {
 			{
 				name: '删除',
 				'func-type': 'DELETE',
-				icon: 'delete',
+				iconCode: '470',
 				roule: true,
 				disabled: _this.state.disableButton,
 				func: () => {
@@ -166,7 +166,7 @@ class MainTable extends PureComponent {
 			},
 			{
 				name: '审核',
-				icon: 'solution',
+				iconCode: '584',
 				roule: true,
 				'func-type': 'CHECK',
 				disabled: _this.state.disableButton,
@@ -188,7 +188,7 @@ class MainTable extends PureComponent {
 			},
 			{
 				name: '反审核',
-				icon: 'file-sync',
+				iconCode: '477',
 				roule: true,
 				'func-type': 'UNCHECK',
 				disabled: _this.state.disableButton,
@@ -253,14 +253,14 @@ class MainTable extends PureComponent {
 				{
 					name: '修改',
 					'func-type': 'UPDATE',
-					icon: 'edit',
+					iconCode: '474',
 					roule: true,
 					func: updateItem,
 				},
 				{
 					name: '删除',
 					'func-type': 'DELETE',
-					icon: 'delete',
+					iconCode: '470',
 					roule: true,
 					func: deleteItem,
 				},
@@ -269,7 +269,7 @@ class MainTable extends PureComponent {
 				return [
 					{
 						name: '查看',
-						icon: 'search',
+						iconCode: '483',
 						'func-type': 'QUERY',
 						roule: true,
 						func: checkItem,
@@ -280,7 +280,7 @@ class MainTable extends PureComponent {
 				return [
 					{
 						name: '查看',
-						icon: 'search',
+						iconCode: '483',
 						'func-type': 'QUERY',
 						roule: true,
 						func: checkItem,
@@ -298,7 +298,7 @@ class MainTable extends PureComponent {
 					key: 'operation',
 					fixed: 'right',
 					align: 'left',
-					width: 230,
+					width: 150,
 					render: (text, row) => withRoleTableBotton(ButtonTableType(row))(row),
 				},
 			];
@@ -367,7 +367,7 @@ class MainTable extends PureComponent {
 					rowSelection,
 					pagination,
 					bordered: false,
-					height: process.env.NODE_ENV === 'production'? 'calc(100vh - 180px)' : 'calc(100vh - 280px)', //本地开发用280
+					height: 'calc(100vh - 191px)',
 					dataSource: TableList,
 				}),
 			};

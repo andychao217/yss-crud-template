@@ -6,7 +6,7 @@
 import { formatRowColor } from '../../public-tools';
 import { momentToDateStr } from 'yss-trade-base';
 
-//债券评级列表表头
+//列表表头
 const columnsCfg = [
 	{
 		title: '序号',

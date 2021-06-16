@@ -25,15 +25,15 @@ export default {
 	async httpGetListData(state, { params }, { mutations, getState }) {
 		try {
 			let query = {
-				...state.get('queryTableLits').toJS(),
+				...state.get('queryTableList').toJS(),
 			};
 			let result = await getListData(query);
 			const { data, winRspType, msg } = result;
 			if (winRspType === 'SUCC') {
 				state = getState();
 				return state.merge({
-					TableLits: data.list,
-					TableLitsTotal: data.total,
+					TableList: data.list,
+					TableListTotal: data.total,
 				});
 			} else {
 				message.error(msg);

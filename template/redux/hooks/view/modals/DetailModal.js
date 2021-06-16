@@ -160,7 +160,7 @@ const DetailModal = (props) => {
 				},
 			],
 			props: {
-			//	placeholder: '请选择债券市场',
+				placeholder: '请选择债券市场',
 				type: 'tradeMarketList',
 				config: formServiceConfig,
 				allowClear: true,

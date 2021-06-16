@@ -6,9 +6,9 @@
 import { page } from 'yss-trade-base';
 
 const initialState = {
-	TableList: [], //债券列表
+	TableList: [], //列表
 	TableListTotal: 0,
-	//获取债券列表
+	//获取列表
 	queryTableList: {
 		...page,
 		startDate: null,

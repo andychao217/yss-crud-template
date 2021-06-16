@@ -34,7 +34,7 @@ export const getcreditRateDropdownList = (params) =>
 /**form表单服务配置 */
 export const formServiceConfig = {
 	// 债券模糊查询
-	TableLitsByName: {
+	TableListByName: {
 		url: `/dfbp-riskcontrol-data/jcBondBaseInfo/pageList/forFront`,
 		params: { reqPageNum: 1, reqPageSize: 20 },
 		method: 'POST',
