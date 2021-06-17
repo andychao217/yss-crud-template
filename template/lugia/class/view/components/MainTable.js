@@ -19,7 +19,6 @@ import {
 } from 'yss-trade-base';
 import DetailModal from '../modals/DetailModal';
 import { formServiceConfig } from '../../services';
-import { paginationItemRender } from '../../../public-tools';
 
 /**
  * @class
@@ -359,7 +358,6 @@ class MainTable extends PureComponent {
 			// 表单分页配置信息
 			const pagination = {
 				//showQuickJumper: true,
-				//itemRender: paginationItemRender,
 				onChange: (page, pageSize) => {
 					searchPage(page, pageSize);
 				},
