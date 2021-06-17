@@ -114,7 +114,7 @@ const MainTable = (props) => {
 			},
 		},
 	];
-	
+
 	//清空页面选中行
 	const clearSelectedRows = () => {
 		setSelectedRows([]);
@@ -134,6 +134,7 @@ const MainTable = (props) => {
 			modalOnOk: false,
 		});
 	};
+
 	// 按钮组
 	const ButtonType = [
 		{

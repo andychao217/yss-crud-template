@@ -34,6 +34,15 @@ class MainTable extends PureComponent {
 		curPageNum: 1, //当前页码
 	};
 
+	componentDidMount() {
+		const { asyncHttpGetListData } = this.props;
+		//首次进入页面加载数据
+		async function fetchData() {
+			await asyncHttpGetListData({});
+		}
+		fetchData();
+	}
+
 	render() {
 		const {
 			asyncHttpGetListData,
@@ -481,15 +490,6 @@ class MainTable extends PureComponent {
 				</Modal>
 			</Fragment>
 		);
-	}
-
-	componentDidMount() {
-		const { asyncHttpGetListData } = this.props;
-		//首次进入页面加载数据
-		async function fetchData() {
-			await asyncHttpGetListData({});
-		}
-		fetchData();
 	}
 }
 

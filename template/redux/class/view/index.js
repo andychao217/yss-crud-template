@@ -6,11 +6,9 @@
 import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import { PageBody } from 'yss-trade-base';
-
 import MainTable from './components/MainTable';
 import ErrorBoundary from '../../public-tools/ErrorBoundary';
 import { model } from '../models';
-
 const { PageMain } = PageBody;
 
 /**

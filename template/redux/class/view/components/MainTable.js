@@ -45,6 +45,11 @@ class MainTable extends PureComponent {
 		curPageNum: 1, //当前页码
 	};
 
+	componentDidMount() {
+		//首次进入页面加载数据
+		httpGetListData();
+	}
+
 	render() {
 		const {
 			dispatchUpdateStore,
@@ -469,11 +474,6 @@ class MainTable extends PureComponent {
 				</Modal>
 			</Fragment>
 		);
-	}
-
-	componentDidMount() {
-		//首次进入页面加载数据
-		httpGetListData();
 	}
 }
 

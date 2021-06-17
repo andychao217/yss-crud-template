@@ -38,7 +38,6 @@ const MainTable = (props) => {
 		isOpenFormModal,
 	} = props;
 	const _this = this;
-
 	const [ids, setIds] = useState([]); //选择行id
 	const [selectedRows, setSelectedRows] = useState([]); //选择行内容
 	const [disableButton, setDisableButton] = useState(true); //页面Toolbar按钮是否禁用

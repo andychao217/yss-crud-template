@@ -31,6 +31,87 @@ class DetailModal extends PureComponent {
 		rateCompName: undefined,
 	};
 
+	componentDidMount() {
+		const {
+			isOpenFormModal,
+			projectRowed,
+		} = this.props;
+		const _this = this;
+		this.props.onRef(this);
+		//表单初始化
+		if (projectRowed.rateType != null) {
+			async function fetchData() {
+				let value = projectRowed.rateType
+				let parantCode = '';
+				if ('10090001' === value) {
+					// 长期信用评级  10090001-B10100000
+					parantCode = 'B10100000';
+				}
+				if ('10090002' === value) {
+					// 短期信用评级  10090002-B10110000
+					parantCode = 'B10110000';
+				}
+				await httpGetCreditRateDropdownList(
+					{ parentDicCode: parantCode }
+				);
+			}
+			fetchData();
+		}
+
+		this.createProduct.setValues({
+			...setFieldsObject(projectRowed, isOpenFormModal.type),
+			creditDate: projectRowed.creditDate ? moment(projectRowed.creditDate) : null,
+		});
+		this.createProduct.setValues({
+			marketCode: projectRowed.marketCode,
+		});
+	}
+
+	//点击确定进行增加修改操作
+	handleSubmit(e) {
+		const {
+			projectRowed,
+			dispatchUpdateStore,
+			isOpenFormModal
+		} = this.props;
+		const { rateCompName } = this.state;
+		e.preventDefault();
+		this.createProduct.onValidate(
+			(values) => {
+				const action = {
+					add: httpAddRowData,
+					update: httpUpdateRowData,
+				};
+				values.creditDate = moment(values.creditDate).format('YYYYMMDD');
+				const securityCode = values?.securityCode?.split('.')[0];
+				let params = {
+					add: { ...values, rateCompName, securityCode },
+					update: {
+						...values,
+						rateCompName: rateCompName || projectRowed.rateCompName,
+						id: isOpenFormModal.type !== 'add' ? projectRowed.id : undefined,
+					},
+				};
+				dispatchUpdateStore({
+					isOpenFormModal: {
+						type: 'add',
+						status: false,
+					},
+					projectRowed: {},
+				});
+				action[isOpenFormModal.type](
+					filterNullElement(params[isOpenFormModal.type])
+				).then(() => {
+					//
+				});
+			},
+			(err) => {
+				console.log(err);
+				message.error('请按要求填写信息');
+			}
+		);
+	}
+
 	render() {
 		const {
 			isOpenFormModal,
@@ -225,87 +306,6 @@ class DetailModal extends PureComponent {
 				formItem={formItems}
 				viewing={isOpenFormModal.type === 'detail' ? true : false}
 			/>
-		);
-	}
-
-	componentDidMount() {
-		const {
-			isOpenFormModal,
-			projectRowed,
-		} = this.props;
-		const _this = this;
-		this.props.onRef(this);
-		//表单初始化
-		if (projectRowed.rateType != null) {
-			async function fetchData() {
-				let value = projectRowed.rateType
-				let parantCode = '';
-				if ('10090001' === value) {
-					// 长期信用评级  10090001-B10100000
-					parantCode = 'B10100000';
-				}
-				if ('10090002' === value) {
-					// 短期信用评级  10090002-B10110000
-					parantCode = 'B10110000';
-				}
-				await httpGetCreditRateDropdownList(
-					{ parentDicCode: parantCode }
-				);
-			}
-			fetchData();
-		}
-
-		this.createProduct.setValues({
-			...setFieldsObject(projectRowed, isOpenFormModal.type),
-			creditDate: projectRowed.creditDate ? moment(projectRowed.creditDate) : null,
-		});
-		this.createProduct.setValues({
-			marketCode: projectRowed.marketCode,
-		});
-	}
-
-	//点击确定进行增加修改操作
-	handleSubmit(e) {
-		const {
-			projectRowed,
-			dispatchUpdateStore,
-			isOpenFormModal
-		} = this.props;
-		const { rateCompName } = this.state;
-		e.preventDefault();
-		this.createProduct.onValidate(
-			(values) => {
-				const action = {
-					add: httpAddRowData,
-					update: httpUpdateRowData,
-				};
-				values.creditDate = moment(values.creditDate).format('YYYYMMDD');
-				const securityCode = values?.securityCode?.split('.')[0];
-				let params = {
-					add: { ...values, rateCompName, securityCode },
-					update: {
-						...values,
-						rateCompName: rateCompName || projectRowed.rateCompName,
-						id: isOpenFormModal.type !== 'add' ? projectRowed.id : undefined,
-					},
-				};
-				dispatchUpdateStore({
-					isOpenFormModal: {
-						type: 'add',
-						status: false,
-					},
-					projectRowed: {},
-				});
-				action[isOpenFormModal.type](
-					filterNullElement(params[isOpenFormModal.type])
-				).then(() => {
-					//
-				});
-			},
-			(err) => {
-				console.log(err);
-				message.error('请按要求填写信息');
-			}
 		);
 	}
 }
