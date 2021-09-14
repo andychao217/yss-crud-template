@@ -8,12 +8,17 @@ const getSourceDirectory = (storeType, compnentType)=> {
     return path.join(__dirname, `./template/${storeType}/${compnentType}`);
 }; //源目录
 
-let TARGET_SRC, pageName, authorName;
+let TARGET_SRC = '',
+    pageName = '',
+    authorName = '',
+    createTime = '';
 
 /***替换模板内容 */
 const replaceFileStrin = function (string) {
     let text = string.toString();
-    text = text.replace(/\$PageName/g, pageName).replace(/\$AuthorName/g, authorName);
+    const dateTime = new Date();
+    createTime = dateTime.toLocaleString();
+    text = text.replace(/\$PageName/g, pageName).replace(/\$AuthorName/g, authorName).replace(/\$CreateTime/g, createTime);
     return text;
 }
 
