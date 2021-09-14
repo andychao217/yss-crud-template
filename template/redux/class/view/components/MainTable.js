@@ -303,8 +303,8 @@ class MainTable extends PureComponent {
 					key: 'operation',
 					fixed: 'right',
 					align: 'left',
-					width: 150,
-					render: (text, row) => withRoleTableBotton(ButtonTableType(row))(row),
+					width: 120,
+					render: (text, row) => withRoleTableBotton(ButtonTableType(row), 'icon')(row),
 				},
 			];
 

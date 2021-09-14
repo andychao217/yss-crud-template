@@ -6,7 +6,7 @@
 import React from 'react';
 import { $connect, PublicProps, PageBody } from 'yss-trade-base';
 import MainTable from './components/MainTable';
-import ErrorBoundary from '../../public-tools/ErrorBoundary';
+import { ErrorBoundary } from '../../public-tools';
 const { PageMain } = PageBody;
 
 /*债券评级*/
