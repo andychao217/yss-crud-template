@@ -1,0 +1,15 @@
+.gitignore
+.editorconfig
+.gitignore
+.jshintrc
+
+package.json
+yarn.lock
+jsconfig.json
+readme.md
+
+node_modules/
+.vscode/
+build/
+scripts/
+config/

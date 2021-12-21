@@ -1,0 +1,18 @@
+{
+	"eslintIntegration": true,
+	"stylelintIntegration": true,
+	"tslintIntegration": true,
+	"tabWidth": 4,
+	"singleQuote": true,
+	"semi": true,
+	"printWidth": 150,
+	"useTabs": true,
+	"bracketSpacing": true,
+	"endOfLine": "lf",
+	"jsxSingleQuote": true,
+	"jsxBracketSameLine": false,
+	"ignorePath": ".prettierignore",
+	"trailingComma": "all",
+	"arrowParens": "always",
+	"embeddedLanguageFormatting": "auto"
+}

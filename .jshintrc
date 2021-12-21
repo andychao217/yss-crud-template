@@ -1,0 +1,9 @@
+{
+    "esversion": 9,
+	"sub": true,
+	"-W118": true,
+	"-W030": true,
+	"-W082": true,
+	"-W014": true,
+	"-W138": true
+}
