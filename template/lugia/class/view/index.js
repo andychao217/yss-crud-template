@@ -7,7 +7,7 @@
 import React from 'react';
 import { $connect, PublicProps, PageBody } from 'yss-trade-base';
 import MainTable from './components/MainTable';
-import { ErrorBoundary } from '../../public-tools';
+import { ErrorBoundary } from '@/page/public-tools';
 const { PageMain } = PageBody;
 
 /*债券评级*/
@@ -16,7 +16,7 @@ const moduleName = '$PageName';
  * @class
  * @classdesc $PageName页面
  */
- export default $connect((props) => {
+export default $connect((props) => {
 	return (
 		// 对象组件透传props
 		<PublicProps.Provider value={{ ...props }}>
@@ -29,4 +29,4 @@ const moduleName = '$PageName';
 			</ErrorBoundary>
 		</PublicProps.Provider>
 	);
- }, moduleName);
+}, moduleName);

@@ -40,7 +40,7 @@ const MainTable = (props) => {
 	const [ids, setIds] = useState([]); //选择行id
 	const [selectedRows, setSelectedRows] = useState([]); //选择行内容
 	const [disableButton, setDisableButton] = useState(true); //页面Toolbar按钮是否禁用
-	const [pageSize, setPageSize] = useState(20);	//页面显示条数
+	const [pageSize, setPageSize] = useState(20); //页面显示条数
 	const [curPageNum, setCurPageNum] = useState(1); //当前页码
 
 	useEffect(() => {
@@ -143,12 +143,7 @@ const MainTable = (props) => {
 			func: () => {
 				ConfirmModal({
 					onOk: () => {
-						// eslint-disable-next-line
-						let params = selectedRows.map((item) => {
-							if (item && item.id) {
-								return item.id;
-							}
-						});
+						let params = selectedRows.filter((item) => item && item.id).map((item) => item.id);
 						async function fetchData() {
 							await asyncHttpDeleteRowData({ params });
 							await asyncHttpGetListData({});
@@ -169,12 +164,7 @@ const MainTable = (props) => {
 				ConfirmModal({
 					title: '请确定是否要审核勾选数据',
 					onOk: () => {
-						// eslint-disable-next-line
-						let params = selectedRows.map((item) => {
-							if (item && item.id) {
-								return item.id;
-							}
-						});
+						let params = selectedRows.filter((item) => item && item.id).map((item) => item.id);
 						async function fetchData() {
 							await asyncHttpAuditRowData({ params });
 							await asyncHttpGetListData({});
@@ -195,12 +185,7 @@ const MainTable = (props) => {
 				ConfirmModal({
 					title: '请确定是否要反审核勾选数据',
 					onOk: () => {
-						// eslint-disable-next-line
-						let params = selectedRows.map((item) => {
-							if (item && item.id) {
-								return item.id;
-							}
-						});
+						let params = selectedRows.filter((item) => item && item.id).map((item) => item.id);
 						async function fetchData() {
 							await asyncHttpReAuditRowData({ params });
 							await asyncHttpGetListData({});
@@ -442,10 +427,7 @@ const MainTable = (props) => {
 					}}
 				/>
 				{withRoleBotton(ButtonType)}
-				<ConfigableTable
-					{...getTableConfig()}
-					tableCode='pingan-MainTable-$PageName'
-				/>
+				<ConfigableTable {...getTableConfig()} tableCode='pingan-MainTable-$PageName' />
 			</div>
 			{/***弹框组件** */}
 			<Modal
@@ -455,7 +437,9 @@ const MainTable = (props) => {
 				title={modalTitle}
 				visible={isOpenFormModal.status}
 				viewing={isOpenFormModal.type === 'detail' ? true : false}
-				onOk={(e) => { changeSync({ modalOnOk: true }); }}
+				onOk={(e) => {
+					changeSync({ modalOnOk: true });
+				}}
 				onCancel={() => {
 					changeSync({
 						isOpenFormModal: {
@@ -475,6 +459,6 @@ const MainTable = (props) => {
 			</Modal>
 		</Fragment>
 	);
-}
+};
 
 export default MainTable;

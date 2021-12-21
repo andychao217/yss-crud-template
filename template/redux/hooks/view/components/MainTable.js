@@ -19,37 +19,22 @@ import {
 } from 'yss-trade-base';
 import DetailModal from '../modals/DetailModal';
 import { formServiceConfig } from '../../services';
-import {
-	UpdateStore,
-} from '../../models/actions';
-import {
-	columnsCfg,
-} from '../../models';
-import {
-	httpGetListData,
-	httpAuditRowData,
-	httpReAuditRowData,
-	httpDeleteRowData,
-} from '../../controller/async';
+import { UpdateStore } from '../../models/actions';
+import { columnsCfg } from '../../models';
+import { httpGetListData, httpAuditRowData, httpReAuditRowData, httpDeleteRowData } from '../../controller/async';
 
 /**
  * @class
  * @classdesc 数据表格
  */
 const MainTable = (props) => {
-	const {
-		dispatchUpdateStore,
-		queryTableList,
-		TableList,
-		TableListTotal,
-		isOpenFormModal,
-	} = props;
+	const { dispatchUpdateStore, queryTableList, TableList, TableListTotal, isOpenFormModal } = props;
 	const _this = this;
 
 	const [ids, setIds] = useState([]); //选择行id
 	const [selectedRows, setSelectedRows] = useState([]); //选择行内容
 	const [disableButton, setDisableButton] = useState(true); //页面Toolbar按钮是否禁用
-	const [pageSize, setPageSize] = useState(20);	//页面显示条数
+	const [pageSize, setPageSize] = useState(20); //页面显示条数
 	const [curPageNum, setCurPageNum] = useState(1); //当前页码
 
 	useEffect(() => {
@@ -153,12 +138,7 @@ const MainTable = (props) => {
 			func: () => {
 				ConfirmModal({
 					onOk: () => {
-						// eslint-disable-next-line
-						let params = selectedRows.map((item) => {
-							if (item && item.id) {
-								return item.id;
-							}
-						});
+						let params = selectedRows.filter((item) => item && item.id).map((item) => item.id);
 						httpDeleteRowData(params);
 						clearSelectedRows();
 					},
@@ -175,12 +155,7 @@ const MainTable = (props) => {
 				ConfirmModal({
 					title: '请确定是否要审核勾选数据',
 					onOk: () => {
-						// eslint-disable-next-line
-						let params = selectedRows.map((item) => {
-							if (item && item.id) {
-								return item.id;
-							}
-						});
+						let params = selectedRows.filter((item) => item && item.id).map((item) => item.id);
 						httpAuditRowData(params);
 						clearSelectedRows();
 					},
@@ -197,12 +172,7 @@ const MainTable = (props) => {
 				ConfirmModal({
 					title: '请确定是否要反审核勾选数据',
 					onOk: () => {
-						// eslint-disable-next-line
-						let params = selectedRows.map((item) => {
-							if (item && item.id) {
-								return item.id;
-							}
-						});
+						let params = selectedRows.filter((item) => item && item.id).map((item) => item.id);
 						httpReAuditRowData(params);
 						clearSelectedRows();
 					},
@@ -314,7 +284,7 @@ const MainTable = (props) => {
 					reqPageNum: page,
 					reqPageSize: pageSize,
 				},
-			})
+			});
 			setIds([]);
 			setDisableButton(true);
 			setSelectedRows([]);
@@ -438,10 +408,7 @@ const MainTable = (props) => {
 					}}
 				/>
 				{withRoleBotton(ButtonType)}
-				<ConfigableTable
-					{...getTableConfig()}
-					tableCode='pingan-MainTable-$PageName'
-				/>
+				<ConfigableTable {...getTableConfig()} tableCode='pingan-MainTable-$PageName' />
 			</div>
 			{/***弹框组件** */}
 			<Modal
@@ -461,13 +428,15 @@ const MainTable = (props) => {
 						modalOnOk: false,
 					});
 				}}
-				onOk={(e) => { dispatchUpdateStore({ modalOnOk: true }); }}
+				onOk={(e) => {
+					dispatchUpdateStore({ modalOnOk: true });
+				}}
 			>
 				{modalContext(isOpenFormModal.type, props)}
 			</Modal>
 		</Fragment>
 	);
-}
+};
 
 //redux state转换为props
 const mapStateToProps = (state) => {
@@ -476,7 +445,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
 	dispatchUpdateStore: (params) => UpdateStore(params),
-}
+};
 // const mapDispatchToProps = (dispatch) => {
 // 	return {
 // 		dispatchUpdateStore: (params) => dispatch(UpdateStore(params)),

@@ -3,7 +3,7 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import { formatRowColor } from '../../public-tools';
+import { formatRowColor } from '@/page/public-tools';
 import { momentToDateStr } from 'yss-trade-base';
 
 //列表表头

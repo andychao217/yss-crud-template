@@ -122,7 +122,7 @@ class MainTable extends PureComponent {
 				selectedRows: [],
 			});
 		};
-		
+
 		// 新增
 		const addItem = (e, item) => {
 			e.stopPropagation();
@@ -152,12 +152,7 @@ class MainTable extends PureComponent {
 				func: () => {
 					ConfirmModal({
 						onOk: () => {
-							// eslint-disable-next-line
-							let params = _this.state.selectedRows.map((item) => {
-								if (item && item.id) {
-									return item.id;
-								}
-							});
+							let params = _this.state.selectedRows.filter((item) => item && item.id).map((item) => item.id);
 							async function fetchData() {
 								await asyncHttpDeleteRowData({ params });
 								await asyncHttpGetListData({});
@@ -178,12 +173,7 @@ class MainTable extends PureComponent {
 					ConfirmModal({
 						title: '请确定是否要审核勾选数据',
 						onOk: () => {
-							// eslint-disable-next-line
-							let params = _this.state.selectedRows.map((item) => {
-								if (item && item.id) {
-									return item.id;
-								}
-							});
+							let params = _this.state.selectedRows.filter((item) => item && item.id).map((item) => item.id);
 							async function fetchData() {
 								await asyncHttpAuditRowData({ params });
 								await asyncHttpGetListData({});
@@ -204,12 +194,7 @@ class MainTable extends PureComponent {
 					ConfirmModal({
 						title: '请确定是否要反审核勾选数据',
 						onOk: () => {
-							// eslint-disable-next-line
-							let params = _this.state.selectedRows.map((item) => {
-								if (item && item.id) {
-									return item.id;
-								}
-							});
+							let params = _this.state.selectedRows.filter((item) => item && item.id).map((item) => item.id);
 							async function fetchData() {
 								await asyncHttpReAuditRowData({ params });
 								await asyncHttpGetListData({});
@@ -457,10 +442,7 @@ class MainTable extends PureComponent {
 						}}
 					/>
 					{withRoleBotton(ButtonType)}
-					<ConfigableTable
-						{...getTableConfig()}
-						tableCode='pingan-MainTable-$PageName'
-					/>
+					<ConfigableTable {...getTableConfig()} tableCode='pingan-MainTable-$PageName' />
 				</div>
 				{/***弹框组件** */}
 				<Modal

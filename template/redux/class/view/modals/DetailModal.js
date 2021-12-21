@@ -6,18 +6,9 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { message } from 'antd';
-import {
-	setFieldsObject,
-	filterNullElement,
-	NeatForm,
-	NormalForm,
-} from 'yss-trade-base';
+import { setFieldsObject, filterNullElement, NeatForm, NormalForm } from 'yss-trade-base';
 import { formServiceConfig } from '../../services';
-import {
-	httpGetCreditRateDropdownList,
-	httpAddRowData,
-	httpUpdateRowData,
-} from '../../controller/async';
+import { httpGetCreditRateDropdownList, httpAddRowData, httpUpdateRowData } from '../../controller/async';
 const { mapOption } = NormalForm;
 
 /**
@@ -32,28 +23,23 @@ class DetailModal extends PureComponent {
 	};
 
 	componentDidMount() {
-		const {
-			isOpenFormModal,
-			projectRowed,
-		} = this.props;
+		const { isOpenFormModal, projectRowed } = this.props;
 		const _this = this;
 		this.props.onRef(this);
 		//表单初始化
 		if (projectRowed.rateType != null) {
 			async function fetchData() {
-				let value = projectRowed.rateType
-				let parantCode = '';
+				let value = projectRowed.rateType;
+				let parentDicCode = '';
 				if ('10090001' === value) {
 					// 长期信用评级  10090001-B10100000
-					parantCode = 'B10100000';
+					parentDicCode = 'B10100000';
 				}
 				if ('10090002' === value) {
 					// 短期信用评级  10090002-B10110000
-					parantCode = 'B10110000';
+					parentDicCode = 'B10110000';
 				}
-				await httpGetCreditRateDropdownList(
-					{ parentDicCode: parantCode }
-				);
+				await httpGetCreditRateDropdownList({ parentDicCode });
 			}
 			fetchData();
 		}
@@ -69,11 +55,7 @@ class DetailModal extends PureComponent {
 
 	//点击确定进行增加修改操作
 	handleSubmit(e) {
-		const {
-			projectRowed,
-			dispatchUpdateStore,
-			isOpenFormModal
-		} = this.props;
+		const { projectRowed, dispatchUpdateStore, isOpenFormModal } = this.props;
 		const { rateCompName } = this.state;
 		e.preventDefault();
 		this.createProduct.onValidate(
@@ -99,24 +81,19 @@ class DetailModal extends PureComponent {
 					},
 					projectRowed: {},
 				});
-				action[isOpenFormModal.type](
-					filterNullElement(params[isOpenFormModal.type])
-				).then(() => {
+				action[isOpenFormModal.type](filterNullElement(params[isOpenFormModal.type])).then(() => {
 					//
 				});
 			},
 			(err) => {
 				console.log(err);
 				message.error('请按要求填写信息');
-			}
+			},
 		);
 	}
 
 	render() {
-		const {
-			isOpenFormModal,
-			creditRateDropdownList
-		} = this.props;
+		const { isOpenFormModal, creditRateDropdownList } = this.props;
 		const showdetails = isOpenFormModal.type === 'detail';
 		let _this = this;
 		/*弹出form 表单的属性***/
@@ -162,7 +139,7 @@ class DetailModal extends PureComponent {
 					config: formServiceConfig,
 					allowClear: true,
 					disabled: true,
-					onChange(value) { },
+					onChange(value) {},
 				},
 			},
 			{
@@ -181,18 +158,16 @@ class DetailModal extends PureComponent {
 					placeholder: '请选择评级类型',
 					disabled: showdetails,
 					onChange(value) {
-						let parantCode = '';
-						if ( value === '10090001') {
+						let parentDicCode = '';
+						if (value === '10090001') {
 							// 长期信用评级  10090001-B10100000
-							parantCode = 'B10100000';
+							parentDicCode = 'B10100000';
 						} else if (value === '10090002') {
 							// 短期信用评级  10090002-B10110000
-							parantCode = 'B10110000';
+							parentDicCode = 'B10110000';
 						}
 						async function fetchData() {
-							await httpGetCreditRateDropdownList(
-								{ parentDicCode: parantCode }
-							);
+							await httpGetCreditRateDropdownList({ parentDicCode });
 						}
 						fetchData();
 						_this.createProduct.setValues({
@@ -215,8 +190,7 @@ class DetailModal extends PureComponent {
 					disabled: showdetails,
 					placeholder: '请选择日期',
 					initialValue: moment(),
-					onChange(value) {
-					},
+					onChange(value) {},
 				},
 			},
 			{
@@ -234,7 +208,7 @@ class DetailModal extends PureComponent {
 					allowClear: true,
 					placeholder: '请选择信用评级',
 					disabled: showdetails,
-					onChange(value) { },
+					onChange(value) {},
 				},
 			},
 			{
@@ -252,7 +226,7 @@ class DetailModal extends PureComponent {
 					allowClear: true,
 					placeholder: '请选择评级展望',
 					disabled: showdetails,
-					onChange(value) { },
+					onChange(value) {},
 				},
 			},
 			{

@@ -1,3 +1,22 @@
-// Place your settings in this file to overwrite default and user settings.
 {
+	"editor.tabCompletion": "on",
+	"search.quickOpen.includeSymbols": true,
+	"editor.suggest.localityBonus": true,
+	"editor.suggest.shareSuggestSelections": true,
+	"cSpell.language": "en,en-US,en-GB",
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
+	"[html]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[less]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
 }

@@ -8,7 +8,7 @@ import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import { PageBody } from 'yss-trade-base';
 import MainTable from './components/MainTable';
-import { ErrorBoundary } from '../../public-tools';
+import { ErrorBoundary } from '@/page/public-tools';
 import { model } from '../models';
 const { PageMain } = PageBody;
 
@@ -31,4 +31,4 @@ export default class $PageName extends PureComponent {
 			</Provider>
 		);
 	}
-};
+}

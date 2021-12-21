@@ -19,18 +19,9 @@ import {
 } from 'yss-trade-base';
 import DetailModal from '../modals/DetailModal';
 import { formServiceConfig } from '../../services';
-import {
-	UpdateStore,
-} from '../../models/actions';
-import {
-	columnsCfg,
-} from '../../models';
-import {
-	httpGetListData,
-	httpAuditRowData,
-	httpReAuditRowData,
-	httpDeleteRowData,
-} from '../../controller/async';
+import { UpdateStore } from '../../models/actions';
+import { columnsCfg } from '../../models';
+import { httpGetListData, httpAuditRowData, httpReAuditRowData, httpDeleteRowData } from '../../controller/async';
 
 /**
  * @class
@@ -51,13 +42,7 @@ class MainTable extends PureComponent {
 	}
 
 	render() {
-		const {
-			dispatchUpdateStore,
-			queryTableList,
-			TableList,
-			TableListTotal,
-			isOpenFormModal,
-		} = this.props;
+		const { dispatchUpdateStore, queryTableList, TableList, TableListTotal, isOpenFormModal } = this.props;
 
 		const _this = this;
 
@@ -157,12 +142,7 @@ class MainTable extends PureComponent {
 				func: () => {
 					ConfirmModal({
 						onOk: () => {
-							// eslint-disable-next-line
-							let params = _this.state.selectedRows.map((item) => {
-								if (item && item.id) {
-									return item.id;
-								}
-							});
+							let params = _this.state.selectedRows.filter((item) => item && item.id).map((item) => item.id);
 							httpDeleteRowData(params);
 							clearSelectedRows();
 						},
@@ -179,12 +159,7 @@ class MainTable extends PureComponent {
 					ConfirmModal({
 						title: '请确定是否要审核勾选数据',
 						onOk: () => {
-							// eslint-disable-next-line
-							let params = _this.state.selectedRows.map((item) => {
-								if (item && item.id) {
-									return item.id;
-								}
-							});
+							let params = _this.state.selectedRows.filter((item) => item && item.id).map((item) => item.id);
 							httpAuditRowData(params);
 							clearSelectedRows();
 						},
@@ -201,12 +176,7 @@ class MainTable extends PureComponent {
 					ConfirmModal({
 						title: '请确定是否要反审核勾选数据',
 						onOk: () => {
-							// eslint-disable-next-line
-							let params = _this.state.selectedRows.map((item) => {
-								if (item && item.id) {
-									return item.id;
-								}
-							});
+							let params = _this.state.selectedRows.filter((item) => item && item.id).map((item) => item.id);
 							httpReAuditRowData(params);
 							clearSelectedRows();
 						},
@@ -316,7 +286,7 @@ class MainTable extends PureComponent {
 						reqPageNum: page,
 						reqPageSize: pageSize,
 					},
-				})
+				});
 				_this.setState({
 					pageSize,
 					curPageNum: page,
@@ -446,10 +416,7 @@ class MainTable extends PureComponent {
 						}}
 					/>
 					{withRoleBotton(ButtonType)}
-					<ConfigableTable
-						{...getTableConfig()}
-						tableCode='pingan-MainTable-$PageName'
-					/>
+					<ConfigableTable {...getTableConfig()} tableCode='pingan-MainTable-$PageName' />
 				</div>
 				{/***弹框组件** */}
 				<Modal
@@ -483,7 +450,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
 	dispatchUpdateStore: (params) => UpdateStore(params),
-}
+};
 // const mapDispatchToProps = (dispatch) => {
 // 	return {
 // 		dispatchUpdateStore: (params) => dispatch(UpdateStore(params)),
