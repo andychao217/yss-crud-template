@@ -1,9 +1,9 @@
 root = true                         # 根目录的配置文件，编辑器会由当前目录向上查找，如果找到 `roor = true` 的文件，则不再查找
 
 [*]                                 # 匹配所有的文件
-indent_style = tab                 # tabs缩进
+indent_style = tab                  # tab缩进
 indent_size = 4                     # 缩进空格为4个
-end_of_line = crlf                    # 文件换行符是 linux 的 `\n`
+end_of_line = crlf                  # 文件换行符是 linux 的 `\n`
 charset = utf-8                     # 文件编码是 utf-8
 trim_trailing_whitespace = true     # 不保留行末的空格
 insert_final_newline = true         # 文件末尾添加一个空行
