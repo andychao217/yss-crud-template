@@ -16,3 +16,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 -   users can input the authorName for the page (Mon Apr 12 11:14:14 2021 +0800)
 -   updated templates for create time, version `0.2.8` (Tue Sep 14 16:04:27 2021 +0800)
 -   formatted templates code style, version `0.2.9` (Tue Dec 21 17:13:27 2021 +0800)
+-   updated template, version `0.3.1` (Thu Feb 10 17:26:00 2022 +0800)

@@ -49,17 +49,19 @@ const MainTable = (props) => {
 			label: '债券',
 			type: 'Select',
 			labelSize: '38px',
-			itemSize: '200px',
+			itemSize: '160px',
 			props: {
 				type: 'BondListByName',
 				config: formServiceConfig,
 				mode: 'multiple',
 				maxTagCount: 1,
-				maxTagTextLength: 3,
+				maxTagTextLength: 1,
 				tokenSeparators: [','],
 				allowClear: true,
 				placeholder: '请选择',
 				showArrow: true,
+				dropdownMatchSelectWidth: false,
+				getPopupContainer: () => document.getElementById('$PageNameTable'),
 			},
 		},
 		{
@@ -81,6 +83,7 @@ const MainTable = (props) => {
 						});
 					}
 				},
+				getCalendarContainer: () => document.getElementById('$PageNameTable'),
 			},
 		},
 		{
@@ -88,14 +91,17 @@ const MainTable = (props) => {
 			label: '评级机构',
 			labelSize: '66px',
 			type: 'Select',
+			itemSize: '160px',
 			props: {
 				type: 'ratingAgenciesListByNameOrCode',
 				config: formServiceConfig,
 				mode: 'multiple',
 				maxTagCount: 1,
-				maxTagTextLength: 9,
+				maxTagTextLength: 1,
 				placeholder: '请选择',
 				showArrow: true,
+				dropdownMatchSelectWidth: false,
+				getPopupContainer: () => document.getElementById('$PageNameTable'),
 			},
 		},
 	];
@@ -363,7 +369,7 @@ const MainTable = (props) => {
 	return (
 		<Fragment>
 			{/* 查询表单 */}
-			<div style={{ padding: '0px 20px' }}>
+			<div id='$PageNameTable' style={{ padding: '0px 20px', position: 'relative' }}>
 				<SearchForm
 					formItem={formItems}
 					labelSize={'70px'}

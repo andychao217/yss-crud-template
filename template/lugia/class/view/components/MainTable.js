@@ -63,17 +63,19 @@ class MainTable extends PureComponent {
 				label: '债券',
 				type: 'Select',
 				labelSize: '38px',
-				itemSize: '200px',
+				itemSize: '160px',
 				props: {
 					type: 'TableListByName',
 					config: formServiceConfig,
 					mode: 'multiple',
 					maxTagCount: 1,
-					maxTagTextLength: 3,
+					maxTagTextLength: 1,
 					tokenSeparators: [','],
 					allowClear: true,
 					placeholder: '请选择',
 					showArrow: true,
+					dropdownMatchSelectWidth: false,
+					getPopupContainer: () => document.getElementById('$PageNameTable'),
 				},
 			},
 			{
@@ -95,21 +97,25 @@ class MainTable extends PureComponent {
 							});
 						}
 					},
+					getCalendarContainer: () => document.getElementById('$PageNameTable'),
 				},
 			},
 			{
 				name: 'rateCompCodeList',
 				label: '评级机构',
 				labelSize: '66px',
+				itemSize: '160px',
 				type: 'Select',
 				props: {
 					type: 'ratingAgenciesListByNameOrCode',
 					config: formServiceConfig,
 					mode: 'multiple',
 					maxTagCount: 1,
-					maxTagTextLength: 9,
+					maxTagTextLength: 1,
 					placeholder: '请选择',
 					showArrow: true,
+					dropdownMatchSelectWidth: false,
+					getPopupContainer: () => document.getElementById('$PageNameTable'),
 				},
 			},
 		];
@@ -393,7 +399,7 @@ class MainTable extends PureComponent {
 		return (
 			<Fragment>
 				{/* 查询表单 */}
-				<div style={{ padding: '0px 20px' }}>
+				<div id='$PageNameTable' style={{ padding: '0px 20px', position: 'relative' }}>
 					<SearchForm
 						formItem={formItems}
 						labelSize={'70px'}

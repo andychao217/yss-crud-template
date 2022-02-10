@@ -4,8 +4,9 @@
  * @copyright Ysstech
  */
 import { $ajax } from 'yss-trade-base';
+import { serviceMap } from '@/page/public-tools';
 
-const api = '/dfbp-riskcontrol-data/zxBondCreditRate';
+const api = serviceMap['bizCommon'];
 
 /***获取列表数据*******/
 export const getListData = (params) => $ajax(`${api}/pageList`, params, 'post');
