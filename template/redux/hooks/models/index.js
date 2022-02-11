@@ -9,7 +9,4 @@ const rootReducer = combineReducers({
 
 const model = createStore(rootReducer, applyMiddleware(logger));
 
-export {
-	columnsCfg,
-	model
-};
+export { columnsCfg, model };

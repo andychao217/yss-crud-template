@@ -3,15 +3,7 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import {
-	getListData,
-	addRowData,
-	updateRowData,
-	deleteRowData,
-	auditRowData,
-	reAuditRowData,
-	getcreditRateDropdownList
-} from '../services/index';
+import { getListData, addRowData, updateRowData, deleteRowData, auditRowData, reAuditRowData, getcreditRateDropdownList } from '../services/index';
 import { model } from '../models';
 import { UpdateStore } from '../models/actions';
 import { message } from 'antd';
@@ -23,8 +15,7 @@ import { message } from 'antd';
  * @return {Promise<object>} TableList - 列表数据, TableListTotal - 列表数据总条数
  */
 export const httpGetListData = async () => {
-	try
-	{
+	try {
 		const state = model.getState().pageReducer;
 		let result = await getListData(state['queryTableList']);
 		const { data, winRspType, msg } = result;
@@ -48,7 +39,7 @@ export const httpGetListData = async () => {
  * @param {object} params - 新增列表参数
  * @return {Promise<void>} - 调用获取列表数据函数
  */
-export const httpAddRowData =  async (params) => {
+export const httpAddRowData = async (params) => {
 	let result = await addRowData(params);
 	const { winRspType, msg } = result;
 	if (winRspType === 'SUCC') {
@@ -139,7 +130,7 @@ export const httpGetCreditRateDropdownList = async (params) => {
 					label: item.dicExplain,
 				};
 			});
-			model.dispatch(UpdateStore({creditRateDropdownList}));
+			model.dispatch(UpdateStore({ creditRateDropdownList }));
 		} else {
 			message.error(msg);
 		}

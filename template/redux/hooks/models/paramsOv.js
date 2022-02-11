@@ -36,6 +36,6 @@ const pageReducer = (state = initialState, action) => {
 		default:
 			return state;
 	}
-}
+};
 
 export default pageReducer;

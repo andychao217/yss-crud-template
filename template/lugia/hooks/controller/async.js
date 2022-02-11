@@ -3,16 +3,7 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import
-	{
-	getListData,
-	addRowData,
-	updateRowData,
-	deleteRowData,
-	auditRowData,
-	reAuditRowData,
-	getcreditRateDropdownList
-} from '../services/index';
+import { getListData, addRowData, updateRowData, deleteRowData, auditRowData, reAuditRowData, getcreditRateDropdownList } from '../services/index';
 import { message } from 'antd';
 
 export default {

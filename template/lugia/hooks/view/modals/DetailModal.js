@@ -6,12 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { message } from 'antd';
-import {
-	setFieldsObject,
-	filterNullElement,
-	NeatForm,
-	NormalForm,
-} from 'yss-trade-base';
+import { setFieldsObject, filterNullElement, NeatForm, NormalForm } from 'yss-trade-base';
 import { formServiceConfig } from '../../services';
 const { mapOption } = NormalForm;
 
@@ -21,22 +16,14 @@ const { mapOption } = NormalForm;
  */
 let createProduct = null;
 const DetailModal = (props) => {
-	const {
-		isOpenFormModal,
-		asyncHttpGetCreditRateDropdownList,
-		creditRateDropdownList,
-		modalOnOk,
-	} = props;
+	const { isOpenFormModal, asyncHttpGetCreditRateDropdownList, creditRateDropdownList, modalOnOk } = props;
 	const showdetails = isOpenFormModal.type === 'detail';
 	const [rateCompName, setRateCompName] = useState(undefined);
 
 	let _this = this;
 
 	useEffect(() => {
-		const {
-			isOpenFormModal,
-			projectRowed,
-		} = props;
+		const { isOpenFormModal, projectRowed } = props;
 		props.onRef(this);
 		//表单初始化
 		if (projectRowed.rateType != null) {
@@ -52,7 +39,7 @@ const DetailModal = (props) => {
 					parentDicCode = 'B10110000';
 				}
 				await asyncHttpGetCreditRateDropdownList({
-					params: { parentDicCode }
+					params: { parentDicCode },
 				});
 			}
 			fetchData();
@@ -71,17 +58,11 @@ const DetailModal = (props) => {
 		if (modalOnOk) {
 			handleSubmit();
 		}
-	}, [modalOnOk])
+	}, [modalOnOk]);
 
 	//点击确定进行增加修改操作
 	const handleSubmit = () => {
-		const {
-			asyncHttpAddRowData,
-			asyncHttpUpdateRowData,
-			projectRowed,
-			changeSync,
-			isOpenFormModal
-		} = props;
+		const { asyncHttpAddRowData, asyncHttpUpdateRowData, projectRowed, changeSync, isOpenFormModal } = props;
 		// e.preventDefault();
 		createProduct.onValidate(
 			(values) => {
@@ -118,9 +99,9 @@ const DetailModal = (props) => {
 				changeSync({
 					modalOnOk: false,
 				});
-			}
+			},
 		);
-	}
+	};
 
 	/*弹出form 表单的属性***/
 	const formItems = [
@@ -165,7 +146,7 @@ const DetailModal = (props) => {
 				config: formServiceConfig,
 				allowClear: true,
 				disabled: true,
-				onChange(value) { },
+				onChange(value) {},
 			},
 		},
 		{
@@ -185,7 +166,7 @@ const DetailModal = (props) => {
 				disabled: showdetails,
 				onChange(value) {
 					let parentDicCode = '';
-					if ( value === '10090001') {
+					if (value === '10090001') {
 						// 长期信用评级  10090001-B10100000
 						parentDicCode = 'B10100000';
 					} else if (value === '10090002') {
@@ -194,7 +175,7 @@ const DetailModal = (props) => {
 					}
 					async function fetchData() {
 						await asyncHttpGetCreditRateDropdownList({
-							params: { parentDicCode }
+							params: { parentDicCode },
 						});
 					}
 					fetchData();
@@ -218,8 +199,7 @@ const DetailModal = (props) => {
 				disabled: showdetails,
 				placeholder: '请选择日期',
 				initialValue: moment(),
-				onChange(value) {
-				},
+				onChange(value) {},
 			},
 		},
 		{
@@ -237,7 +217,7 @@ const DetailModal = (props) => {
 				allowClear: true,
 				placeholder: '请选择信用评级',
 				disabled: showdetails,
-				onChange(value) { },
+				onChange(value) {},
 			},
 		},
 		{
@@ -255,7 +235,7 @@ const DetailModal = (props) => {
 				allowClear: true,
 				placeholder: '请选择评级展望',
 				disabled: showdetails,
-				onChange(value) { },
+				onChange(value) {},
 			},
 		},
 		{
@@ -308,5 +288,5 @@ const DetailModal = (props) => {
 			viewing={isOpenFormModal.type === 'detail' ? true : false}
 		/>
 	);
-}
+};
 export default DetailModal;

@@ -4,8 +4,8 @@
  * @copyright Ysstech
  */
 export function UpdateStore(params) {
-    return {
-        type: 'UPDATE_STORE',
-        params,
-    };
+	return {
+		type: 'UPDATE_STORE',
+		params,
+	};
 }
