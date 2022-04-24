@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { message } from 'antd';
 import { setFieldsObject, filterNullElement, NeatForm, NormalForm } from 'yss-trade-base';
-import { formServiceConfig } from '../../services';
+import { formServiceConfig, addRowData, updateRowData } from '../../services';
 const { mapOption } = NormalForm;
 
 /**
@@ -62,13 +62,13 @@ const DetailModal = (props) => {
 
 	//点击确定进行增加修改操作
 	const handleSubmit = () => {
-		const { asyncHttpAddRowData, asyncHttpUpdateRowData, projectRowed, changeSync, isOpenFormModal } = props;
+		const { asyncHttpGetListData, projectRowed, changeSync, isOpenFormModal } = props;
 		// e.preventDefault();
 		createProduct.onValidate(
 			(values) => {
 				const action = {
-					add: asyncHttpAddRowData,
-					update: asyncHttpUpdateRowData,
+					add: addRowData,
+					update: updateRowData,
 				};
 				values.creditDate = moment(values.creditDate).format('YYYYMMDD');
 				const securityCode = values?.securityCode?.split('.')[0];
@@ -80,9 +80,11 @@ const DetailModal = (props) => {
 						id: isOpenFormModal.type !== 'add' ? projectRowed.id : undefined,
 					},
 				};
-				action[isOpenFormModal.type]({
-					params: filterNullElement(params[isOpenFormModal.type]),
-				}).then(() => {
+				action[isOpenFormModal.type](filterNullElement(params[isOpenFormModal.type])).then((res) => {
+					if (res.code !== '200') {
+						message.error(res.msg);
+						return;
+					}
 					changeSync({
 						isOpenFormModal: {
 							type: 'add',
@@ -91,6 +93,7 @@ const DetailModal = (props) => {
 						projectRowed: {},
 						modalOnOk: false,
 					});
+					asyncHttpGetListData({});
 				});
 			},
 			(err) => {

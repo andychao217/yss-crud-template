@@ -3,7 +3,7 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import { getListData, addRowData, updateRowData, deleteRowData, auditRowData, reAuditRowData, getcreditRateDropdownList } from '../services/index';
+import { getListData, deleteRowData, auditRowData, reAuditRowData, getcreditRateDropdownList } from '../services/index';
 import { model } from '../models';
 import { UpdateStore } from '../models/actions';
 import { message } from 'antd';
@@ -35,40 +35,6 @@ export const httpGetListData = async () => {
 
 /**
  * @async
- * @function - 新增列表数据
- * @param {object} params - 新增列表参数
- * @return {Promise<void>} - 调用获取列表数据函数
- */
-export const httpAddRowData = async (params) => {
-	let result = await addRowData(params);
-	const { winRspType, msg } = result;
-	if (winRspType === 'SUCC') {
-		message.success('新增成功');
-		httpGetListData();
-	} else {
-		message.error(msg);
-	}
-};
-
-/**
- * @async
- * @function - 修改列表数据
- * @param {object} params - 修改行数据参数，包括id，其余参数同新增
- * @return {Promise<void>} - 调用获取列表数据函数
- */
-export const httpUpdateRowData = async (params) => {
-	let result = await updateRowData(params);
-	const { winRspType, msg } = result;
-	if (winRspType === 'SUCC') {
-		message.success('修改成功');
-		httpGetListData();
-	} else {
-		message.error(msg);
-	}
-};
-
-/**
- * @async
  * @function - 删除列表数据
  * @param {array} params - 删除行数据id，批量已','分隔
  * @return {Promise<void>} - 调用获取列表数据函数
@@ -77,7 +43,7 @@ export const httpDeleteRowData = async (params) => {
 	let result = await deleteRowData(params);
 	const { winRspType, msg } = result;
 	if (winRspType === 'SUCC') {
-		message.success('删除成功');
+		message.success(msg);
 		httpGetListData();
 	} else {
 		message.error(msg);
@@ -94,7 +60,7 @@ export const httpAuditRowData = async (params) => {
 	let result = await auditRowData(params);
 	const { winRspType, msg } = result;
 	if (winRspType === 'SUCC') {
-		message.success('审核成功');
+		message.success(msg);
 		httpGetListData();
 	} else {
 		message.error(msg);
@@ -111,7 +77,7 @@ export const httpReAuditRowData = async (params) => {
 	let result = await reAuditRowData(params);
 	const { winRspType, msg } = result;
 	if (winRspType === 'SUCC') {
-		message.success('反审核成功');
+		message.success(msg);
 		httpGetListData();
 	} else {
 		message.error(msg);

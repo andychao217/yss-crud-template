@@ -7,7 +7,7 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { message } from 'antd';
 import { setFieldsObject, filterNullElement, NeatForm, NormalForm } from 'yss-trade-base';
-import { formServiceConfig } from '../../services';
+import { formServiceConfig, addRowData, updateRowData } from '../../services';
 const { mapOption } = NormalForm;
 
 /**
@@ -57,14 +57,14 @@ class DetailModal extends PureComponent {
 
 	//点击确定进行增加修改操作
 	handleSubmit(e) {
-		const { asyncHttpAddRowData, asyncHttpUpdateRowData, projectRowed, changeSync, isOpenFormModal } = this.props;
+		const { asyncHttpGetListData, projectRowed, changeSync, isOpenFormModal } = this.props;
 		const { rateCompName } = this.state;
 		e.preventDefault();
 		this.createProduct.onValidate(
 			(values) => {
 				const action = {
-					add: asyncHttpAddRowData,
-					update: asyncHttpUpdateRowData,
+					add: addRowData,
+					update: updateRowData,
 				};
 				values.creditDate = moment(values.creditDate).format('YYYYMMDD');
 				const securityCode = values?.securityCode?.split('.')[0];
@@ -76,20 +76,19 @@ class DetailModal extends PureComponent {
 						id: isOpenFormModal.type !== 'add' ? projectRowed.id : undefined,
 					},
 				};
-				changeSync({
-					isOpenFormModal: {
-						type: 'add',
-						status: false,
-					},
-				});
-				action[isOpenFormModal.type]({
-					params: filterNullElement(params[isOpenFormModal.type]),
-				}).then(() => {
-					//
-				});
-				// 清除选中项的数据
-				changeSync({
-					projectRowed: {},
+				action[isOpenFormModal.type](filterNullElement(params[isOpenFormModal.type])).then((res) => {
+					if (res.code !== '200') {
+						message.error(res.msg);
+						return;
+					}
+					changeSync({
+						isOpenFormModal: {
+							type: 'add',
+							status: false,
+						},
+						projectRowed: {},
+					});
+					asyncHttpGetListData({});
 				});
 			},
 			(err) => {

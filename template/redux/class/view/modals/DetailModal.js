@@ -7,8 +7,8 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { message } from 'antd';
 import { setFieldsObject, filterNullElement, NeatForm, NormalForm } from 'yss-trade-base';
-import { formServiceConfig } from '../../services';
-import { httpGetCreditRateDropdownList, httpAddRowData, httpUpdateRowData } from '../../controller/async';
+import { formServiceConfig, addRowData, updateRowData } from '../../services';
+import { httpGetCreditRateDropdownList, httpGetListData } from '../../controller/async';
 const { mapOption } = NormalForm;
 
 /**
@@ -61,8 +61,8 @@ class DetailModal extends PureComponent {
 		this.createProduct.onValidate(
 			(values) => {
 				const action = {
-					add: httpAddRowData,
-					update: httpUpdateRowData,
+					add: addRowData,
+					update: updateRowData,
 				};
 				values.creditDate = moment(values.creditDate).format('YYYYMMDD');
 				const securityCode = values?.securityCode?.split('.')[0];
@@ -74,15 +74,19 @@ class DetailModal extends PureComponent {
 						id: isOpenFormModal.type !== 'add' ? projectRowed.id : undefined,
 					},
 				};
-				dispatchUpdateStore({
-					isOpenFormModal: {
-						type: 'add',
-						status: false,
-					},
-					projectRowed: {},
-				});
-				action[isOpenFormModal.type](filterNullElement(params[isOpenFormModal.type])).then(() => {
-					//
+				action[isOpenFormModal.type](filterNullElement(params[isOpenFormModal.type])).then((res) => {
+					if (res.code !== '200') {
+						message.error(res.msg);
+						return;
+					}
+					dispatchUpdateStore({
+						isOpenFormModal: {
+							type: 'add',
+							status: false,
+						},
+						projectRowed: {},
+					});
+					httpGetListData();
 				});
 			},
 			(err) => {

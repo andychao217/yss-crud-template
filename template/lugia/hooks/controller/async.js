@@ -3,7 +3,7 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import { getListData, addRowData, updateRowData, deleteRowData, auditRowData, reAuditRowData, getcreditRateDropdownList } from '../services/index';
+import { getListData, deleteRowData, auditRowData, reAuditRowData, getcreditRateDropdownList } from '../services/index';
 import { message } from 'antd';
 
 export default {
@@ -36,40 +36,6 @@ export default {
 
 	/**
 	 * @async
-	 * @function - 新增列表数据
-	 * @param {object} 新增列表参数
-	 * @return {Promise<void>} 调用获取列表数据函数
-	 */
-	async httpAddRowData(state, { params }, { mutations }) {
-		let result = await addRowData(params);
-		const { winRspType, msg } = result;
-		if (winRspType === 'SUCC') {
-			message.success('新增成功');
-			await mutations.asyncHttpGetListData({});
-		} else {
-			message.error(msg);
-		}
-	},
-
-	/**
-	 * @async
-	 * @function - 修改列表数据
-	 * @param {object} 修改行数据参数，包括id，其余参数同新增
-	 * @return {Promise<void>} 调用获取列表数据函数
-	 */
-	async httpUpdateRowData(state, { params }, { mutations }) {
-		let result = await updateRowData(params);
-		const { winRspType, msg } = result;
-		if (winRspType === 'SUCC') {
-			message.success('修改成功');
-			await mutations.asyncHttpGetListData({});
-		} else {
-			message.error(msg);
-		}
-	},
-
-	/**
-	 * @async
 	 * @function - 删除列表数据
 	 * @param {string} 删除行数据id，批量已','分隔
 	 * @return {Promise<void>} 调用获取列表数据函数
@@ -78,7 +44,7 @@ export default {
 		let result = await deleteRowData(params);
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
-			message.success('删除成功');
+			message.success(msg);
 			await mutations.asyncHttpGetListData({});
 		} else {
 			message.error(msg);
@@ -95,7 +61,7 @@ export default {
 		let result = await auditRowData(params);
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
-			message.success('审核成功');
+			message.success(msg);
 			await mutations.asyncHttpGetListData({});
 		} else {
 			message.error(msg);
@@ -112,7 +78,7 @@ export default {
 		let result = await reAuditRowData(params);
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
-			message.success('反审核成功');
+			message.success(msg);
 			await mutations.asyncHttpGetListData({});
 		} else {
 			message.error(msg);

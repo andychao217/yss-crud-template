@@ -5,6 +5,7 @@
  */
 import { $ajax } from 'yss-trade-base';
 import { serviceMap } from '@/page/public-tools';
+import { service } from 'win-trade-base';
 
 const api = serviceMap['bizCommon'];
 
@@ -12,10 +13,24 @@ const api = serviceMap['bizCommon'];
 export const getListData = (params) => $ajax(`${api}/pageList`, params, 'post');
 
 /***新增*******/
-export const addRowData = (params) => $ajax(`${api}/save`, params, 'post');
+export const addRowData = (params) => {
+	return service.httpService({
+		baseURL: `${api}`,
+		url: '/save',
+		method: 'post',
+		data: params,
+	});
+};
 
 /***修改*******/
-export const updateRowData = (params) => $ajax(`${api}/updateById`, params, 'put');
+export const updateRowData = (params) => {
+	return service.httpService({
+		baseURL: `${api}`,
+		url: '/updateById',
+		method: 'put',
+		data: params,
+	});
+};
 
 /***删除*******/
 export const deleteRowData = (params) => $ajax(`${api}/deleteById/${params}`, params, 'delete');
