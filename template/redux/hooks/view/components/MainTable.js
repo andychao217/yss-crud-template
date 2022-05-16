@@ -60,6 +60,9 @@ const MainTable = (props) => {
 				allowClear: true,
 				placeholder: '请选择',
 				showArrow: true,
+				dropDownStyle: {
+					maxHeight: '400px',
+				},
 				dropdownMatchSelectWidth: false,
 				getPopupContainer: () => document.getElementById('$PageNameTable'),
 			},
@@ -100,6 +103,9 @@ const MainTable = (props) => {
 				maxTagTextLength: 1,
 				placeholder: '请选择',
 				showArrow: true,
+				dropDownStyle: {
+					maxHeight: '400px',
+				},
 				dropdownMatchSelectWidth: false,
 				getPopupContainer: () => document.getElementById('$PageNameTable'),
 			},
@@ -380,6 +386,7 @@ const MainTable = (props) => {
 							queryTableList: {
 								...queryTableList,
 								...values,
+								reqPageNum: 1,
 							},
 						});
 						const search = () => {
@@ -414,7 +421,7 @@ const MainTable = (props) => {
 					}}
 				/>
 				{withRoleBotton(ButtonType)}
-				<ConfigableTable {...getTableConfig()} tableCode='pingan-MainTable-$PageName' />
+				<ConfigableTable {...getTableConfig()} resizeTableCode='MainTable-$PageName' tableCode='MainTable-$PageName' />
 			</div>
 			{/***弹框组件** */}
 			<Modal

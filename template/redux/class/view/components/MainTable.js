@@ -64,6 +64,9 @@ class MainTable extends PureComponent {
 					allowClear: true,
 					placeholder: '请选择',
 					showArrow: true,
+					dropDownStyle: {
+						maxHeight: '400px',
+					},
 					dropdownMatchSelectWidth: false,
 					getPopupContainer: () => document.getElementById('$PageNameTable'),
 				},
@@ -104,6 +107,9 @@ class MainTable extends PureComponent {
 					maxTagTextLength: 1,
 					placeholder: '请选择',
 					showArrow: true,
+					dropDownStyle: {
+						maxHeight: '400px',
+					},
 					dropdownMatchSelectWidth: false,
 					getPopupContainer: () => document.getElementById('$PageNameTable'),
 				},
@@ -384,6 +390,7 @@ class MainTable extends PureComponent {
 								queryTableList: {
 									...queryTableList,
 									...values,
+									reqPageNum: 1,
 								},
 							});
 							const search = () => {
@@ -422,7 +429,7 @@ class MainTable extends PureComponent {
 						}}
 					/>
 					{withRoleBotton(ButtonType)}
-					<ConfigableTable {...getTableConfig()} tableCode='pingan-MainTable-$PageName' />
+					<ConfigableTable {...getTableConfig()} resizeTableCode='MainTable-$PageName' tableCode='pingan-MainTable-$PageName' />
 				</div>
 				{/***弹框组件** */}
 				<Modal
