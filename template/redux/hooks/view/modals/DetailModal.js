@@ -80,6 +80,9 @@ const DetailModal = (props) => {
 				action[isOpenFormModal.type](filterNullElement(params[isOpenFormModal.type])).then((res) => {
 					if (res.code !== '200') {
 						message.error(res.msg);
+						dispatchUpdateStore({
+							modalOnOk: false,
+						});
 						return;
 					}
 					dispatchUpdateStore({
