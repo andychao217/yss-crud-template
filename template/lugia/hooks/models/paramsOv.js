@@ -22,6 +22,4 @@ export default {
 	},
 	/**保存选择行信息*/
 	projectRowed: {},
-	/**点击新增、修改弹框确定按钮*/
-	modalOnOk: false,
 };

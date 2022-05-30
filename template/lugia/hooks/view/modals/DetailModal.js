@@ -3,7 +3,7 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import moment from 'moment';
 import { message } from 'antd';
 import { setFieldsObject, filterNullElement, NeatForm, NormalForm } from 'yss-trade-base';
@@ -15,8 +15,12 @@ const { mapOption } = NormalForm;
  * @classdesc 弹框内容
  */
 let createProduct = null;
-const DetailModal = (props) => {
-	const { isOpenFormModal, asyncHttpGetCreditRateDropdownList, creditRateDropdownList, modalOnOk } = props;
+const DetailModal = (props, ref) => {
+	useImperativeHandle(ref, () => ({
+		//  暴露给父组件的方法
+		handleSubmit: handleSubmit,
+	}));
+	const { isOpenFormModal, asyncHttpGetCreditRateDropdownList, creditRateDropdownList } = props;
 	const showdetails = isOpenFormModal.type === 'detail';
 	const [rateCompName, setRateCompName] = useState(undefined);
 
@@ -54,12 +58,6 @@ const DetailModal = (props) => {
 		});
 	}, []);
 
-	useEffect(() => {
-		if (modalOnOk) {
-			handleSubmit();
-		}
-	}, [modalOnOk]);
-
 	//点击确定进行增加修改操作
 	const handleSubmit = () => {
 		const { asyncHttpGetListData, projectRowed, changeSync, isOpenFormModal } = props;
@@ -83,9 +81,6 @@ const DetailModal = (props) => {
 				action[isOpenFormModal.type](filterNullElement(params[isOpenFormModal.type])).then((res) => {
 					if (res.code !== '200') {
 						message.error(res.msg);
-						changeSync({
-							modalOnOk: false,
-						});
 						return;
 					}
 					changeSync({
@@ -94,7 +89,6 @@ const DetailModal = (props) => {
 							status: false,
 						},
 						projectRowed: {},
-						modalOnOk: false,
 					});
 					asyncHttpGetListData({});
 				});
@@ -102,9 +96,6 @@ const DetailModal = (props) => {
 			(err) => {
 				console.log(err);
 				message.error('请按要求填写信息');
-				changeSync({
-					modalOnOk: false,
-				});
 			},
 		);
 	};
@@ -295,4 +286,4 @@ const DetailModal = (props) => {
 		/>
 	);
 };
-export default DetailModal;
+export default forwardRef(DetailModal);

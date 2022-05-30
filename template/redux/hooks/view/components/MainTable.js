@@ -3,7 +3,7 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useRef } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import {
@@ -28,6 +28,8 @@ import { httpGetListData, httpAuditRowData, httpReAuditRowData, httpDeleteRowDat
  * @classdesc 数据表格
  */
 const MainTable = (props) => {
+	const searchForm = useRef();
+	const modalRef = useRef();
 	const { dispatchUpdateStore, queryTableList, TableList, TableListTotal, isOpenFormModal } = props;
 	const _this = this;
 
@@ -128,7 +130,6 @@ const MainTable = (props) => {
 				type: 'add',
 				status: true,
 			},
-			modalOnOk: false,
 		});
 	};
 
@@ -203,7 +204,6 @@ const MainTable = (props) => {
 				status: true,
 			},
 			projectRowed: item,
-			modalOnOk: false,
 		});
 	};
 
@@ -217,7 +217,6 @@ const MainTable = (props) => {
 				status: true,
 			},
 			projectRowed: item,
-			modalOnOk: false,
 		});
 	};
 
@@ -369,7 +368,7 @@ const MainTable = (props) => {
 
 	// 弹框内容
 	const modalContext = (type, props) => {
-		return <DetailModal {...props} />;
+		return <DetailModal ref={modalRef} {...props} />;
 	};
 
 	return (
@@ -377,6 +376,9 @@ const MainTable = (props) => {
 			{/* 查询表单 */}
 			<div id='$PageNameTable' style={{ padding: '0px 20px', position: 'relative' }}>
 				<SearchForm
+					refs={(ref) => {
+						searchForm.current = ref;
+					}}
 					formItem={formItems}
 					labelSize={'70px'}
 					lineOf='3'
@@ -438,11 +440,10 @@ const MainTable = (props) => {
 							status: false,
 						},
 						projectRowed: {},
-						modalOnOk: false,
 					});
 				}}
-				onOk={(e) => {
-					dispatchUpdateStore({ modalOnOk: true });
+				onOk={() => {
+					modalRef.current.handleSubmit();
 				}}
 			>
 				{modalContext(isOpenFormModal.type, props)}

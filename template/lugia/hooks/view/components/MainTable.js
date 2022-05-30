@@ -3,7 +3,7 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useRef } from 'react';
 import moment from 'moment';
 import { columnsCfg } from '../../models/columnConfig';
 import {
@@ -36,6 +36,8 @@ const MainTable = (props) => {
 		TableListTotal,
 		isOpenFormModal,
 	} = props;
+	const searchForm = useRef();
+	const uploadModalRef = useRef();
 	const _this = this;
 	const [ids, setIds] = useState([]); //选择行id
 	const [selectedRows, setSelectedRows] = useState([]); //选择行内容
@@ -134,7 +136,6 @@ const MainTable = (props) => {
 				type: 'add',
 				status: true,
 			},
-			modalOnOk: false,
 		});
 	};
 	// 按钮组
@@ -220,7 +221,6 @@ const MainTable = (props) => {
 				status: true,
 			},
 			projectRowed: item,
-			modalOnOk: false,
 		});
 	};
 
@@ -234,7 +234,6 @@ const MainTable = (props) => {
 				status: true,
 			},
 			projectRowed: item,
-			modalOnOk: false,
 		});
 	};
 
@@ -388,7 +387,7 @@ const MainTable = (props) => {
 
 	//弹框内容
 	const modalContext = (type, props) => {
-		return <DetailModal {...props} />;
+		return <DetailModal ref={modalRef} {...props} />;
 	};
 
 	return (
@@ -396,6 +395,9 @@ const MainTable = (props) => {
 			{/* 查询表单 */}
 			<div id='$PageNameTable' style={{ padding: '0px 20px', position: 'relative' }}>
 				<SearchForm
+					refs={(ref) => {
+						searchForm.current = ref;
+					}}
 					formItem={formItems}
 					labelSize={'70px'}
 					lineOf='3'
@@ -450,8 +452,8 @@ const MainTable = (props) => {
 				title={modalTitle}
 				visible={isOpenFormModal.status}
 				viewing={isOpenFormModal.type === 'detail' ? true : false}
-				onOk={(e) => {
-					changeSync({ modalOnOk: true });
+				onOk={() => {
+					modalRef.current.handleSubmit();
 				}}
 				onCancel={() => {
 					changeSync({
@@ -460,11 +462,7 @@ const MainTable = (props) => {
 							type: 'add',
 							status: false,
 						},
-					});
-					// 清除选中项的数据
-					changeSync({
 						projectRowed: {},
-						modalOnOk: false,
 					});
 				}}
 			>
