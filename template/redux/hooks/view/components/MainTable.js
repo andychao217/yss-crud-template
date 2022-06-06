@@ -66,7 +66,7 @@ const MainTable = (props) => {
 					maxHeight: '400px',
 				},
 				dropdownMatchSelectWidth: false,
-				getPopupContainer: () => document.getElementById('$PageNameTable'),
+				getPopupContainer: () => document.getElementById('$PageNameMainTable'),
 			},
 		},
 		{
@@ -88,7 +88,7 @@ const MainTable = (props) => {
 						});
 					}
 				},
-				getCalendarContainer: () => document.getElementById('$PageNameTable'),
+				getCalendarContainer: () => document.getElementById('$PageNameMainTable'),
 			},
 		},
 		{
@@ -109,7 +109,7 @@ const MainTable = (props) => {
 					maxHeight: '400px',
 				},
 				dropdownMatchSelectWidth: false,
-				getPopupContainer: () => document.getElementById('$PageNameTable'),
+				getPopupContainer: () => document.getElementById('$PageNameMainTable'),
 			},
 		},
 	];
@@ -374,7 +374,7 @@ const MainTable = (props) => {
 	return (
 		<Fragment>
 			{/* 查询表单 */}
-			<div id='$PageNameTable' style={{ padding: '0px 20px', position: 'relative' }}>
+			<div id='$PageNameMainTable' style={{ padding: '0px 20px', position: 'relative' }}>
 				<SearchForm
 					refs={(ref) => {
 						searchForm.current = ref;

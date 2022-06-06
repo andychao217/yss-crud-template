@@ -18,4 +18,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 -   formatted templates code style, version `0.2.9` (Tue Dec 21 17:13:27 2021 +0800)
 -   updated template, version `0.3.1` (Thu Feb 10 17:26:00 2022 +0800)
 -   updated template, version `0.3.4` (Mon May 16 09:26:00 2022 +0800)
--   updated react hooks template, version `0.3.5` (Mon May 30 10:48:00 2022 +0800)
+-   updated react hooks template, version `0.3.6` (Mon Jun 06 15:25:00 2022 +0800)
