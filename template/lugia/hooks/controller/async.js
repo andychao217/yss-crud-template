@@ -23,7 +23,7 @@ export default {
 			if (winRspType === 'SUCC') {
 				state = getState();
 				return state.merge({
-					TableList: data.list,
+					TableList: data.list || [],
 					TableListTotal: data.total,
 				});
 			} else {
@@ -92,7 +92,7 @@ export default {
 			const { data, winRspType, msg } = result;
 			if (winRspType === 'SUCC') {
 				state = getState();
-				let creditRateDropdownList = data.map((item) => {
+				let creditRateDropdownList = data?.map((item) => {
 					return {
 						value: item.dicCode,
 						label: item.dicExplain,

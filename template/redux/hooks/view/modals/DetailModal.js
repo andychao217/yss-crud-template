@@ -21,12 +21,11 @@ const DetailModal = (props, ref) => {
 		//  暴露给父组件的方法
 		handleSubmit: handleSubmit,
 	}));
-	const { isOpenFormModal, creditRateDropdownList } = props;
+	const { isOpenFormModal, creditRateDropdownList, projectRowed, dispatchUpdateStore } = props;
 	const showdetails = isOpenFormModal.type === 'detail';
 	const [rateCompName, setRateCompName] = useState(undefined);
 
 	useEffect(() => {
-		const { isOpenFormModal, projectRowed } = props;
 		props.onRef(this);
 		//表单初始化
 		if (projectRowed.rateType != null) {
@@ -57,7 +56,6 @@ const DetailModal = (props, ref) => {
 
 	//点击确定进行增加修改操作
 	const handleSubmit = () => {
-		const { projectRowed, dispatchUpdateStore, isOpenFormModal } = props;
 		// e.preventDefault();
 		createProduct.onValidate(
 			(values) => {
@@ -115,6 +113,11 @@ const DetailModal = (props, ref) => {
 				config: formServiceConfig,
 				disabled: isOpenFormModal.type !== 'add',
 				allowClear: true,
+				dropDownStyle: {
+					maxHeight: '400px',
+				},
+				dropdownMatchSelectWidth: false,
+				getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
 				onChange(value, option) {
 					if (value) {
 						createProduct.setValues({
@@ -140,6 +143,11 @@ const DetailModal = (props, ref) => {
 				config: formServiceConfig,
 				allowClear: true,
 				disabled: true,
+				dropDownStyle: {
+					maxHeight: '400px',
+				},
+				dropdownMatchSelectWidth: false,
+				getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
 				onChange(value) {},
 			},
 		},
@@ -158,6 +166,11 @@ const DetailModal = (props, ref) => {
 				allowClear: true,
 				placeholder: '请选择评级类型',
 				disabled: showdetails,
+				dropDownStyle: {
+					maxHeight: '400px',
+				},
+				dropdownMatchSelectWidth: false,
+				getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
 				onChange(value) {
 					let parentDicCode = '';
 					if (value === '10090001') {
@@ -191,6 +204,7 @@ const DetailModal = (props, ref) => {
 				disabled: showdetails,
 				placeholder: '请选择日期',
 				initialValue: moment(),
+				getCalendarContainer: () => document.getElementById('$PageNameDetailModal'),
 				onChange(value) {},
 			},
 		},
@@ -273,13 +287,15 @@ const DetailModal = (props, ref) => {
 	];
 
 	return (
-		<NeatForm
-			refs={(ref) => (createProduct = ref)}
-			labelSize='100px'
-			lineOf={2}
-			formItem={formItems}
-			viewing={isOpenFormModal.type === 'detail' ? true : false}
-		/>
+		<div id='$PageNameDetailModal'>
+			<NeatForm
+				refs={(ref) => (createProduct = ref)}
+				labelSize='100px'
+				lineOf={2}
+				formItem={formItems}
+				viewing={isOpenFormModal.type === 'detail' ? true : false}
+			/>
+		</div>
 	);
 };
 

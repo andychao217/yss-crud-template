@@ -21,7 +21,7 @@ export const httpGetListData = async () => {
 		const { data, winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
 			const res = {
-				TableList: data.list,
+				TableList: data.list || [],
 				TableListTotal: data.total,
 			};
 			model.dispatch(UpdateStore(res));
@@ -90,7 +90,7 @@ export const httpGetCreditRateDropdownList = async (params) => {
 		let result = await getcreditRateDropdownList(params);
 		const { data, winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
-			let creditRateDropdownList = data.map((item) => {
+			let creditRateDropdownList = data?.map((item) => {
 				return {
 					value: item.dicCode,
 					label: item.dicExplain,

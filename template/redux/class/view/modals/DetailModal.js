@@ -121,6 +121,11 @@ class DetailModal extends PureComponent {
 					config: formServiceConfig,
 					disabled: isOpenFormModal.type !== 'add',
 					allowClear: true,
+					dropDownStyle: {
+						maxHeight: '400px',
+					},
+					dropdownMatchSelectWidth: false,
+					getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
 					onChange(value, option) {
 						if (value) {
 							_this.createProduct.setValues({
@@ -146,6 +151,11 @@ class DetailModal extends PureComponent {
 					config: formServiceConfig,
 					allowClear: true,
 					disabled: true,
+					dropDownStyle: {
+						maxHeight: '400px',
+					},
+					dropdownMatchSelectWidth: false,
+					getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
 					onChange(value) {},
 				},
 			},
@@ -164,6 +174,11 @@ class DetailModal extends PureComponent {
 					allowClear: true,
 					placeholder: '请选择评级类型',
 					disabled: showdetails,
+					dropDownStyle: {
+						maxHeight: '400px',
+					},
+					dropdownMatchSelectWidth: false,
+					getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
 					onChange(value) {
 						let parentDicCode = '';
 						if (value === '10090001') {
@@ -197,6 +212,7 @@ class DetailModal extends PureComponent {
 					disabled: showdetails,
 					placeholder: '请选择日期',
 					initialValue: moment(),
+					getCalendarContainer: () => document.getElementById('$PageNameDetailModal'),
 					onChange(value) {},
 				},
 			},
@@ -280,13 +296,15 @@ class DetailModal extends PureComponent {
 			},
 		];
 		return (
-			<NeatForm
-				refs={(ref) => (this.createProduct = ref)}
-				labelSize='100px'
-				lineOf={2}
-				formItem={formItems}
-				viewing={isOpenFormModal.type === 'detail' ? true : false}
-			/>
+			<div id='$PageNameDetailModal'>
+				<NeatForm
+					refs={(ref) => (this.createProduct = ref)}
+					labelSize='100px'
+					lineOf={2}
+					formItem={formItems}
+					viewing={isOpenFormModal.type === 'detail' ? true : false}
+				/>
+			</div>
 		);
 	}
 }
