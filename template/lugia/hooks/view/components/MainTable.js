@@ -42,12 +42,12 @@ const MainTable = (props) => {
 	const [ids, setIds] = useState([]); //选择行id
 	const [selectedRows, setSelectedRows] = useState([]); //选择行内容
 	const [disableButton, setDisableButton] = useState(true); //页面Toolbar按钮是否禁用
-	const [pageSize, setPageSize] = useState(20); //页面显示条数
-	const [curPageNum, setCurPageNum] = useState(1); //当前页码
+	// const [pageSize, setPageSize] = useState(20); //页面显示条数
+	// const [curPageNum, setCurPageNum] = useState(1); //当前页码
 
 	useEffect(() => {
 		//首次进入页面加载数据
-		asyncHttpGetListData({});
+		asyncHttpGetListData({ params: { resetPage: true } });
 	}, []);
 
 	// 表单元素
@@ -159,7 +159,6 @@ const MainTable = (props) => {
 						let params = selectedRows.filter((item) => item && item.id).map((item) => item.id);
 						async function fetchData() {
 							await asyncHttpDeleteRowData({ params });
-							await asyncHttpGetListData({});
 							clearSelectedRows();
 						}
 						fetchData();
@@ -180,7 +179,6 @@ const MainTable = (props) => {
 						let params = selectedRows.filter((item) => item && item.id).map((item) => item.id);
 						async function fetchData() {
 							await asyncHttpAuditRowData({ params });
-							await asyncHttpGetListData({});
 							clearSelectedRows();
 						}
 						fetchData();
@@ -201,7 +199,6 @@ const MainTable = (props) => {
 						let params = selectedRows.filter((item) => item && item.id).map((item) => item.id);
 						async function fetchData() {
 							await asyncHttpReAuditRowData({ params });
-							await asyncHttpGetListData({});
 							clearSelectedRows();
 						}
 						fetchData();
@@ -245,7 +242,6 @@ const MainTable = (props) => {
 				let params = [item.id];
 				async function fetchData() {
 					await asyncHttpDeleteRowData({ params });
-					await asyncHttpGetListData({});
 				}
 				fetchData();
 			},
@@ -317,9 +313,9 @@ const MainTable = (props) => {
 					reqPageSize: pageSize,
 				},
 			});
-			setPageSize(pageSize);
-			setCurPageNum(page);
-			asyncHttpGetListData({});
+			// setPageSize(pageSize);
+			// setCurPageNum(page);
+			asyncHttpGetListData({ params: { resetPage: false } });
 			clearSelectedRows();
 		};
 
@@ -338,25 +334,36 @@ const MainTable = (props) => {
 				setSelectedRows(records);
 			}),
 			columnWidth: '60px',
+			fixed: true,
 		};
 
 		// 表单分页配置信息
-		const pagination = {
-			//showQuickJumper: true,
-			onChange: (page, pageSize) => {
+		// const pagination = {
+		// 	//showQuickJumper: true,
+		// 	onChange: (page, pageSize) => {
+		// 		searchPage(page, pageSize);
+		// 	},
+		// 	onShowSizeChange: (current, size) => {
+		// 		searchPage(1, size);
+		// 	},
+		// 	showTotal: (total, range) => {
+		// 		return <span>{`共${total}条`}</span>;
+		// 	},
+		// 	total: TableListTotal,
+		// 	current: curPageNum,
+		// 	pageSize: pageSize,
+		// 	showSizeChanger: true,
+		// 	pageSizeOptions: ['10', '20', '30', '40'],
+		// };
+
+		/***表格分页***/
+		const scorllPagination = {
+			total: TableListTotal,
+			pageSize: queryTableList.reqPageSize,
+			current: queryTableList.reqPageNum,
+			onNextPage: (page, pageSize) => {
 				searchPage(page, pageSize);
 			},
-			onShowSizeChange: (current, size) => {
-				searchPage(1, size);
-			},
-			showTotal: (total, range) => {
-				return <span>{`共${total}条`}</span>;
-			},
-			total: TableListTotal,
-			current: curPageNum,
-			pageSize: pageSize,
-			showSizeChanger: true,
-			pageSizeOptions: ['10', '20', '30', '40'],
 		};
 
 		return {
@@ -365,7 +372,8 @@ const MainTable = (props) => {
 				columns,
 				rowDraggable: false,
 				rowSelection,
-				pagination,
+				scorllPagination,
+				pagination: false,
 				bordered: false,
 				height: 'calc(100vh - 191px)',
 				dataSource: TableList,
@@ -411,8 +419,8 @@ const MainTable = (props) => {
 							},
 						});
 						let search = async () => {
-							await asyncHttpGetListData({});
-							setCurPageNum(1);
+							await asyncHttpGetListData({ params: { resetPage: true } });
+							// setCurPageNum(1);
 							clearSelectedRows();
 						};
 						search();
@@ -433,9 +441,9 @@ const MainTable = (props) => {
 						});
 						let search = async () => {
 							// 按初始化条件查询表格数据
-							await asyncHttpGetListData({});
+							await asyncHttpGetListData({ params: { resetPage: true } });
 							// 设定当前页码为1
-							setCurPageNum(1);
+							// setCurPageNum(1);
 							clearSelectedRows();
 						};
 						search();

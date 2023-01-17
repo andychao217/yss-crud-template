@@ -15,16 +15,30 @@ export default {
 	 */
 	async httpGetListData(state, { params }, { mutations, getState }) {
 		try {
+			const queryTableList = state.get('queryTableList').toJS();
 			let query = {
-				...state.get('queryTableList').toJS(),
+				...queryTableList,
 			};
+			if (params?.resetPage) {
+				//刷新数据返回第一页
+				query.reqPageNum = 1;
+			}
 			let result = await getListData(query);
 			const { data, winRspType, msg } = result;
 			if (winRspType === 'SUCC') {
 				state = getState();
+				const newTableList = data?.list || [];
+				const oldTableList = state.get('TableList').toJS();
+				const tableList = Number(query?.reqPageNum) !== 1 ? [...oldTableList, ...newTableList] : newTableList;
+				let queryTableListState = { ...queryTableList };
+				if (params?.resetPage) {
+					queryTableListState.reqPageNum = 1;
+				}
+				// 获取新的翻页器参数
 				return state.merge({
-					TableList: data.list || [],
-					TableListTotal: data.total,
+					TableList: tableList,
+					TableListTotal: data?.total || 0,
+					queryTableList: queryTableListState,
 				});
 			} else {
 				message.error(msg);
@@ -45,7 +59,7 @@ export default {
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
 			message.success(msg);
-			await mutations.asyncHttpGetListData({});
+			await mutations.asyncHttpGetListData({ params: { resetPage: true } });
 		} else {
 			message.error(msg);
 		}
@@ -62,7 +76,7 @@ export default {
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
 			message.success(msg);
-			await mutations.asyncHttpGetListData({});
+			await mutations.asyncHttpGetListData({ params: { resetPage: true } });
 		} else {
 			message.error(msg);
 		}
@@ -79,7 +93,7 @@ export default {
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
 			message.success(msg);
-			await mutations.asyncHttpGetListData({});
+			await mutations.asyncHttpGetListData({ params: { resetPage: true } });
 		} else {
 			message.error(msg);
 		}

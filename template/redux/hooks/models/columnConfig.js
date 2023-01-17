@@ -11,8 +11,6 @@ const columnsCfg = [
 	{
 		title: '序号',
 		dataIndex: 'serialNumber',
-		align: 'left',
-		width: 100,
 	},
 	{
 		title: '债券代码',

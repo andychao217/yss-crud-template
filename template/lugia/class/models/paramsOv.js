@@ -13,6 +13,7 @@ export default {
 		...page,
 		startDate: null,
 		endDate: null,
+		reqPageSize: 50,
 	},
 	/***弹框status*/
 	isOpenFormModal: {

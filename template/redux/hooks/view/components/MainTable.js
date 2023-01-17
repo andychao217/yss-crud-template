@@ -36,12 +36,12 @@ const MainTable = (props) => {
 	const [ids, setIds] = useState([]); //选择行id
 	const [selectedRows, setSelectedRows] = useState([]); //选择行内容
 	const [disableButton, setDisableButton] = useState(true); //页面Toolbar按钮是否禁用
-	const [pageSize, setPageSize] = useState(20); //页面显示条数
-	const [curPageNum, setCurPageNum] = useState(1); //当前页码
+	// const [pageSize, setPageSize] = useState(20); //页面显示条数
+	// const [curPageNum, setCurPageNum] = useState(1); //当前页码
 
 	useEffect(() => {
 		//首次进入页面加载数据
-		httpGetListData();
+		httpGetListData(true);
 	}, []);
 
 	// 表单元素
@@ -299,9 +299,9 @@ const MainTable = (props) => {
 			setIds([]);
 			setDisableButton(true);
 			setSelectedRows([]);
-			setPageSize(pageSize);
-			setCurPageNum(page);
-			httpGetListData();
+			// setPageSize(pageSize);
+			// setCurPageNum(page);
+			httpGetListData(false);
 		};
 
 		/***点击索引获取当前行的对象** */
@@ -319,25 +319,36 @@ const MainTable = (props) => {
 				setSelectedRows(records);
 			}),
 			columnWidth: '60px',
+			fixed: true,
 		};
 
 		// 表单分页配置信息
-		const pagination = {
-			//showQuickJumper: true,
-			onChange: (page, pageSize) => {
+		// const pagination = {
+		// 	//showQuickJumper: true,
+		// 	onChange: (page, pageSize) => {
+		// 		searchPage(page, pageSize);
+		// 	},
+		// 	onShowSizeChange: (current, size) => {
+		// 		searchPage(1, size);
+		// 	},
+		// 	showTotal: (total, range) => {
+		// 		return <span>{`共${total}条`}</span>;
+		// 	},
+		// 	total: TableListTotal,
+		// 	current: curPageNum,
+		// 	pageSize: pageSize,
+		// 	showSizeChanger: true,
+		// 	pageSizeOptions: ['10', '20', '30', '40'],
+		// };
+
+		/***表格分页***/
+		const scorllPagination = {
+			total: TableListTotal,
+			pageSize: queryTableList.reqPageSize,
+			current: queryTableList.reqPageNum,
+			onNextPage: (page, pageSize) => {
 				searchPage(page, pageSize);
 			},
-			onShowSizeChange: (current, size) => {
-				searchPage(1, size);
-			},
-			showTotal: (total, range) => {
-				return <span>{`共${total}条`}</span>;
-			},
-			total: TableListTotal,
-			current: curPageNum,
-			pageSize: pageSize,
-			showSizeChanger: true,
-			pageSizeOptions: ['10', '20', '30', '40'],
 		};
 
 		return {
@@ -346,7 +357,8 @@ const MainTable = (props) => {
 				columns,
 				rowDraggable: false,
 				rowSelection,
-				pagination,
+				scorllPagination,
+				pagination: false,
 				bordered: false,
 				height: 'calc(100vh - 191px)',
 				dataSource: TableList,
@@ -392,8 +404,8 @@ const MainTable = (props) => {
 							},
 						});
 						const search = () => {
-							httpGetListData();
-							setCurPageNum(1);
+							httpGetListData(true);
+							// setCurPageNum(1);
 							clearSelectedRows();
 						};
 						search();
@@ -414,9 +426,9 @@ const MainTable = (props) => {
 						});
 						const search = () => {
 							// 按初始化条件查询表格数据
-							httpGetListData();
+							httpGetListData(true);
 							// 设定当前页码为1
-							setCurPageNum(1);
+							// setCurPageNum(1);
 							clearSelectedRows();
 						};
 						search();

@@ -88,7 +88,7 @@ class DetailModal extends PureComponent {
 						},
 						projectRowed: {},
 					});
-					asyncHttpGetListData({});
+					asyncHttpGetListData({ params: { resetPage: true } });
 				});
 			},
 			(err) => {

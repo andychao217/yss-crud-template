@@ -7,6 +7,7 @@ import { getListData, deleteRowData, auditRowData, reAuditRowData, getcreditRate
 import { model } from '../models';
 import { UpdateStore } from '../models/actions';
 import { message } from 'antd';
+import { filterNullElement } from 'yss-trade-base';
 
 /**
  * @async
@@ -14,22 +15,42 @@ import { message } from 'antd';
  * @param {object} queryTableList - 查询列表条件
  * @return {Promise<object>} TableList - 列表数据, TableListTotal - 列表数据总条数
  */
-export const httpGetListData = async () => {
+export const httpGetListData = async (resetPage = false, callback = () => {}) => {
 	try {
 		const state = model.getState().pageReducer;
-		let result = await getListData(state['queryTableList']);
+		let params = filterNullElement(state['queryTableList']);
+		if (resetPage) {
+			//刷新数据返回第一页
+			params.reqPageNum = 1;
+		}
+		let result = await getListData(params);
 		const { data, winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
+			const newTableList = data?.list || [];
+			const oldTableList = JSON.parse(JSON.stringify(state['TableList']));
+			const tableList = Number(params?.reqPageNum) !== 1 ? [...oldTableList, ...newTableList] : newTableList;
 			const res = {
-				TableList: data.list || [],
-				TableListTotal: data.total,
+				TableList: tableList || [],
+				TableListTotal: data?.total || 0,
 			};
+			if (resetPage) {
+				res.queryTableList = {
+					...state['queryTableList'],
+					reqPageNum: 1,
+				};
+			}
 			model.dispatch(UpdateStore(res));
 		} else {
 			message.error(msg);
 		}
+		if (callback && typeof callback === 'function') {
+			callback();
+		}
 	} catch (error) {
 		console.error(error);
+		if (callback && typeof callback === 'function') {
+			callback();
+		}
 	}
 };
 
@@ -44,7 +65,7 @@ export const httpDeleteRowData = async (params) => {
 	const { winRspType, msg } = result;
 	if (winRspType === 'SUCC') {
 		message.success(msg);
-		httpGetListData();
+		httpGetListData(true);
 	} else {
 		message.error(msg);
 	}
@@ -61,7 +82,7 @@ export const httpAuditRowData = async (params) => {
 	const { winRspType, msg } = result;
 	if (winRspType === 'SUCC') {
 		message.success(msg);
-		httpGetListData();
+		httpGetListData(true);
 	} else {
 		message.error(msg);
 	}
@@ -78,7 +99,7 @@ export const httpReAuditRowData = async (params) => {
 	const { winRspType, msg } = result;
 	if (winRspType === 'SUCC') {
 		message.success(msg);
-		httpGetListData();
+		httpGetListData(true);
 	} else {
 		message.error(msg);
 	}

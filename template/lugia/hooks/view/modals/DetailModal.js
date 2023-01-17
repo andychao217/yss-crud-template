@@ -88,7 +88,7 @@ const DetailModal = (props, ref) => {
 						},
 						projectRowed: {},
 					});
-					asyncHttpGetListData({});
+					asyncHttpGetListData({ params: { resetPage: true } });
 				});
 			},
 			(err) => {

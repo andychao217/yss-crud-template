@@ -32,13 +32,13 @@ class MainTable extends PureComponent {
 		ids: [], //选择行id
 		selectedRows: [], //选择行内容
 		disableButton: true, //页面Toolbar按钮是否禁用
-		pageSize: 20, //页面显示条数
-		curPageNum: 1, //当前页码
+		// pageSize: 20, //页面显示条数
+		// curPageNum: 1, //当前页码
 	};
 
 	componentDidMount() {
 		//首次进入页面加载数据
-		httpGetListData();
+		httpGetListData(true);
 	}
 
 	render() {
@@ -299,11 +299,11 @@ class MainTable extends PureComponent {
 						reqPageSize: pageSize,
 					},
 				});
-				_this.setState({
-					pageSize,
-					curPageNum: page,
-				});
-				httpGetListData();
+				// _this.setState({
+				// 	pageSize,
+				// 	curPageNum: page,
+				// });
+				httpGetListData(false);
 				clearSelectedRows();
 			};
 
@@ -324,25 +324,36 @@ class MainTable extends PureComponent {
 					});
 				}),
 				columnWidth: '60px',
+				fixed: true,
 			};
 
 			// 表单分页配置信息
-			const pagination = {
-				//showQuickJumper: true,
-				onChange: (page, pageSize) => {
+			// const pagination = {
+			// 	//showQuickJumper: true,
+			// 	onChange: (page, pageSize) => {
+			// 		searchPage(page, pageSize);
+			// 	},
+			// 	onShowSizeChange: (current, size) => {
+			// 		searchPage(1, size);
+			// 	},
+			// 	showTotal: (total, range) => {
+			// 		return <span>{`共${total}条`}</span>;
+			// 	},
+			// 	total: TableListTotal,
+			// 	current: _this.state.curPageNum,
+			// 	pageSize: _this.state.pageSize,
+			// 	showSizeChanger: true,
+			// 	pageSizeOptions: ['10', '20', '30', '40'],
+			// };
+
+			/***表格分页***/
+			const scorllPagination = {
+				total: TableListTotal,
+				pageSize: queryTableList.reqPageSize,
+				current: queryTableList.reqPageNum,
+				onNextPage: (page, pageSize) => {
 					searchPage(page, pageSize);
 				},
-				onShowSizeChange: (current, size) => {
-					searchPage(1, size);
-				},
-				showTotal: (total, range) => {
-					return <span>{`共${total}条`}</span>;
-				},
-				total: TableListTotal,
-				current: _this.state.curPageNum,
-				pageSize: _this.state.pageSize,
-				showSizeChanger: true,
-				pageSizeOptions: ['10', '20', '30', '40'],
 			};
 
 			return {
@@ -351,7 +362,8 @@ class MainTable extends PureComponent {
 					columns,
 					rowDraggable: false,
 					rowSelection,
-					pagination,
+					scorllPagination,
+					pagination: false,
 					bordered: false,
 					height: 'calc(100vh - 191px)',
 					dataSource: TableList,
@@ -394,10 +406,10 @@ class MainTable extends PureComponent {
 								},
 							});
 							const search = () => {
-								httpGetListData();
-								_this.setState({
-									curPageNum: 1,
-								});
+								httpGetListData(true);
+								// _this.setState({
+								// 	curPageNum: 1,
+								// });
 								clearSelectedRows();
 							};
 							search();
@@ -418,11 +430,11 @@ class MainTable extends PureComponent {
 							});
 							const search = () => {
 								// 按初始化条件查询表格数据
-								httpGetListData();
+								httpGetListData(true);
 								// 设定当前页码为1
-								_this.setState({
-									curPageNum: 1,
-								});
+								// _this.setState({
+								// 	curPageNum: 1,
+								// });
 								clearSelectedRows();
 							};
 							search();

@@ -85,7 +85,7 @@ const DetailModal = (props, ref) => {
 						},
 						projectRowed: {},
 					});
-					httpGetListData();
+					httpGetListData(true);
 				});
 			},
 			(err) => {

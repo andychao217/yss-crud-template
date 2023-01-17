@@ -89,7 +89,7 @@ class DetailModal extends PureComponent {
 						},
 						projectRowed: {},
 					});
-					httpGetListData();
+					httpGetListData(true);
 				});
 			},
 			(err) => {
