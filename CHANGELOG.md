@@ -21,3 +21,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 -   updated react hooks template, version `0.3.6` (Mon Jun 06 15:25:00 2022 +0800)
 -   updated react hooks template, version `0.3.7` (Mon Jun 09 17:29:00 2022 +0800)
 -   updated all templates for scrolling pagination, version `0.3.8` (Tus Jan 17 11:36:00 2023 +0800)
+-   updated all templates for redux pages, version `0.3.9` (Fri Apr 07 13:36:00 2023 +0800)
