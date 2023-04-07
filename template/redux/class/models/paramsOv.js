@@ -11,14 +11,12 @@ const initialState = {
 	//获取列表
 	queryTableList: {
 		...page,
-		startDate: null,
-		endDate: null,
 		reqPageSize: 50,
 	},
 	/***弹框status*/
 	isOpenFormModal: {
 		page: '$PageName',
-		type: 'add', //add, update, delete, import
+		type: 'add', //add, update, delete, import, log
 		status: false,
 	},
 	/**保存选择行信息*/

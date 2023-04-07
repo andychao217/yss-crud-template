@@ -4,7 +4,6 @@
  * @copyright Ysstech
  */
 import { formatRowColor } from '@/page/public-tools';
-import { momentToDateStr } from 'yss-trade-base';
 
 //列表表头
 const columnsCfg = [
@@ -18,7 +17,8 @@ const columnsCfg = [
 		align: 'left',
 		width: 120,
 		render: (text, record) => {
-			return formatRowColor(text, record);
+			const context = text || '-';
+			return formatRowColor(context, record);
 		},
 	},
 	{
@@ -27,7 +27,8 @@ const columnsCfg = [
 		align: 'left',
 		width: 160,
 		render: (text, record) => {
-			return formatRowColor(text, record);
+			const context = text || '-';
+			return formatRowColor(context, record);
 		},
 	},
 	{
@@ -36,7 +37,8 @@ const columnsCfg = [
 		align: 'left',
 		width: 130,
 		render: (text, record) => {
-			return formatRowColor(text, record);
+			const context = text || '-';
+			return formatRowColor(context, record);
 		},
 	},
 	{
@@ -45,7 +47,8 @@ const columnsCfg = [
 		align: 'left',
 		width: 120,
 		render: (text, record) => {
-			return formatRowColor(momentToDateStr(text, 'YYYY-MM-DD'), record);
+			const context = text || '-';
+			return formatRowColor(context, record);
 		},
 	},
 	{
@@ -54,7 +57,8 @@ const columnsCfg = [
 		align: 'left',
 		width: 110,
 		render: (text, record) => {
-			return formatRowColor(text, record);
+			const context = text || '-';
+			return formatRowColor(context, record);
 		},
 	},
 	{
@@ -63,7 +67,8 @@ const columnsCfg = [
 		align: 'left',
 		width: 110,
 		render: (text, record) => {
-			return formatRowColor(text, record);
+			const context = text || '-';
+			return formatRowColor(context, record);
 		},
 	},
 	{
@@ -72,7 +77,8 @@ const columnsCfg = [
 		align: 'left',
 		width: 290,
 		render: (text, record) => {
-			return formatRowColor(text, record);
+			const context = text || '-';
+			return formatRowColor(context, record);
 		},
 	},
 	{
@@ -81,7 +87,8 @@ const columnsCfg = [
 		align: 'left',
 		width: 140,
 		render: (text, record) => {
-			return formatRowColor(text, record);
+			const context = text || '-';
+			return formatRowColor(context, record);
 		},
 	},
 	{
@@ -101,7 +108,8 @@ const columnsCfg = [
 		align: 'left',
 		width: 110,
 		render: (text, record) => {
-			return formatRowColor(text, record);
+			const context = text || '-';
+			return formatRowColor(context, record);
 		},
 	},
 ];

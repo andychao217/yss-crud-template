@@ -21,17 +21,18 @@ import DetailModal from '../modals/DetailModal';
 import { formServiceConfig } from '../../services';
 import { UpdateStore } from '../../models/actions';
 import { columnsCfg } from '../../models';
+import OperationRecordTable from '@/front-biz/common/components/OperationRecordTable';
 import { httpGetListData, httpAuditRowData, httpReAuditRowData, httpDeleteRowData } from '../../controller/async';
 
 /**
  * @class
  * @classdesc 数据表格
  */
+let $mainTable = null;
 const MainTable = (props) => {
 	const searchForm = useRef();
 	const modalRef = useRef();
-	const { dispatchUpdateStore, queryTableList, TableList, TableListTotal, isOpenFormModal } = props;
-	const _this = this;
+	const { dispatchUpdateStore, queryTableList, TableList, TableListTotal, isOpenFormModal, projectRowed } = props;
 
 	const [ids, setIds] = useState([]); //选择行id
 	const [selectedRows, setSelectedRows] = useState([]); //选择行内容
@@ -119,6 +120,9 @@ const MainTable = (props) => {
 		setSelectedRows([]);
 		setIds([]);
 		setDisableButton(true);
+		$mainTable.setState({
+			serialNumber: null,
+		});
 	};
 
 	// 新增
@@ -233,13 +237,21 @@ const MainTable = (props) => {
 
 	// 列表操作列按钮组
 	const ButtonTableType = (row) => {
-		const editAndDelete = [
+		return [
+			{
+				name: '查看',
+				iconCode: '483',
+				'func-type': 'QUERY',
+				roule: true,
+				func: checkItem,
+			},
 			{
 				name: '修改',
 				'func-type': 'UPDATE',
 				iconCode: '474',
 				roule: true,
 				func: updateItem,
+				disabled: Number(row.auditStatus) === 2,
 			},
 			{
 				name: '删除',
@@ -247,30 +259,25 @@ const MainTable = (props) => {
 				iconCode: '470',
 				roule: true,
 				func: deleteItem,
+				disabled: Number(row.auditStatus) === 2,
+			},
+			{
+				name: '操作记录',
+				'func-type': 'QUERY',
+				iconCode: '473',
+				func: (e, item) => {
+					e.stopPropagation();
+					dispatchUpdateStore({
+						isOpenFormModal: {
+							page: '$PageName',
+							type: 'log',
+							status: true,
+						},
+						projectRowed: item,
+					});
+				},
 			},
 		];
-		if (Number(row.auditStatus) === 1) {
-			return [
-				{
-					name: '查看',
-					iconCode: '483',
-					'func-type': 'QUERY',
-					roule: true,
-					func: checkItem,
-				},
-				...editAndDelete,
-			];
-		} else {
-			return [
-				{
-					name: '查看',
-					iconCode: '483',
-					'func-type': 'QUERY',
-					roule: true,
-					func: checkItem,
-				},
-			];
-		}
 	};
 
 	const getTableConfig = () => {
@@ -360,8 +367,22 @@ const MainTable = (props) => {
 				scorllPagination,
 				pagination: false,
 				bordered: false,
-				height: 'calc(100vh - 191px)',
+				height: 'calc(100vh - 161px)',
 				dataSource: TableList,
+				onRow: (record) => {
+					return {
+						onClick: () => {
+							$mainTable.setState({
+								serialNumber: record.id,
+							});
+							if (record.id !== projectRowed.id) {
+								dispatchUpdateStore({
+									projectRowed: record,
+								});
+							}
+						},
+					};
+				},
 			}),
 		};
 	};
@@ -369,18 +390,22 @@ const MainTable = (props) => {
 	// 弹框标题
 	let modalTitle;
 	if (isOpenFormModal.type === 'add') {
-		modalTitle = `新增数据`;
+		modalTitle = `新增`;
 	} else if (isOpenFormModal.type === 'update') {
-		modalTitle = `修改数据`;
-	} else if (isOpenFormModal.type === 'delete') {
-		modalTitle = `删除数据`;
+		modalTitle = `修改`;
+	} else if (isOpenFormModal.type === 'log') {
+		modalTitle = `操作记录`;
 	} else {
-		modalTitle = `数据详情`;
+		modalTitle = `查看`;
 	}
 
 	// 弹框内容
 	const modalContext = (type, props) => {
-		return <DetailModal ref={modalRef} {...props} />;
+		if (type === 'log') {
+			return <OperationRecordTable params={{ businIds: [projectRowed.id], tableName: 'offipo_association_register' }} />;
+		} else {
+			return <DetailModal ref={modalRef} {...props} />;
+		}
 	};
 
 	return (
@@ -435,7 +460,13 @@ const MainTable = (props) => {
 					}}
 				/>
 				{withRoleBotton(ButtonType)}
-				<ConfigableTable {...getTableConfig()} resizeTableCode='MainTable-$PageName' tableCode='MainTable-$PageName' />
+				<ConfigableTable
+					ref={(ref) => ($mainTable = ref)}
+					{...getTableConfig()}
+					resizeTableCode='MainTable-$PageName'
+					tableCode='MainTable-$PageName'
+					className='MainTable-$PageName'
+				/>
 			</div>
 			{/***弹框组件** */}
 			<Modal
@@ -451,7 +482,6 @@ const MainTable = (props) => {
 							type: 'add',
 							status: false,
 						},
-						projectRowed: {},
 					});
 				}}
 				onOk={() => {
@@ -464,18 +494,4 @@ const MainTable = (props) => {
 	);
 };
 
-//redux state转换为props
-const mapStateToProps = (state) => {
-	return state.pageReducer;
-};
-
-const mapDispatchToProps = {
-	dispatchUpdateStore: (params) => UpdateStore(params),
-};
-// const mapDispatchToProps = (dispatch) => {
-// 	return {
-// 		dispatchUpdateStore: (params) => dispatch(UpdateStore(params)),
-// 	};
-// };
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainTable);
+export default MainTable;

@@ -21,12 +21,14 @@ import DetailModal from '../modals/DetailModal';
 import { formServiceConfig } from '../../services';
 import { UpdateStore } from '../../models/actions';
 import { columnsCfg } from '../../models';
+import OperationRecordTable from '@/front-biz/common/components/OperationRecordTable';
 import { httpGetListData, httpAuditRowData, httpReAuditRowData, httpDeleteRowData } from '../../controller/async';
 
 /**
  * @class
  * @classdesc 数据表格
  */
+let $mainTable = null;
 class MainTable extends PureComponent {
 	state = {
 		ids: [], //选择行id
@@ -42,7 +44,7 @@ class MainTable extends PureComponent {
 	}
 
 	render() {
-		const { dispatchUpdateStore, queryTableList, TableList, TableListTotal, isOpenFormModal } = this.props;
+		const { dispatchUpdateStore, queryTableList, TableList, TableListTotal, isOpenFormModal, projectRowed } = this.props;
 
 		const _this = this;
 
@@ -122,6 +124,9 @@ class MainTable extends PureComponent {
 				ids: [],
 				disableButton: true,
 				selectedRows: [],
+			});
+			$mainTable.setState({
+				serialNumber: null,
 			});
 		};
 
@@ -236,13 +241,21 @@ class MainTable extends PureComponent {
 
 		// 列表操作列按钮组
 		const ButtonTableType = (row) => {
-			const editAndDelete = [
+			return [
+				{
+					name: '查看',
+					iconCode: '483',
+					'func-type': 'QUERY',
+					roule: true,
+					func: checkItem,
+				},
 				{
 					name: '修改',
 					'func-type': 'UPDATE',
 					iconCode: '474',
 					roule: true,
 					func: updateItem,
+					disabled: Number(row.auditStatus) === 2,
 				},
 				{
 					name: '删除',
@@ -250,30 +263,25 @@ class MainTable extends PureComponent {
 					iconCode: '470',
 					roule: true,
 					func: deleteItem,
+					disabled: Number(row.auditStatus) === 2,
+				},
+				{
+					name: '操作记录',
+					'func-type': 'QUERY',
+					iconCode: '473',
+					func: (e, item) => {
+						e.stopPropagation();
+						dispatchUpdateStore({
+							isOpenFormModal: {
+								page: '$PageName',
+								type: 'log',
+								status: true,
+							},
+							projectRowed: item,
+						});
+					},
 				},
 			];
-			if (Number(row.auditStatus) === 1) {
-				return [
-					{
-						name: '查看',
-						iconCode: '483',
-						'func-type': 'QUERY',
-						roule: true,
-						func: checkItem,
-					},
-					...editAndDelete,
-				];
-			} else {
-				return [
-					{
-						name: '查看',
-						iconCode: '483',
-						'func-type': 'QUERY',
-						roule: true,
-						func: checkItem,
-					},
-				];
-			}
 		};
 
 		const getTableConfig = () => {
@@ -365,8 +373,22 @@ class MainTable extends PureComponent {
 					scorllPagination,
 					pagination: false,
 					bordered: false,
-					height: 'calc(100vh - 191px)',
+					height: 'calc(100vh - 161px)',
 					dataSource: TableList,
+					onRow: (record) => {
+						return {
+							onClick: () => {
+								$mainTable.setState({
+									serialNumber: record.id,
+								});
+								if (record.id !== projectRowed.id) {
+									dispatchUpdateStore({
+										projectRowed: record,
+									});
+								}
+							},
+						};
+					},
 				}),
 			};
 		};
@@ -374,18 +396,22 @@ class MainTable extends PureComponent {
 		// 弹框标题
 		let modalTitle;
 		if (isOpenFormModal.type === 'add') {
-			modalTitle = `新增数据`;
+			modalTitle = `新增`;
 		} else if (isOpenFormModal.type === 'update') {
-			modalTitle = `修改数据`;
-		} else if (isOpenFormModal.type === 'delete') {
-			modalTitle = `删除数据`;
+			modalTitle = `修改`;
+		} else if (isOpenFormModal.type === 'log') {
+			modalTitle = `操作记录`;
 		} else {
-			modalTitle = `数据详情`;
+			modalTitle = `查看`;
 		}
 
 		// 弹框内容
 		const modalContext = (type, props) => {
-			return <DetailModal {...props} />;
+			if (type === 'log') {
+				return <OperationRecordTable params={{ businIds: [projectRowed.id], tableName: 'offipo_association_register' }} />;
+			} else {
+				return <DetailModal {...props} />;
+			}
 		};
 
 		return (
@@ -441,7 +467,13 @@ class MainTable extends PureComponent {
 						}}
 					/>
 					{withRoleBotton(ButtonType)}
-					<ConfigableTable {...getTableConfig()} resizeTableCode='MainTable-$PageName' tableCode='pingan-MainTable-$PageName' />
+					<ConfigableTable
+						ref={(ref) => ($mainTable = ref)}
+						{...getTableConfig()}
+						resizeTableCode='MainTable-$PageName'
+						tableCode='pingan-MainTable-$PageName'
+						className='pingan-MainTable-$PageName'
+					/>
 				</div>
 				{/***弹框组件** */}
 				<Modal
@@ -449,7 +481,7 @@ class MainTable extends PureComponent {
 					width={663}
 					title={modalTitle}
 					visible={isOpenFormModal.status}
-					viewing={isOpenFormModal.type === 'detail' ? true : false}
+					viewing={isOpenFormModal.type === 'detail' || isOpenFormModal.type === 'log' ? true : false}
 					onCancel={() => {
 						dispatchUpdateStore({
 							isOpenFormModal: {
@@ -468,18 +500,4 @@ class MainTable extends PureComponent {
 	}
 }
 
-//redux state转换为props
-const mapStateToProps = (state) => {
-	return state.pageReducer;
-};
-
-const mapDispatchToProps = {
-	dispatchUpdateStore: (params) => UpdateStore(params),
-};
-// const mapDispatchToProps = (dispatch) => {
-// 	return {
-// 		dispatchUpdateStore: (params) => dispatch(UpdateStore(params)),
-// 	};
-// };
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainTable);
+export default MainTable;
