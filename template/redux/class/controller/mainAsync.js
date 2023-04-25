@@ -64,7 +64,9 @@ export const httpDeleteRowData = async (params) => {
 	let result = await deleteRowData(params);
 	const { winRspType, msg } = result;
 	if (winRspType === 'SUCC') {
-		message.success(msg);
+		if (msg) {
+			message.success(msg);
+		}
 		httpGetListData(true);
 	} else {
 		message.error(msg);
@@ -81,7 +83,9 @@ export const httpAuditRowData = async (params) => {
 	let result = await auditRowData(params);
 	const { winRspType, msg } = result;
 	if (winRspType === 'SUCC') {
-		message.success(msg);
+		if (msg) {
+			message.success(msg);
+		}
 		httpGetListData(true);
 	} else {
 		message.error(msg);
@@ -98,7 +102,9 @@ export const httpReAuditRowData = async (params) => {
 	let result = await reAuditRowData(params);
 	const { winRspType, msg } = result;
 	if (winRspType === 'SUCC') {
-		message.success(msg);
+		if (msg) {
+			message.success(msg);
+		}
 		httpGetListData(true);
 	} else {
 		message.error(msg);

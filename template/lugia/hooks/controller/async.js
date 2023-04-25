@@ -58,7 +58,9 @@ export default {
 		let result = await deleteRowData(params);
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
-			message.success(msg);
+			if (msg) {
+				message.success(msg);
+			}
 			await mutations.asyncHttpGetListData({ params: { resetPage: true } });
 		} else {
 			message.error(msg);
@@ -75,7 +77,9 @@ export default {
 		let result = await auditRowData(params);
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
-			message.success(msg);
+			if (msg) {
+				message.success(msg);
+			}
 			await mutations.asyncHttpGetListData({ params: { resetPage: true } });
 		} else {
 			message.error(msg);
@@ -92,7 +96,9 @@ export default {
 		let result = await reAuditRowData(params);
 		const { winRspType, msg } = result;
 		if (winRspType === 'SUCC') {
-			message.success(msg);
+			if (msg) {
+				message.success(msg);
+			}
 			await mutations.asyncHttpGetListData({ params: { resetPage: true } });
 		} else {
 			message.error(msg);
