@@ -7,9 +7,9 @@ import React, { useState, useEffect, Fragment, useRef } from 'react';
 import moment from 'moment';
 import { columnsCfg } from '../../models/columnConfig';
 import {
-	ConfigableTable,
-	setColumns,
-	setTableInfo,
+	ReactTable,
+	columnSortSet,
+	tableSet,
 	withRoleBotton,
 	rowSelectionFunc,
 	Modal,
@@ -293,7 +293,7 @@ const MainTable = (props) => {
 	const getTableConfig = () => {
 		// 表格列配置
 		const columns = [
-			...setColumns(columnsCfg),
+			...columnSortSet(columnsCfg),
 			{
 				title: '操作',
 				key: 'operation',
@@ -367,7 +367,7 @@ const MainTable = (props) => {
 		};
 
 		return {
-			...setTableInfo({
+			...tableSet({
 				tableType: 'modal',
 				columns,
 				rowDraggable: false,
@@ -450,7 +450,7 @@ const MainTable = (props) => {
 					}}
 				/>
 				{withRoleBotton(ButtonType)}
-				<ConfigableTable {...getTableConfig()} resizeTableCode='MainTable-$PageName' tableCode='pingan-MainTable-$PageName' />
+				<ReactTable {...getTableConfig()} resizeTableCode='MainTable-$PageName' tableCode='pingan-MainTable-$PageName' />
 			</div>
 			{/***弹框组件** */}
 			<Modal

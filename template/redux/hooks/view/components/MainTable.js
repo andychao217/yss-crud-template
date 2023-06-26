@@ -4,12 +4,11 @@
  * @copyright Ysstech
  */
 import React, { useState, useEffect, Fragment, useRef } from 'react';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import {
-	ConfigableTable,
-	setColumns,
-	setTableInfo,
+	ReactTable,
+	columnSortSet,
+	tableSet,
 	withRoleBotton,
 	rowSelectionFunc,
 	Modal,
@@ -283,7 +282,7 @@ const MainTable = (props) => {
 	const getTableConfig = () => {
 		// 表格列配置
 		const columns = [
-			...setColumns(columnsCfg),
+			...columnSortSet(columnsCfg),
 			{
 				title: '操作',
 				key: 'operation',
@@ -359,7 +358,7 @@ const MainTable = (props) => {
 		};
 
 		return {
-			...setTableInfo({
+			...tableSet({
 				tableType: 'modal',
 				columns,
 				rowDraggable: false,
@@ -460,7 +459,7 @@ const MainTable = (props) => {
 					}}
 				/>
 				{withRoleBotton(ButtonType)}
-				<ConfigableTable
+				<ReactTable
 					ref={(ref) => ($mainTable = ref)}
 					{...getTableConfig()}
 					resizeTableCode='MainTable-$PageName'

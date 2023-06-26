@@ -7,9 +7,9 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import {
-	ConfigableTable,
-	setColumns,
-	setTableInfo,
+	ReactTable,
+	columnSortSet,
+	tableSet,
 	withRoleBotton,
 	rowSelectionFunc,
 	Modal,
@@ -287,7 +287,7 @@ class MainTable extends PureComponent {
 		const getTableConfig = () => {
 			// 表格列配置
 			const columns = [
-				...setColumns(columnsCfg),
+				...columnSortSet(columnsCfg),
 				{
 					title: '操作',
 					key: 'operation',
@@ -365,7 +365,7 @@ class MainTable extends PureComponent {
 			};
 
 			return {
-				...setTableInfo({
+				...tableSet({
 					tableType: 'modal',
 					columns,
 					rowDraggable: false,
@@ -467,7 +467,7 @@ class MainTable extends PureComponent {
 						}}
 					/>
 					{withRoleBotton(ButtonType)}
-					<ConfigableTable
+					<ReactTable
 						ref={(ref) => ($mainTable = ref)}
 						{...getTableConfig()}
 						resizeTableCode='MainTable-$PageName'
