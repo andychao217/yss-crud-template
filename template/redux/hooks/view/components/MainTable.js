@@ -289,6 +289,7 @@ const MainTable = (props) => {
 				fixed: 'right',
 				align: 'left',
 				width: 120,
+				lock: true,
 				render: (text, row) => withRoleTableBotton(ButtonTableType(row), 'icon')(row),
 			},
 		];
