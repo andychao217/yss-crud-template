@@ -8,7 +8,7 @@ import moment from 'moment';
 import { message } from 'antd';
 import { setFieldsObject, filterNullElement, NeatForm, NormalForm } from 'yss-trade-base';
 import { formServiceConfig, addRowData, updateRowData } from '../../services';
-import { httpGetCreditRateDropdownList, httpGetListData } from '../../controller/async';
+import { httpGetCreditRateDropdownList, httpGetListData } from '../../controller/mainAsync';
 const { mapOption } = NormalForm;
 
 /**

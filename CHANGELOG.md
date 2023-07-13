@@ -23,3 +23,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 -   updated all templates for scrolling pagination, version `0.3.8` (Tus Jan 17 11:36:00 2023 +0800)
 -   updated all templates for redux pages, version `0.3.9` (Fri Apr 07 13:36:00 2023 +0800)
 -   updated new reactTable component, version `0.4.2` (Mon Jun 26 15:53:00 2023 +0800)
+-   updated template file, version `0.4.4` (Thu Jul 13 15:53:00 2023 +0800)

@@ -18,10 +18,9 @@ import {
 } from 'yss-trade-base';
 import DetailModal from '../modals/DetailModal';
 import { formServiceConfig } from '../../services';
-import { UpdateStore } from '../../models/actions';
 import { columnsCfg } from '../../models';
 import OperationRecordTable from '@/front-biz/common/components/OperationRecordTable';
-import { httpGetListData, httpAuditRowData, httpReAuditRowData, httpDeleteRowData } from '../../controller/async';
+import { httpGetListData, httpAuditRowData, httpReAuditRowData, httpDeleteRowData } from '../../controller/mainAsync';
 
 /**
  * @class
@@ -286,6 +285,7 @@ const MainTable = (props) => {
 			{
 				title: '操作',
 				key: 'operation',
+				dataIndex: 'operation',
 				fixed: 'right',
 				align: 'left',
 				width: 120,

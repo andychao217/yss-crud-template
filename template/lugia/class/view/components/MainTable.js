@@ -305,6 +305,7 @@ class MainTable extends PureComponent {
 				{
 					title: '操作',
 					key: 'operation',
+					dataIndex: 'operation',
 					fixed: 'right',
 					align: 'left',
 					width: 120,
