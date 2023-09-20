@@ -7,7 +7,7 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { message } from 'antd';
 import { setFieldsObject, filterNullElement, NeatForm, NormalForm } from 'yss-trade-base';
-import { formServiceConfig, addRowData, updateRowData } from '../../services';
+import { formServiceConfig, addRowData, updateRowData, getListData } from '../../services';
 const { mapOption } = NormalForm;
 
 /**
@@ -15,50 +15,19 @@ const { mapOption } = NormalForm;
  * @classdesc 弹框内容
  */
 class DetailModal extends PureComponent {
-	state = {
-		publisherName: '',
-		shortOrLong: 'long',
-		rateCompName: undefined,
-	};
+	state = {};
 
 	componentDidMount() {
-		const { isOpenFormModal, projectRowed, asyncHttpGetCreditRateDropdownList } = this.props;
+		const { isOpenFormModal, projectRowed } = this.props;
 		this.props.onRef(this);
-		//表单初始化
-		if (projectRowed.rateType != null) {
-			async function fetchData() {
-				let value = projectRowed.rateType;
-				let parentDicCode = '';
-				if ('10090001' === value) {
-					// 长期信用评级  10090001-B10100000
-					parentDicCode = 'B10100000';
-				}
-				if ('10090002' === value) {
-					// 短期信用评级  10090002-B10110000
-					parentDicCode = 'B10110000';
-				}
-				await asyncHttpGetCreditRateDropdownList({
-					params: {
-						parentDicCode,
-					},
-				});
-			}
-			fetchData();
-		}
-
 		this.createProduct.setValues({
 			...setFieldsObject(projectRowed, isOpenFormModal.type),
-			creditDate: projectRowed.creditDate ? moment(projectRowed.creditDate) : null,
-		});
-		this.createProduct.setValues({
-			marketCode: projectRowed.marketCode,
 		});
 	}
 
 	//点击确定进行增加修改操作
 	handleSubmit(e) {
-		const { asyncHttpGetListData, projectRowed, changeSync, isOpenFormModal } = this.props;
-		const { rateCompName } = this.state;
+		const { asyncHttpGetListData, projectRowed, changeSync, isOpenFormModal, TableList } = this.props;
 		e.preventDefault();
 		this.createProduct.onValidate(
 			(values) => {
@@ -66,13 +35,10 @@ class DetailModal extends PureComponent {
 					add: addRowData,
 					update: updateRowData,
 				};
-				values.creditDate = moment(values.creditDate).format('YYYYMMDD');
-				const securityCode = values?.securityCode?.split('.')[0];
 				let params = {
-					add: { ...values, rateCompName, securityCode },
+					add: { ...values},
 					update: {
 						...values,
-						rateCompName: rateCompName || projectRowed.rateCompName,
 						id: isOpenFormModal.type !== 'add' ? projectRowed.id : undefined,
 					},
 				};
@@ -88,7 +54,35 @@ class DetailModal extends PureComponent {
 						},
 						projectRowed: {},
 					});
-					asyncHttpGetListData({ params: { resetPage: true } });
+					if (isOpenFormModal.type === 'add') {
+						asyncHttpGetListData({ params: { resetPage: true } });
+						this.props.clearSelectedRows();
+					} else {
+						//修改更新单独一行
+						getListData({ id: projectRowed.id, reqPageSize: 50, reqPageNum: 1 }).then((res) => {
+							if (res.code !== '200') {
+								message.error(res.msg);
+								return;
+							}
+							if (res.data && res.data.list && res.data.list.length) {
+								const newRowData = { ...res.data.list[0] };
+								const newTableList = TableList.map((item) => {
+									if (item.id === newRowData.id) {
+										return {
+											...item,
+											...newRowData,
+										};
+									} else {
+										return item;
+									}
+								});
+								changeSync({
+									projectRowed: newRowData,
+									TableList: newTableList,
+								});
+							}
+						});
+					}
 				});
 			},
 			(err) => {
@@ -99,7 +93,7 @@ class DetailModal extends PureComponent {
 	}
 
 	render() {
-		const { isOpenFormModal, asyncHttpGetCreditRateDropdownList, creditRateDropdownList } = this.props;
+		const { isOpenFormModal } = this.props;
 		const showdetails = isOpenFormModal.type === 'detail';
 		let _this = this;
 		/*弹出form 表单的属性***/
@@ -125,13 +119,6 @@ class DetailModal extends PureComponent {
 					dropdownMatchSelectWidth: false,
 					getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
 					allowClear: true,
-					onChange(value, option) {
-						if (value) {
-							_this.createProduct.setValues({
-								marketCode: option?.props?.datas?.marketCode,
-							});
-						}
-					},
 				},
 			},
 			{
@@ -154,51 +141,7 @@ class DetailModal extends PureComponent {
 						maxHeight: '400px',
 					},
 					dropdownMatchSelectWidth: false,
-					getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
-					onChange(value) {},
-				},
-			},
-			{
-				name: 'rateType',
-				label: '评级类型',
-				type: 'SelectMapDics',
-				rules: [
-					{
-						required: true,
-						message: '不能为空',
-					},
-				],
-				props: {
-					code: 'B10090000',
-					allowClear: true,
-					placeholder: '请选择评级类型',
-					disabled: showdetails,
-					dropDownStyle: {
-						maxHeight: '400px',
-					},
-					dropdownMatchSelectWidth: false,
-					getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
-					onChange(value) {
-						let parentDicCode = '';
-						if (value === '10090001') {
-							// 长期信用评级  10090001-B10100000
-							parentDicCode = 'B10100000';
-						} else if (value === '10090002') {
-							// 短期信用评级  10090002-B10110000
-							parentDicCode = 'B10110000';
-						}
-						async function fetchData() {
-							await asyncHttpGetCreditRateDropdownList({
-								params: {
-									parentDicCode,
-								},
-							});
-						}
-						fetchData();
-						_this.createProduct.setValues({
-							creditRate: null,
-						}); //清空信用评级
-					},
+					getPopupContainer: () => document.getElementById('$PageNameDetailModal'),=
 				},
 			},
 			{
@@ -216,30 +159,6 @@ class DetailModal extends PureComponent {
 					placeholder: '请选择日期',
 					initialValue: moment(),
 					getCalendarContainer: () => document.getElementById('$PageNameDetailModal'),
-					onChange(value) {},
-				},
-			},
-			{
-				name: 'creditRate',
-				label: '信用评级',
-				type: 'Select',
-				rules: [
-					{
-						required: true,
-						message: '不能为空',
-					},
-				],
-				options: mapOption(creditRateDropdownList, 'label', 'value'),
-				props: {
-					allowClear: true,
-					placeholder: '请选择信用评级',
-					disabled: showdetails,
-					onChange(value) {},
-					dropDownStyle: {
-						maxHeight: '400px',
-					},
-					dropdownMatchSelectWidth: false,
-					getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
 				},
 			},
 			{
@@ -261,31 +180,6 @@ class DetailModal extends PureComponent {
 				},
 			},
 			{
-				name: 'rateCompCode',
-				label: '评级机构',
-				type: 'Select',
-				rules: [
-					{
-						required: true,
-						message: '不能为空',
-					},
-				],
-				props: {
-					placeholder: '请选择评级机构',
-					type: 'ratingAgenciesListByNameOrCode',
-					config: formServiceConfig,
-					disabled: showdetails,
-					allowClear: true,
-					onChange(value, obj) {
-						if (obj) {
-							_this.setState({
-								rateCompName: obj?.props?.datas?.compName,
-							});
-						}
-					},
-				},
-			},
-			{
 				name: 'externalFlag',
 				label: '外部评级',
 				type: 'SelectMapDics',
@@ -302,6 +196,9 @@ class DetailModal extends PureComponent {
 					disabled: showdetails,
 				},
 			},
+			{
+				type:'Blank',
+			}
 		];
 		return (
 			<div id='$PageNameDetailModal'>

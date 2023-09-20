@@ -6,17 +6,7 @@
 import React, { useState, useEffect, Fragment, useRef } from 'react';
 import moment from 'moment';
 import { columnsCfg } from '../../models/columnConfig';
-import {
-	ReactTable,
-	columnSortSet,
-	tableSet,
-	withRoleBotton,
-	rowSelectionFunc,
-	Modal,
-	ConfirmModal,
-	withRoleTableBotton,
-	SearchForm,
-} from 'yss-trade-base';
+import { ReactTable, columnSortSet, tableSet, withRoleBotton, Modal, ConfirmModal, withRoleTableBotton, SearchForm } from 'yss-trade-base';
 import DetailModal from '../modals/DetailModal';
 import { formServiceConfig } from '../../services';
 
@@ -37,11 +27,9 @@ const MainTable = (props) => {
 		isOpenFormModal,
 	} = props;
 	const searchForm = useRef();
-	const uploadModalRef = useRef();
 	const _this = this;
 	const [ids, setIds] = useState([]); //选择行id
 	const [selectedRows, setSelectedRows] = useState([]); //选择行内容
-	const [disableButton, setDisableButton] = useState(true); //页面Toolbar按钮是否禁用
 	// const [pageSize, setPageSize] = useState(20); //页面显示条数
 	// const [curPageNum, setCurPageNum] = useState(1); //当前页码
 
@@ -83,17 +71,6 @@ const MainTable = (props) => {
 			type: 'RangePicker',
 			props: {
 				allowClear: false,
-				onChange(dates, dateStrings) {
-					if (dateStrings && dateStrings.length) {
-						changeSync({
-							queryTableList: {
-								...queryTableList,
-								startDate: moment(dateStrings[0]).format('YYYYMMDD'),
-								endDate: moment(dateStrings[1]).format('YYYYMMDD'),
-							},
-						});
-					}
-				},
 				getCalendarContainer: () => document.getElementById('$PageNameMainTable'),
 			},
 		},
@@ -124,7 +101,6 @@ const MainTable = (props) => {
 	const clearSelectedRows = () => {
 		setSelectedRows([]);
 		setIds([]);
-		setDisableButton(true);
 	};
 
 	// 新增
@@ -152,7 +128,7 @@ const MainTable = (props) => {
 			'func-type': 'DELETE',
 			iconCode: '470',
 			roule: true,
-			disabled: disableButton,
+			disabled: !selectedRows.length || !TableList.length,
 			func: () => {
 				ConfirmModal({
 					onOk: () => {
@@ -171,7 +147,7 @@ const MainTable = (props) => {
 			iconCode: '584',
 			roule: true,
 			'func-type': 'CHECK',
-			disabled: disableButton,
+			disabled: !selectedRows.length || !TableList.length,
 			func: () => {
 				ConfirmModal({
 					title: '请确定是否要审核勾选数据',
@@ -191,7 +167,7 @@ const MainTable = (props) => {
 			iconCode: '477',
 			roule: true,
 			'func-type': 'UNCHECK',
-			disabled: disableButton,
+			disabled: !selectedRows.length || !TableList.length,
 			func: () => {
 				ConfirmModal({
 					title: '请确定是否要反审核勾选数据',
@@ -292,8 +268,8 @@ const MainTable = (props) => {
 
 	const getTableConfig = () => {
 		// 表格列配置
-		const columns = [
-			...columnSortSet(columnsCfg),
+		const columns = columnSortSet([
+			...columnsCfg,
 			{
 				title: '操作',
 				key: 'operation',
@@ -304,7 +280,7 @@ const MainTable = (props) => {
 				lock: true,
 				render: (text, row) => withRoleTableBotton(ButtonTableType(row), 'icon')(row),
 			},
-		];
+		]);
 
 		// 页面跳转调用函数
 		const searchPage = (page, pageSize) => {
@@ -324,17 +300,10 @@ const MainTable = (props) => {
 		/***点击索引获取当前行的对象** */
 		const rowSelection = {
 			selectedRowKeys: ids,
-			...rowSelectionFunc((records, ids) => {
-				let disableButton;
-				if (ids.length > 0) {
-					disableButton = false;
-				} else {
-					disableButton = true;
-				}
+			onChange: (ids, records) => {
 				setIds(ids);
-				setDisableButton(disableButton);
 				setSelectedRows(records);
-			}),
+			},
 			columnWidth: '60px',
 			fixed: true,
 		};
@@ -397,7 +366,7 @@ const MainTable = (props) => {
 
 	//弹框内容
 	const modalContext = (type, props) => {
-		return <DetailModal ref={modalRef} {...props} />;
+		return <DetailModal ref={modalRef} {...props} clearSelectedRows={clearSelectedRows} />;
 	};
 
 	return (
@@ -412,11 +381,15 @@ const MainTable = (props) => {
 					labelSize={'70px'}
 					lineOf='3'
 					handleSearch={(values) => {
+						const businessStartDate = values.period && values.period.length ? moment(values.period[0]).format('YYYY-MM-DD') : null;
+						const businessEndDate = values.period && values.period.length ? moment(values.period[1]).format('YYYY-MM-DD') : null;
 						delete values.period;
 						changeSync({
 							queryTableList: {
 								...queryTableList,
 								...values,
+								businessStartDate,
+								businessEndDate,
 								reqPageNum: 1,
 							},
 						});

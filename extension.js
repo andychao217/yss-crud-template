@@ -71,8 +71,8 @@ const prompt = function () {
 		vscode.window.showInformationMessage('Error: 目标已存在,请更换名称');
 	} else {
 		const storeOptions = [
-			{ label: 'LugiaX', value: 'lugia' },
-			{ label: 'ReduX', value: 'redux' },
+			// { label: 'LugiaX', value: 'lugia' },
+			{ label: 'ReduX (Officially Recommended)', value: 'redux' },
 		];
 		vscode.window
 			.showQuickPick(storeOptions, {

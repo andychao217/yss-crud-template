@@ -7,7 +7,7 @@ import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'rea
 import moment from 'moment';
 import { message } from 'antd';
 import { setFieldsObject, filterNullElement, NeatForm, NormalForm } from 'yss-trade-base';
-import { formServiceConfig, addRowData, updateRowData } from '../../services';
+import { formServiceConfig, addRowData, updateRowData, getListData } from '../../services';
 const { mapOption } = NormalForm;
 
 /**
@@ -20,40 +20,15 @@ const DetailModal = (props, ref) => {
 		//  暴露给父组件的方法
 		handleSubmit: handleSubmit,
 	}));
-	const { isOpenFormModal, creditRateDropdownList, projectRowed, asyncHttpGetListData, changeSync } = props;
+	const { isOpenFormModal, creditRateDropdownList, projectRowed, asyncHttpGetListData, changeSync, TableList } = props;
 	const showdetails = isOpenFormModal.type === 'detail';
-	const [rateCompName, setRateCompName] = useState(undefined);
 
 	let _this = this;
 
 	useEffect(() => {
 		props.onRef(this);
-		//表单初始化
-		if (projectRowed.rateType != null) {
-			async function fetchData() {
-				let value = projectRowed.rateType;
-				let parentDicCode = '';
-				if ('10090001' === value) {
-					// 长期信用评级  10090001-B10100000
-					parentDicCode = 'B10100000';
-				}
-				if ('10090002' === value) {
-					// 短期信用评级  10090002-B10110000
-					parentDicCode = 'B10110000';
-				}
-				await asyncHttpGetCreditRateDropdownList({
-					params: { parentDicCode },
-				});
-			}
-			fetchData();
-		}
-
 		createProduct.setValues({
 			...setFieldsObject(projectRowed, isOpenFormModal.type),
-			creditDate: projectRowed.creditDate ? moment(projectRowed.creditDate) : null,
-		});
-		createProduct.setValues({
-			marketCode: projectRowed.marketCode,
 		});
 	}, []);
 
@@ -66,13 +41,10 @@ const DetailModal = (props, ref) => {
 					add: addRowData,
 					update: updateRowData,
 				};
-				values.creditDate = moment(values.creditDate).format('YYYYMMDD');
-				const securityCode = values?.securityCode?.split('.')[0];
 				let params = {
-					add: { ...values, rateCompName, securityCode },
+					add: { ...values },
 					update: {
 						...values,
-						rateCompName: rateCompName || projectRowed.rateCompName,
 						id: isOpenFormModal.type !== 'add' ? projectRowed.id : undefined,
 					},
 				};
@@ -88,7 +60,36 @@ const DetailModal = (props, ref) => {
 						},
 						projectRowed: {},
 					});
-					asyncHttpGetListData({ params: { resetPage: true } });
+
+					if (isOpenFormModal.type === 'add') {
+						asyncHttpGetListData({ params: { resetPage: true } });
+						props.clearSelectedRows();
+					} else {
+						//修改更新单独一行
+						getListData({ id: projectRowed.id, reqPageSize: 50, reqPageNum: 1 }).then((res) => {
+							if (res.code !== '200') {
+								message.error(res.msg);
+								return;
+							}
+							if (res.data && res.data.list && res.data.list.length) {
+								const newRowData = { ...res.data.list[0] };
+								const newTableList = TableList.map((item) => {
+									if (item.id === newRowData.id) {
+										return {
+											...item,
+											...newRowData,
+										};
+									} else {
+										return item;
+									}
+								});
+								changeSync({
+									projectRowed: newRowData,
+									TableList: newTableList,
+								});
+							}
+						});
+					}
 				});
 			},
 			(err) => {
@@ -121,13 +122,6 @@ const DetailModal = (props, ref) => {
 				},
 				dropdownMatchSelectWidth: false,
 				getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
-				onChange(value, option) {
-					if (value) {
-						createProduct.setValues({
-							marketCode: option?.props?.datas?.marketCode,
-						});
-					}
-				},
 			},
 		},
 		{
@@ -151,48 +145,6 @@ const DetailModal = (props, ref) => {
 				},
 				dropdownMatchSelectWidth: false,
 				getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
-				onChange(value) {},
-			},
-		},
-		{
-			name: 'rateType',
-			label: '评级类型',
-			type: 'SelectMapDics',
-			rules: [
-				{
-					required: true,
-					message: '不能为空',
-				},
-			],
-			props: {
-				code: 'B10090000',
-				allowClear: true,
-				placeholder: '请选择评级类型',
-				disabled: showdetails,
-				dropDownStyle: {
-					maxHeight: '400px',
-				},
-				dropdownMatchSelectWidth: false,
-				getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
-				onChange(value) {
-					let parentDicCode = '';
-					if (value === '10090001') {
-						// 长期信用评级  10090001-B10100000
-						parentDicCode = 'B10100000';
-					} else if (value === '10090002') {
-						// 短期信用评级  10090002-B10110000
-						parentDicCode = 'B10110000';
-					}
-					async function fetchData() {
-						await asyncHttpGetCreditRateDropdownList({
-							params: { parentDicCode },
-						});
-					}
-					fetchData();
-					createProduct.setValues({
-						creditRate: null,
-					}); //清空信用评级
-				},
 			},
 		},
 		{
@@ -210,25 +162,6 @@ const DetailModal = (props, ref) => {
 				placeholder: '请选择日期',
 				initialValue: moment(),
 				getCalendarContainer: () => document.getElementById('$PageNameDetailModal'),
-				onChange(value) {},
-			},
-		},
-		{
-			name: 'creditRate',
-			label: '信用评级',
-			type: 'Select',
-			rules: [
-				{
-					required: true,
-					message: '不能为空',
-				},
-			],
-			options: mapOption(creditRateDropdownList, 'label', 'value'),
-			props: {
-				allowClear: true,
-				placeholder: '请选择信用评级',
-				disabled: showdetails,
-				onChange(value) {},
 			},
 		},
 		{
@@ -250,29 +183,6 @@ const DetailModal = (props, ref) => {
 			},
 		},
 		{
-			name: 'rateCompCode',
-			label: '评级机构',
-			type: 'Select',
-			rules: [
-				{
-					required: true,
-					message: '不能为空',
-				},
-			],
-			props: {
-				placeholder: '请选择评级机构',
-				type: 'ratingAgenciesListByNameOrCode',
-				config: formServiceConfig,
-				disabled: showdetails,
-				allowClear: true,
-				onChange(value, obj) {
-					if (obj) {
-						setRateCompName(obj?.props?.datas?.compName);
-					}
-				},
-			},
-		},
-		{
 			name: 'externalFlag',
 			label: '外部评级',
 			type: 'SelectMapDics',
@@ -289,7 +199,11 @@ const DetailModal = (props, ref) => {
 				disabled: showdetails,
 			},
 		},
+		{
+			type: 'Blank',
+		},
 	];
+
 	return (
 		<div id='$PageNameDetailModal'>
 			<NeatForm

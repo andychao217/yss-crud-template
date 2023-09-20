@@ -10,7 +10,14 @@ import { service } from 'win-trade-base';
 const api = serviceMap['bizCommon'];
 
 /***获取列表数据*******/
-export const getListData = (params) => $ajax(`${api}/pageList`, params, 'post');
+export const getListData = (params) => {
+	return service.httpService({
+		baseURL: `${api}`,
+		url: '/pageList',
+		method: 'post',
+		data: params,
+	});
+};
 
 /***新增*******/
 export const addRowData = (params) => {
@@ -33,19 +40,34 @@ export const updateRowData = (params) => {
 };
 
 /***删除*******/
-export const deleteRowData = (params) => $ajax(`${api}/deleteById/${params}`, params, 'delete');
+export const deleteRowData = (params) => {
+	return service.httpService({
+		baseURL: `${api}`,
+		url: `/deleteById/${params}`,
+		method: 'delete',
+		data: params,
+	});
+};
 
 /***审核*******/
-export const auditRowData = (params) => $ajax(`${api}/updateAudit/${params}`, params, 'put');
+export const auditRowData = (params) => {
+	return service.httpService({
+		baseURL: `${api}`,
+		url: `/updateAudit/${params}`,
+		method: 'put',
+		data: params,
+	});
+};
 
 /***反审核*******/
-export const reAuditRowData = (params) => $ajax(`${api}/updateRevertAudit/${params}`, params, 'put');
-
-//获取长期/短期评级下拉框
-export const getcreditRateDropdownList = (params) =>
-	$ajax(`/dfas-base-biz/dics/listAllSub`, params, 'POST', {
-		mask: false,
+export const reAuditRowData = (params) => {
+	return service.httpService({
+		baseURL: `${api}`,
+		url: `/updateRevertAudit/${params}`,
+		method: 'put',
+		data: params,
 	});
+};
 
 /**form表单服务配置 */
 export const formServiceConfig = {

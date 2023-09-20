@@ -3,7 +3,7 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import { getListData, deleteRowData, auditRowData, reAuditRowData, getcreditRateDropdownList } from '../services/index';
+import { getListData, deleteRowData, auditRowData, reAuditRowData } from '../services/index';
 import { message } from 'antd';
 
 export default {
@@ -103,30 +103,6 @@ export default {
 			await mutations.asyncHttpGetListData({ params: { resetPage: true } });
 		} else {
 			message.error(msg);
-		}
-	},
-
-	/***获取长期/短期评级下拉框 *******/
-	async httpGetCreditRateDropdownList(state, { params }, { mutations, getState }) {
-		try {
-			let result = await getcreditRateDropdownList(params);
-			const { data, winRspType, msg } = result;
-			if (winRspType === 'SUCC') {
-				state = getState();
-				let creditRateDropdownList = data?.map((item) => {
-					return {
-						value: item.dicCode,
-						label: item.dicExplain,
-					};
-				});
-				return state.merge({
-					creditRateDropdownList,
-				});
-			} else {
-				message.error(msg);
-			}
-		} catch (error) {
-			console.error(error);
 		}
 	},
 };

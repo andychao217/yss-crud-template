@@ -4,19 +4,8 @@
  * @copyright Ysstech
  */
 import React, { PureComponent, Fragment } from 'react';
-import { connect } from 'react-redux';
 import moment from 'moment';
-import {
-	ReactTable,
-	columnSortSet,
-	tableSet,
-	withRoleBotton,
-	rowSelectionFunc,
-	Modal,
-	ConfirmModal,
-	withRoleTableBotton,
-	SearchForm,
-} from 'yss-trade-base';
+import { ReactTable, columnSortSet, tableSet, withRoleBotton, Modal, ConfirmModal, withRoleTableBotton, SearchForm } from 'yss-trade-base';
 import DetailModal from '../modals/DetailModal';
 import { formServiceConfig } from '../../services';
 import { columnsCfg } from '../../models';
@@ -32,7 +21,6 @@ class MainTable extends PureComponent {
 	state = {
 		ids: [], //选择行id
 		selectedRows: [], //选择行内容
-		disableButton: true, //页面Toolbar按钮是否禁用
 		// pageSize: 20, //页面显示条数
 		// curPageNum: 1, //当前页码
 	};
@@ -80,17 +68,6 @@ class MainTable extends PureComponent {
 				type: 'RangePicker',
 				props: {
 					allowClear: false,
-					onChange(dates, dateStrings) {
-						if (dateStrings && dateStrings.length) {
-							dispatchUpdateStore({
-								queryTableList: {
-									...queryTableList,
-									startDate: moment(dateStrings[0]).format('YYYYMMDD'),
-									endDate: moment(dateStrings[1]).format('YYYYMMDD'),
-								},
-							});
-						}
-					},
 					getCalendarContainer: () => document.getElementById('$PageNameMainTable'),
 				},
 			},
@@ -121,7 +98,6 @@ class MainTable extends PureComponent {
 		const clearSelectedRows = () => {
 			_this.setState({
 				ids: [],
-				disableButton: true,
 				selectedRows: [],
 			});
 			$mainTable.setState({
@@ -154,7 +130,7 @@ class MainTable extends PureComponent {
 				'func-type': 'DELETE',
 				iconCode: '470',
 				roule: true,
-				disabled: _this.state.disableButton,
+				disabled: !_this.state.selectedRows.length || !TableList.length,
 				func: () => {
 					ConfirmModal({
 						onOk: () => {
@@ -170,7 +146,7 @@ class MainTable extends PureComponent {
 				iconCode: '584',
 				roule: true,
 				'func-type': 'CHECK',
-				disabled: _this.state.disableButton,
+				disabled: !_this.state.selectedRows.length || !TableList.length,
 				func: () => {
 					ConfirmModal({
 						title: '请确定是否要审核勾选数据',
@@ -187,7 +163,7 @@ class MainTable extends PureComponent {
 				iconCode: '477',
 				roule: true,
 				'func-type': 'UNCHECK',
-				disabled: _this.state.disableButton,
+				disabled: !_this.state.selectedRows.length || !TableList.length,
 				func: () => {
 					ConfirmModal({
 						title: '请确定是否要反审核勾选数据',
@@ -285,8 +261,8 @@ class MainTable extends PureComponent {
 
 		const getTableConfig = () => {
 			// 表格列配置
-			const columns = [
-				...columnSortSet(columnsCfg),
+			const columns = columnSortSet([
+				...columnsCfg,
 				{
 					title: '操作',
 					key: 'operation',
@@ -297,7 +273,7 @@ class MainTable extends PureComponent {
 					lock: true,
 					render: (text, row) => withRoleTableBotton(ButtonTableType(row), 'icon')(row),
 				},
-			];
+			]);
 
 			// 页面跳转调用函数
 			const searchPage = (page, pageSize) => {
@@ -319,19 +295,12 @@ class MainTable extends PureComponent {
 			/***点击索引获取当前行的对象** */
 			const rowSelection = {
 				selectedRowKeys: _this.state.ids,
-				...rowSelectionFunc((records, ids) => {
-					let disableButton;
-					if (ids.length > 0) {
-						disableButton = false;
-					} else {
-						disableButton = true;
-					}
+				onChange: (ids, records) => {
 					_this.setState({
 						ids,
-						disableButton,
 						selectedRows: records,
 					});
-				}),
+				},
 				columnWidth: '60px',
 				fixed: true,
 			};
@@ -411,7 +380,7 @@ class MainTable extends PureComponent {
 			if (type === 'log') {
 				return <OperationRecordTable params={{ businIds: [projectRowed.id], tableName: 'offipo_association_register' }} />;
 			} else {
-				return <DetailModal {...props} />;
+				return <DetailModal {...props} clearSelectedRows={clearSelectedRows} />;
 			}
 		};
 
@@ -424,11 +393,15 @@ class MainTable extends PureComponent {
 						labelSize={'70px'}
 						lineOf='3'
 						handleSearch={(values) => {
+							const businessStartDate = values.period && values.period.length ? moment(values.period[0]).format('YYYY-MM-DD') : null;
+							const businessEndDate = values.period && values.period.length ? moment(values.period[1]).format('YYYY-MM-DD') : null;
 							delete values.period;
 							dispatchUpdateStore({
 								queryTableList: {
 									...queryTableList,
 									...values,
+									businessStartDate,
+									businessEndDate,
 									reqPageNum: 1,
 								},
 							});

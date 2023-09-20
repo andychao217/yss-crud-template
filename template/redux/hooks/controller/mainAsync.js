@@ -3,7 +3,7 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import { getListData, deleteRowData, auditRowData, reAuditRowData, getcreditRateDropdownList } from '../services/index';
+import { getListData, deleteRowData, auditRowData, reAuditRowData } from '../services/index';
 import { model } from '../models';
 import { UpdateStore } from '../models/actions';
 import { message } from 'antd';
@@ -108,26 +108,5 @@ export const httpReAuditRowData = async (params) => {
 		httpGetListData(true);
 	} else {
 		message.error(msg);
-	}
-};
-
-/***获取长期/短期评级下拉框 *******/
-export const httpGetCreditRateDropdownList = async (params) => {
-	try {
-		let result = await getcreditRateDropdownList(params);
-		const { data, winRspType, msg } = result;
-		if (winRspType === 'SUCC') {
-			let creditRateDropdownList = data?.map((item) => {
-				return {
-					value: item.dicCode,
-					label: item.dicExplain,
-				};
-			});
-			model.dispatch(UpdateStore({ creditRateDropdownList }));
-		} else {
-			message.error(msg);
-		}
-	} catch (error) {
-		console.error(error);
 	}
 };

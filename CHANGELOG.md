@@ -24,3 +24,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 -   updated all templates for redux pages, version `0.3.9` (Fri Apr 07 13:36:00 2023 +0800)
 -   updated new reactTable component, version `0.4.2` (Mon Jun 26 15:53:00 2023 +0800)
 -   updated template file, version `0.4.4` (Thu Jul 13 15:53:00 2023 +0800)
+-   updated template file, version `0.4.6` (Thu Sep 20 13:17:00 2023 +0800)
