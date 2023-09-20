@@ -1,0 +1,77 @@
+{
+	"name": "yss-crud-template",
+	"displayName": "YSS CRUD Template",
+	"description": "generate CRUD code template for YSS react project",
+	"version": "0.4.6",
+	"publisher": "andychao217",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/andychao217/yss-crud-template.git"
+	},
+	"icon": "images/icon.png",
+	"engines": {
+		"vscode": "^1.30.0"
+	},
+	"categories": ["Other"],
+	"activationEvents": ["*"],
+	"main": "./extension",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.createYSSCRUDPage",
+				"title": "Create YSS CRUD Page"
+			},
+			{
+				"command": "extension.showAndychao217",
+				"title": "Who is Andychao217 ?"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "extension.showAndychao217",
+				"key": "ctrl+f10",
+				"mac": "cmd+f10",
+				"when": "editorTextFocus"
+			},
+			{
+				"command": "extension.createYSSCRUDPage",
+				"key": "ctrl+f11",
+				"mac": "cmd+f11",
+				"when": "editorTextFocus"
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "andychao217",
+					"title": "Andychao217",
+					"icon": "images/icon.png"
+				}
+			]
+		},
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "extension.createYSSCRUDPage",
+					"group": "1_modification"
+				},
+				{
+					"command": "extension.showAndychao217",
+					"group": "1_modification"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "node ./node_modules/vscode/bin/test"
+	},
+	"devDependencies": {
+		"typescript": "^2.6.1",
+		"vscode": "^1.1.21",
+		"eslint": "^4.11.0",
+		"@types/node": "^8.10.25",
+		"@types/mocha": "^2.2.42"
+	},
+	"dependencies": {}
+}
