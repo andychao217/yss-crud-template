@@ -184,7 +184,7 @@ function activate(context) {
 	const fc = vscode.commands.registerCommand('extension.createYSSCRUDPage', function (param) {
 		// The code you place here will be executed every time your command is executed
 		const pageNameInputOptions = {
-			prompt: 'Please input the page name: ',
+			prompt: 'Please input the page name: test-page-name ',
 			placeHolder: 'Page Name',
 			ignoreFocusOut: true,
 		};
@@ -221,7 +221,7 @@ function activate(context) {
 							}
 						});
 				} else {
-					vscode.window.showInformationMessage('Error: 目标名称只支持大小写字母,请更换名称');
+					vscode.window.showInformationMessage('Error: 目标名称只支持大小写字母以及符号“-”,请更换名称');
 					return;
 				}
 			} else {
