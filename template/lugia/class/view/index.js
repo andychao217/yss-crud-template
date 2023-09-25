@@ -1,5 +1,5 @@
 /**
- * @file $PageName 页面主入口文件
+ * @file $pageClassName 页面主入口文件
  * @author $AuthorName
  * @Date $CreateTime
  * @copyright Ysstech
@@ -11,10 +11,10 @@ import { ErrorBoundary } from '@/page/public-tools';
 const { PageMain } = PageBody;
 
 /*债券评级*/
-const moduleName = '$PageName';
+const moduleName = '$pageClassName';
 /**
  * @class
- * @classdesc $PageName页面
+ * @classdesc $pageClassName页面
  */
 export default $connect((props) => {
 	return (

@@ -25,3 +25,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 -   updated new reactTable component, version `0.4.2` (Mon Jun 26 15:53:00 2023 +0800)
 -   updated template file, version `0.4.4` (Thu Jul 13 15:53:00 2023 +0800)
 -   updated template file, version `0.4.6` (Thu Sep 20 13:17:00 2023 +0800)
+-   updated template file, pageName support symbol '-' as the splitter, version `0.4.8` (Thu Sep 25 09:17:00 2023 +0800)

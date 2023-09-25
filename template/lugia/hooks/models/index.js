@@ -9,7 +9,7 @@ import async from '../controller/async';
 import sync from '../controller/sync';
 
 const lugiaxModel = lugiax.register({
-	model: '$PageName',
+	model: '$pageClassName',
 	state: { ...dataModel },
 	mutations: {
 		async,

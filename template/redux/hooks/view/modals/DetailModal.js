@@ -119,7 +119,7 @@ const DetailModal = (props, ref) => {
 					maxHeight: '400px',
 				},
 				dropdownMatchSelectWidth: false,
-				getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
+				getPopupContainer: () => document.getElementById('$pageClassNameDetailModal'),
 			},
 		},
 		{
@@ -142,7 +142,7 @@ const DetailModal = (props, ref) => {
 					maxHeight: '400px',
 				},
 				dropdownMatchSelectWidth: false,
-				getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
+				getPopupContainer: () => document.getElementById('$pageClassNameDetailModal'),
 			},
 		},
 		{
@@ -159,7 +159,7 @@ const DetailModal = (props, ref) => {
 				disabled: showdetails,
 				placeholder: '请选择日期',
 				initialValue: moment(),
-				getCalendarContainer: () => document.getElementById('$PageNameDetailModal'),
+				getCalendarContainer: () => document.getElementById('$pageClassNameDetailModal'),
 			},
 		},
 		{
@@ -203,7 +203,7 @@ const DetailModal = (props, ref) => {
 	];
 
 	return (
-		<div id='$PageNameDetailModal'>
+		<div id='$pageClassNameDetailModal'>
 			<NeatForm
 				refs={(ref) => (createProduct = ref)}
 				labelSize='100px'

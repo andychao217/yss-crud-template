@@ -1,5 +1,5 @@
 /**
- * @file $PageName 页面主入口文件
+ * @file $pageClassName 页面主入口文件
  * @author $AuthorName
  * @Date $CreateTime
  * @copyright Ysstech
@@ -14,9 +14,9 @@ const { PageMain } = PageBody;
 
 /**
  * @class
- * @classdesc $PageName页面
+ * @classdesc $pageClassName页面
  */
-export default class $PageName extends PureComponent {
+export default class $pageClassName extends PureComponent {
 	render() {
 		return (
 			// 对象组件透传props

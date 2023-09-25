@@ -67,7 +67,7 @@ class MainTable extends PureComponent {
 						maxHeight: '400px',
 					},
 					dropdownMatchSelectWidth: false,
-					getPopupContainer: () => document.getElementById('$PageNameMainTable'),
+					getPopupContainer: () => document.getElementById('$pageClassNameMainTable'),
 				},
 			},
 			{
@@ -78,7 +78,7 @@ class MainTable extends PureComponent {
 				type: 'RangePicker',
 				props: {
 					allowClear: false,
-					getCalendarContainer: () => document.getElementById('$PageNameMainTable'),
+					getCalendarContainer: () => document.getElementById('$pageClassNameMainTable'),
 				},
 			},
 			{
@@ -99,7 +99,7 @@ class MainTable extends PureComponent {
 						maxHeight: '400px',
 					},
 					dropdownMatchSelectWidth: false,
-					getPopupContainer: () => document.getElementById('$PageNameMainTable'),
+					getPopupContainer: () => document.getElementById('$pageClassNameMainTable'),
 				},
 			},
 		];
@@ -117,7 +117,7 @@ class MainTable extends PureComponent {
 			e.stopPropagation();
 			changeSync({
 				isOpenFormModal: {
-					page: '$PageName',
+					page: '$pageClassName',
 					type: 'add',
 					status: true,
 				},
@@ -198,7 +198,7 @@ class MainTable extends PureComponent {
 			e.stopPropagation();
 			changeSync({
 				isOpenFormModal: {
-					page: '$PageName',
+					page: '$pageClassName',
 					type: 'detail',
 					status: true,
 				},
@@ -211,7 +211,7 @@ class MainTable extends PureComponent {
 			e.stopPropagation();
 			changeSync({
 				isOpenFormModal: {
-					page: '$PageName',
+					page: '$pageClassName',
 					type: 'update',
 					status: true,
 				},
@@ -385,7 +385,7 @@ class MainTable extends PureComponent {
 		return (
 			<Fragment>
 				{/* 查询表单 */}
-				<div id='$PageNameMainTable' style={{ padding: '0px 20px', position: 'relative' }}>
+				<div id='$pageClassNameMainTable' style={{ padding: '0px 20px', position: 'relative' }}>
 					<SearchForm
 						formItem={formItems}
 						labelSize={'70px'}
@@ -439,7 +439,7 @@ class MainTable extends PureComponent {
 						}}
 					/>
 					{withRoleBotton(ButtonType)}
-					<ReactTable {...getTableConfig()} resizeTableCode='MainTable-$PageName' tableCode='pingan-MainTable-$PageName' />
+					<ReactTable {...getTableConfig()} resizeTableCode='MainTable-$pageClassName' tableCode='pingan-MainTable-$pageClassName' />
 				</div>
 				{/***弹框组件** */}
 				<Modal
@@ -452,7 +452,7 @@ class MainTable extends PureComponent {
 					onCancel={() => {
 						changeSync({
 							isOpenFormModal: {
-								page: '$PageName',
+								page: '$pageClassName',
 								type: 'add',
 								status: false,
 							},

@@ -10,6 +10,7 @@ const getSourceDirectory = (storeType, componentType) => {
 
 let TARGET_SRC = '',
 	pageName = '',
+	pageClassName = '',
 	authorName = '',
 	createTime = '';
 
@@ -20,6 +21,7 @@ const replaceFileString = function (string) {
 	createTime = dateTime.toLocaleString();
 	text = text
 		.replace(/\$PageName/g, pageName)
+		.replace(/\$pageClassName/g, pageClassName)
 		.replace(/\$AuthorName/g, authorName)
 		.replace(/\$CreateTime/g, createTime);
 	return text;
@@ -70,52 +72,81 @@ const prompt = function () {
 		// 检测是否存在当前文件夹
 		vscode.window.showInformationMessage('Error: 目标已存在,请更换名称');
 	} else {
-		const storeOptions = [
-			// { label: 'LugiaX', value: 'lugia' },
-			{ label: 'ReduX (Officially Recommended)', value: 'redux' },
+		const componentOptions = [
+			{ label: 'Class', value: 'class' },
+			{ label: 'Hooks (Officially Recommended)', value: 'hooks' },
 		];
 		vscode.window
-			.showQuickPick(storeOptions, {
+			.showQuickPick(componentOptions, {
 				canPickMany: false,
 				ignoreFocusOut: true,
 				matchOnDescription: true,
 				matchOnDetail: true,
-				placeHolder: 'Please choose the state container type for the page ? ',
+				placeHolder: 'Please choose the component type for the page ? ',
 			})
-			.then((selectedStateType) => {
-				if (selectedStateType) {
-					const componentOptions = [
-						{ label: 'Class', value: 'class' },
-						{ label: 'Hooks (Officially Recommended)', value: 'hooks' },
-					];
-					vscode.window
-						.showQuickPick(componentOptions, {
-							canPickMany: false,
-							ignoreFocusOut: true,
-							matchOnDescription: true,
-							matchOnDetail: true,
-							placeHolder: 'Please choose the component type for the page ? ',
-						})
-						.then((selectedComponentType) => {
-							if (selectedComponentType) {
-								checkDirectory(getSourceDirectory(selectedStateType.value, selectedComponentType.value), TARGET_SRC, copy);
-								vscode.window.showInformationMessage('page created successfully!');
-								exec(`cd ${TARGET_SRC} && git add .`, (err) => {
-									if (err) {
-										vscode.window.showInformationMessage('command fail:', 'git add .');
-									} else {
-										vscode.window.showInformationMessage('command success:', 'git add .');
-									}
-								});
-								return;
-							} else {
-								return;
-							}
-						});
+			.then((selectedComponentType) => {
+				if (selectedComponentType) {
+					checkDirectory(getSourceDirectory('redux', selectedComponentType.value), TARGET_SRC, copy);
+					vscode.window.showInformationMessage('page created successfully!');
+					exec(`cd ${TARGET_SRC} && git add .`, (err) => {
+						if (err) {
+							vscode.window.showInformationMessage('command fail:', 'git add .');
+						} else {
+							vscode.window.showInformationMessage('command success:', 'git add .');
+						}
+					});
+					return;
 				} else {
 					return;
 				}
 			});
+
+		// const storeOptions = [
+		// 	// { label: 'LugiaX', value: 'lugia' },
+		// 	{ label: 'ReduX (Officially Recommended)', value: 'redux' },
+		// ];
+		// vscode.window
+		// 	.showQuickPick(storeOptions, {
+		// 		canPickMany: false,
+		// 		ignoreFocusOut: true,
+		// 		matchOnDescription: true,
+		// 		matchOnDetail: true,
+		// 		placeHolder: 'Please choose the state container type for the page ? ',
+		// 	})
+		// 	.then((selectedStateType) => {
+		// 		if (selectedStateType) {
+		// 			const componentOptions = [
+		// 				{ label: 'Class', value: 'class' },
+		// 				{ label: 'Hooks (Officially Recommended)', value: 'hooks' },
+		// 			];
+		// 			vscode.window
+		// 				.showQuickPick(componentOptions, {
+		// 					canPickMany: false,
+		// 					ignoreFocusOut: true,
+		// 					matchOnDescription: true,
+		// 					matchOnDetail: true,
+		// 					placeHolder: 'Please choose the component type for the page ? ',
+		// 				})
+		// 				.then((selectedComponentType) => {
+		// 					if (selectedComponentType) {
+		// 						checkDirectory(getSourceDirectory(selectedStateType.value, selectedComponentType.value), TARGET_SRC, copy);
+		// 						vscode.window.showInformationMessage('page created successfully!');
+		// 						exec(`cd ${TARGET_SRC} && git add .`, (err) => {
+		// 							if (err) {
+		// 								vscode.window.showInformationMessage('command fail:', 'git add .');
+		// 							} else {
+		// 								vscode.window.showInformationMessage('command success:', 'git add .');
+		// 							}
+		// 						});
+		// 						return;
+		// 					} else {
+		// 						return;
+		// 					}
+		// 				});
+		// 		} else {
+		// 			return;
+		// 		}
+		// 	});
 	}
 };
 
@@ -156,23 +187,22 @@ function activate(context) {
 			prompt: 'Please input the page name: ',
 			placeHolder: 'Page Name',
 			ignoreFocusOut: true,
-			validateInput: (text) => {
-				const reg = /^[a-zA-Z]+$/; //只支持字母
-				if (text && typeof text === 'string') {
-					const res = !text.match(reg);
-					return res;
-				} else {
-					return false;
-				}
-			},
 		};
 
 		//pageName Prompt
 		vscode.window.showInputBox(pageNameInputOptions).then((value) => {
 			if (value && typeof value === 'string') {
-				const reg = /^[a-zA-Z]+$/; //只支持字母
+				const reg = /^[a-zA-Z][a-zA-Z-]*[a-zA-Z]$/; //只支持字母和-，且不能以-开头或结尾
 				if (value.match(reg)) {
 					pageName = value;
+					if (pageName.includes('-')) {
+						const pageClassNameArray = pageName
+							.split('-')
+							.map((item) => item.trim().toLowerCase().replace(item[0], item[0].toUpperCase())); //首字母大写
+						pageClassName = pageClassNameArray.join('');
+					} else {
+						pageClassName = pageName;
+					}
 					TARGET_SRC = path.join('', param.fsPath + '\\' + pageName); //get pageUrl
 
 					//Author Name Prompt

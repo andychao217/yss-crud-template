@@ -124,7 +124,7 @@ class DetailModal extends PureComponent {
 						maxHeight: '400px',
 					},
 					dropdownMatchSelectWidth: false,
-					getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
+					getPopupContainer: () => document.getElementById('$pageClassNameDetailModal'),
 				},
 			},
 			{
@@ -147,7 +147,7 @@ class DetailModal extends PureComponent {
 						maxHeight: '400px',
 					},
 					dropdownMatchSelectWidth: false,
-					getPopupContainer: () => document.getElementById('$PageNameDetailModal'),
+					getPopupContainer: () => document.getElementById('$pageClassNameDetailModal'),
 				},
 			},
 			{
@@ -164,7 +164,7 @@ class DetailModal extends PureComponent {
 					disabled: showdetails,
 					placeholder: '请选择日期',
 					initialValue: moment(),
-					getCalendarContainer: () => document.getElementById('$PageNameDetailModal'),
+					getCalendarContainer: () => document.getElementById('$pageClassNameDetailModal'),
 				},
 			},
 			{
@@ -207,7 +207,7 @@ class DetailModal extends PureComponent {
 			},
 		];
 		return (
-			<div id='$PageNameDetailModal'>
+			<div id='$pageClassNameDetailModal'>
 				<NeatForm
 					refs={(ref) => (this.createProduct = ref)}
 					labelSize='100px'

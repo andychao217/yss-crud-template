@@ -6,20 +6,20 @@
 import { page } from 'yss-trade-base';
 
 const initialState = {
-	TableList: [], //列表
-	TableListTotal: 0,
-	//获取列表
+	TableList: [], //主列表
+	TableListTotal: 0, //主列表数据总数
+	//获取主列表入参
 	queryTableList: {
 		...page,
 		reqPageSize: 50,
 	},
 	/***弹框status*/
 	isOpenFormModal: {
-		page: '$PageName',
+		page: '$pageClassName',
 		type: 'add', //add, update, delete, import, log
 		status: false,
 	},
-	/**保存选择行信息*/
+	/**保存主列表当前选择行信息*/
 	projectRowed: {},
 };
 

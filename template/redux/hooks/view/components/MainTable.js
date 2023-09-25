@@ -54,7 +54,7 @@ const MainTable = (props) => {
 					maxHeight: '400px',
 				},
 				dropdownMatchSelectWidth: false,
-				getPopupContainer: () => document.getElementById('$PageNameMainTable'),
+				getPopupContainer: () => document.getElementById('$pageClassNameMainTable'),
 			},
 		},
 		{
@@ -65,7 +65,7 @@ const MainTable = (props) => {
 			type: 'RangePicker',
 			props: {
 				allowClear: false,
-				getCalendarContainer: () => document.getElementById('$PageNameMainTable'),
+				getCalendarContainer: () => document.getElementById('$pageClassNameMainTable'),
 			},
 		},
 		{
@@ -86,7 +86,7 @@ const MainTable = (props) => {
 					maxHeight: '400px',
 				},
 				dropdownMatchSelectWidth: false,
-				getPopupContainer: () => document.getElementById('$PageNameMainTable'),
+				getPopupContainer: () => document.getElementById('$pageClassNameMainTable'),
 			},
 		},
 	];
@@ -105,7 +105,7 @@ const MainTable = (props) => {
 		e.stopPropagation();
 		dispatchUpdateStore({
 			isOpenFormModal: {
-				page: '$PageName',
+				page: '$pageClassName',
 				type: 'add',
 				status: true,
 			},
@@ -178,7 +178,7 @@ const MainTable = (props) => {
 		e.stopPropagation();
 		dispatchUpdateStore({
 			isOpenFormModal: {
-				page: '$PageName',
+				page: '$pageClassName',
 				type: 'detail',
 				status: true,
 			},
@@ -191,7 +191,7 @@ const MainTable = (props) => {
 		e.stopPropagation();
 		dispatchUpdateStore({
 			isOpenFormModal: {
-				page: '$PageName',
+				page: '$pageClassName',
 				type: 'update',
 				status: true,
 			},
@@ -244,7 +244,7 @@ const MainTable = (props) => {
 					e.stopPropagation();
 					dispatchUpdateStore({
 						isOpenFormModal: {
-							page: '$PageName',
+							page: '$pageClassName',
 							type: 'log',
 							status: true,
 						},
@@ -380,7 +380,7 @@ const MainTable = (props) => {
 	return (
 		<Fragment>
 			{/* 查询表单 */}
-			<div id='$PageNameMainTable' style={{ padding: '0px 20px', position: 'relative' }}>
+			<div id='$pageClassNameMainTable' style={{ padding: '0px 20px', position: 'relative' }}>
 				<SearchForm
 					refs={(ref) => {
 						searchForm.current = ref;
@@ -436,9 +436,9 @@ const MainTable = (props) => {
 				<ReactTable
 					ref={(ref) => ($mainTable = ref)}
 					{...getTableConfig()}
-					resizeTableCode='MainTable-$PageName'
-					tableCode='MainTable-$PageName'
-					className='MainTable-$PageName'
+					resizeTableCode='MainTable-$pageClassName'
+					tableCode='MainTable-$pageClassName'
+					className='MainTable-$pageClassName'
 				/>
 			</div>
 			{/***弹框组件** */}
@@ -451,7 +451,7 @@ const MainTable = (props) => {
 				onCancel={() => {
 					dispatchUpdateStore({
 						isOpenFormModal: {
-							page: '$PageName',
+							page: '$pageClassName',
 							type: 'add',
 							status: false,
 						},
