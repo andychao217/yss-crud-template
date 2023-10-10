@@ -289,7 +289,6 @@ class MainTable extends PureComponent {
 				// 	curPageNum: page,
 				// });
 				httpGetListData(false);
-				clearSelectedRows();
 			};
 
 			/***点击索引获取当前行的对象** */

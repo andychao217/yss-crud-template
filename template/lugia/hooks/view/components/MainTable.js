@@ -294,7 +294,6 @@ const MainTable = (props) => {
 			// setPageSize(pageSize);
 			// setCurPageNum(page);
 			asyncHttpGetListData({ params: { resetPage: false } });
-			clearSelectedRows();
 		};
 
 		/***点击索引获取当前行的对象** */

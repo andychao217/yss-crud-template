@@ -280,8 +280,6 @@ const MainTable = (props) => {
 					reqPageSize: pageSize,
 				},
 			});
-			setIds([]);
-			setSelectedRows([]);
 			// setPageSize(pageSize);
 			// setCurPageNum(page);
 			httpGetListData(false);
