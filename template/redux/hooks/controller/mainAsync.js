@@ -46,6 +46,9 @@ export const httpGetListData = async (resetPage = false, callback = () => {}) =>
 		if (callback && typeof callback === 'function') {
 			callback();
 		}
+		return new Promise((resolve) => {
+			resolve(result);
+		});
 	} catch (error) {
 		console.error(error);
 		if (callback && typeof callback === 'function') {
