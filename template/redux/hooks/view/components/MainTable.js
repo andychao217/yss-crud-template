@@ -3,9 +3,19 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import React, { useState, useEffect, Fragment, useRef } from 'react';
+import React, { useState, useEffect, Fragment, useRef, useContext } from 'react';
 import moment from 'moment';
-import { ReactTable, columnSortSet, tableSet, withRoleBotton, Modal, ConfirmModal, withRoleTableBotton, SearchForm } from 'yss-trade-base';
+import {
+	ReactTable,
+	columnSortSet,
+	tableSet,
+	withRoleBotton,
+	Modal,
+	ConfirmModal,
+	withRoleTableBotton,
+	SearchForm,
+	PublicProps,
+} from 'yss-trade-base';
 import DetailModal from '../modals/DetailModal';
 import { formServiceConfig } from '../../services';
 import { columnsCfg } from '../../models';
@@ -20,7 +30,7 @@ let $mainTable = null;
 const MainTable = (props) => {
 	const searchForm = useRef();
 	const modalRef = useRef();
-	const { dispatchUpdateStore, queryTableList, TableList, TableListTotal, isOpenFormModal, projectRowed } = props;
+	const { dispatchUpdateStore, queryTableList, TableList, TableListTotal, isOpenFormModal, projectRowed } = useContext(PublicProps);
 
 	const [ids, setIds] = useState([]); //选择行id
 	const [selectedRows, setSelectedRows] = useState([]); //选择行内容
@@ -371,7 +381,7 @@ const MainTable = (props) => {
 		if (type === 'log') {
 			return <OperationRecordTable params={{ businIds: [projectRowed.id], tableName: 'offipo_association_register' }} />;
 		} else {
-			return <DetailModal ref={modalRef} {...props} clearSelectedRows={clearSelectedRows} />;
+			return <DetailModal ref={modalRef} clearSelectedRows={clearSelectedRows} />;
 		}
 	};
 

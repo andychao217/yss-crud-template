@@ -3,10 +3,10 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
+import React, { useEffect, useState, useImperativeHandle, forwardRef, useContext } from 'react';
 import moment from 'moment';
 import { message } from 'antd';
-import { setFieldsObject, filterNullElement, NeatForm, NormalForm } from 'yss-trade-base';
+import { setFieldsObject, filterNullElement, NeatForm, NormalForm, PublicProps } from 'yss-trade-base';
 import { formServiceConfig, addRowData, updateRowData, getListData } from '../../services';
 import { httpGetListData } from '../../controller/mainAsync';
 const { mapOption } = NormalForm;
@@ -21,7 +21,7 @@ const DetailModal = (props, ref) => {
 		//  暴露给父组件的方法
 		handleSubmit: handleSubmit,
 	}));
-	const { isOpenFormModal, projectRowed, dispatchUpdateStore, TableList } = props;
+	const { isOpenFormModal, projectRowed, dispatchUpdateStore, TableList } = useContext(PublicProps);
 	const showdetails = isOpenFormModal.type === 'detail';
 
 	useEffect(() => {
