@@ -8,7 +8,7 @@ import moment from 'moment';
 import { ReactTable, columnSortSet, tableSet, withRoleBotton, Modal, ConfirmModal, withRoleTableBotton, SearchForm } from 'yss-trade-base';
 import DetailModal from '../modals/DetailModal';
 import { formServiceConfig } from '../../services';
-import { columnsCfg } from '../../models';
+import { columnsCfg } from '../columnConfig';
 import OperationRecordTable from '@/front-biz/common/components/OperationRecordTable';
 import { httpGetListData, httpAuditRowData, httpReAuditRowData, httpDeleteRowData } from '../../controller/async';
 

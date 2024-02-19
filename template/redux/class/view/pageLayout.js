@@ -6,12 +6,15 @@
 import React from 'react';
 import MainTable from './components/MainTable';
 import { UpdateStore } from '../models/actions';
+import { PublicProps } from 'yss-trade-base';
 import { connect } from 'react-redux';
 
 const PageLayout = (props) => {
 	return (
 		// 对象组件透传props
-		<MainTable {...props} />
+		<PublicProps.Provider value={props}>
+			<MainTable />
+		</PublicProps.Provider>
 	);
 };
 

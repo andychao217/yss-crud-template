@@ -72,34 +72,45 @@ const prompt = function () {
 		// 检测是否存在当前文件夹
 		vscode.window.showInformationMessage('Error: 目标已存在,请更换名称');
 	} else {
-		const componentOptions = [
-			{ label: 'Class', value: 'class' },
-			{ label: 'Hooks (Officially Recommended)', value: 'hooks' },
-		];
-		vscode.window
-			.showQuickPick(componentOptions, {
-				canPickMany: false,
-				ignoreFocusOut: true,
-				matchOnDescription: true,
-				matchOnDetail: true,
-				placeHolder: 'Please choose the component type for the page ? ',
-			})
-			.then((selectedComponentType) => {
-				if (selectedComponentType) {
-					checkDirectory(getSourceDirectory('redux', selectedComponentType.value), TARGET_SRC, copy);
-					vscode.window.showInformationMessage('page created successfully!');
-					exec(`cd ${TARGET_SRC} && git add .`, (err) => {
-						if (err) {
-							vscode.window.showInformationMessage('command fail:', 'git add .');
-						} else {
-							vscode.window.showInformationMessage('command success:', 'git add .');
-						}
-					});
-					return;
-				} else {
-					return;
-				}
-			});
+		checkDirectory(getSourceDirectory('redux', 'hooks'), TARGET_SRC, copy);
+		vscode.window.showInformationMessage('page created successfully!');
+		exec(`cd ${TARGET_SRC} && git add .`, (err) => {
+			if (err) {
+				vscode.window.showInformationMessage('command fail:', 'git add .');
+			} else {
+				vscode.window.showInformationMessage('command success:', 'git add .');
+			}
+		});
+		return;
+
+		// const componentOptions = [
+		// 	{ label: 'Class', value: 'class' },
+		// 	{ label: 'Hooks (Officially Recommended)', value: 'hooks' },
+		// ];
+		// vscode.window
+		// 	.showQuickPick(componentOptions, {
+		// 		canPickMany: false,
+		// 		ignoreFocusOut: true,
+		// 		matchOnDescription: true,
+		// 		matchOnDetail: true,
+		// 		placeHolder: 'Please choose the component type for the page ? ',
+		// 	})
+		// 	.then((selectedComponentType) => {
+		// 		if (selectedComponentType) {
+		// 			checkDirectory(getSourceDirectory('redux', selectedComponentType.value), TARGET_SRC, copy);
+		// 			vscode.window.showInformationMessage('page created successfully!');
+		// 			exec(`cd ${TARGET_SRC} && git add .`, (err) => {
+		// 				if (err) {
+		// 					vscode.window.showInformationMessage('command fail:', 'git add .');
+		// 				} else {
+		// 					vscode.window.showInformationMessage('command success:', 'git add .');
+		// 				}
+		// 			});
+		// 			return;
+		// 		} else {
+		// 			return;
+		// 		}
+		// 	});
 
 		// const storeOptions = [
 		// 	// { label: 'LugiaX', value: 'lugia' },
