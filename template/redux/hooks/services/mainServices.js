@@ -3,68 +3,37 @@
  * @author $AuthorName
  * @copyright Ysstech
  */
-import { $ajax } from 'yss-trade-base';
 import { serviceMap } from '@/page/public-tools';
-import { service } from 'win-trade-base';
+import { serviceFn } from '@/front-biz';
 
 const api = serviceMap['bizCommon'];
 
 /***获取列表数据*******/
 export const getListData = (params) => {
-	return service.httpService({
-		baseURL: `${api}`,
-		url: '/pageList',
-		method: 'post',
-		data: params,
-	});
+	return serviceFn(api, '/pageList', 'post', params);
 };
 
 /***新增*******/
 export const addRowData = (params) => {
-	return service.httpService({
-		baseURL: `${api}`,
-		url: '/save',
-		method: 'post',
-		data: params,
-	});
+	return serviceFn(api, '/save', 'post', params);
 };
 
 /***修改*******/
 export const updateRowData = (params) => {
-	return service.httpService({
-		baseURL: `${api}`,
-		url: '/updateById',
-		method: 'put',
-		data: params,
-	});
+	return serviceFn(api, '/updateById', 'put', params);
 };
 
 /***删除*******/
 export const deleteRowData = (params) => {
-	return service.httpService({
-		baseURL: `${api}`,
-		url: `/deleteById/${params}`,
-		method: 'delete',
-		data: params,
-	});
+	return serviceFn(api, `/deleteById/${params}`, 'delete', params);
 };
 
 /***审核*******/
 export const auditRowData = (params) => {
-	return service.httpService({
-		baseURL: `${api}`,
-		url: `/updateAudit/${params}`,
-		method: 'put',
-		data: params,
-	});
+	return serviceFn(api, `/updateAudit/${params}`, 'put', params);
 };
 
 /***反审核*******/
 export const reAuditRowData = (params) => {
-	return service.httpService({
-		baseURL: `${api}`,
-		url: `/updateRevertAudit/${params}`,
-		method: 'put',
-		data: params,
-	});
+	return serviceFn(api, `/updateRevertAudit/${params}`, 'put', params);
 };

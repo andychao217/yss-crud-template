@@ -18,7 +18,7 @@ import {
 } from 'yss-trade-base';
 import DetailModal from '../modals/DetailModal';
 import { formServiceConfig } from '../../services';
-import { columnsCfg } from '../../models';
+import { columnsCfg } from '../columnConfig';
 import OperationRecordTable from '@/front-biz/common/components/OperationRecordTable';
 import { httpGetListData, httpAuditRowData, httpReAuditRowData, httpDeleteRowData } from '../../controller/mainAsync';
 
