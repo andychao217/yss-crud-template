@@ -4,36 +4,66 @@
  * @copyright Ysstech
  */
 import { serviceMap } from '@/page/public-tools';
-import { serviceFn } from '@/front-biz';
+import { service } from 'win-trade-base';
 
 const api = serviceMap['bizCommon'];
 
 /***获取列表数据*******/
 export const getListData = (params) => {
-	return serviceFn(api, '/pageList', 'post', params);
+	return service.httpService({
+		baseURL: `${api}`,
+		url: '/pageList',
+		method: 'post',
+		data: params,
+	});
 };
 
 /***新增*******/
 export const addRowData = (params) => {
-	return serviceFn(api, '/save', 'post', params);
+	return service.httpService({
+		baseURL: `${api}`,
+		url: '/save',
+		method: 'post',
+		data: params,
+	});
 };
 
 /***修改*******/
 export const updateRowData = (params) => {
-	return serviceFn(api, '/updateById', 'put', params);
+	return service.httpService({
+		baseURL: `${api}`,
+		url: '/updateById',
+		method: 'put',
+		data: params,
+	});
 };
 
 /***删除*******/
 export const deleteRowData = (params) => {
-	return serviceFn(api, `/deleteById/${params}`, 'delete', params);
+	return service.httpService({
+		baseURL: `${api}`,
+		url: `/deleteById/${params}`,
+		method: 'delete',
+		data: params,
+	});
 };
 
 /***审核*******/
 export const auditRowData = (params) => {
-	return serviceFn(api, `/updateAudit/${params}`, 'put', params);
+	return service.httpService({
+		baseURL: `${api}`,
+		url: `/updateAudit/${params}`,
+		method: 'put',
+		data: params,
+	});
 };
 
 /***反审核*******/
 export const reAuditRowData = (params) => {
-	return serviceFn(api, `/updateRevertAudit/${params}`, 'put', params);
+	return service.httpService({
+		baseURL: `${api}`,
+		url: `/updateRevertAudit/${params}`,
+		method: 'put',
+		data: params,
+	});
 };
